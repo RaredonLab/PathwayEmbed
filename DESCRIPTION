@@ -3,9 +3,10 @@ Title: Tools for Pathway-Level Embedding and Visualization in Single-Cell Data
 Version: 0.0.0.9000
 Authors@R: 
     person("Yaqing", "Huang", email = "yaqing.huang@yale.edu", role = c("aut", "cre"))
-Description: Provides utilities for analyzing and visualizing pathway-level embeddings 
-    in single-cell RNA-seq data. Includes functions for calculating pathway activity 
-    percentages, plotting pathway enrichment, and integrating with Seurat objects.
+Description: Provides tools for analyzing and visualizing pathway-level activity 
+    in single-cell RNA-seq data. Includes functions for computing cell-wise pathway scores, 
+    visualizing transduction states, calculating activation percentages, 
+    and integrating pathway data with Seurat objects.
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
@@ -18,11 +19,10 @@ Imports:
     RColorBrewer,
     ggplot2,
     cowplot,
-    tidyverse,
+    dplyr,
     matrixStats,
     viridis,
     stats,
-    dplyr,
     effsize,
     rlang
 Suggests: 
