@@ -15,7 +15,9 @@ CalculatePercentage(to.plot, group_var)
 A data frame with the percentage of ON/OFF cells and Cohen's d (if applicable).
 }
 \description{
-Calculate the percentage of cells in activation status
+This function calculates the percentage of cells in ON (scale > 0) and OFF (scale < 0)
+activation states within each group defined by \code{group_var}. If exactly two groups
+are provided, it also computes Cohen's d effect size between their activation values.
 }
 \examples{
 data(fake_to_plot)

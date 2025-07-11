@@ -2,20 +2,22 @@
 % Please edit documentation in R/PathwayMaxMin.R
 \name{PathwayMaxMin}
 \alias{PathwayMaxMin}
-\title{A function for scRNA sequencing pathway analysis}
+\title{A function to obtain the hypothetical max and min activation status of selected pathway for a given scRNA seq data set}
 \usage{
-PathwayMaxMin(x, pathway)
+PathwayMaxMin(x, pathway, scale.data = TRUE)
 }
 \arguments{
 \item{x}{A Seurat Object.}
 
-\item{pathway}{The name of the pathway.}
+\item{pathway}{A \code{character} string specifying the pathway name.}
+
+\item{scale.data}{A \code{logical} indicating whether to use scaled data (\code{scale.data = TRUE}) or normalized data. Default is \code{TRUE}.}
 }
 \value{
-The value for Pathway on and off (max and min value for features)
+The hypothetical value for Pathway on and off (max and min value for features)
 }
 \description{
-A function for scRNA sequencing pathway analysis
+A function to obtain the hypothetical max and min activation status of selected pathway for a given scRNA seq data set
 }
 \examples{
 data(fake_test_object) # load the fake test data
