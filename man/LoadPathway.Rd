@@ -7,7 +7,7 @@
 LoadPathway(pathway)
 }
 \arguments{
-\item{pathway}{The name of the pathway interested.}
+\item{pathway}{A \code{character} string specifying the pathway name.}
 }
 \value{
 A data frame with pathway data.

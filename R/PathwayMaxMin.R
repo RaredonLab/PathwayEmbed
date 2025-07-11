@@ -1,18 +1,19 @@
-#' A function for scRNA sequencing pathway analysis
+#' A function to obtain the hypothetical max and min activation status of selected pathway for a given scRNA seq data set
 #' @name PathwayMaxMin
 #' @import Seurat
 #' @import tidyverse
 #' @import viridis
-#' @import matrixStats
+#' @importFrom matrixStats rowMins rowMaxs
 #'
 #' @param x A Seurat Object.
-#' @param pathway The name of the pathway.
-#' @return The value for Pathway on and off (max and min value for features)
+#' @param pathway A `character` string specifying the pathway name.
+#' @param scale.data A `logical` indicating whether to use scaled data (`scale.data = TRUE`) or normalized data. Default is `TRUE`.
+#' @return The hypothetical value for Pathway on and off (max and min value for features)
 #' @examples
 #' data(fake_test_object) # load the fake test data
 #' PathwayMaxMin(fake_test_object, "Wnt")
 #' @export
-PathwayMaxMin <- function(x, pathway){
+PathwayMaxMin <- function(x, pathway, scale.data = TRUE) {
 
   # Define pathway parameters using LoadPathway
   pathwaydata <- LoadPathway(pathway) # load pathway data
@@ -21,20 +22,31 @@ PathwayMaxMin <- function(x, pathway){
   names(pathway.on) <- names
   pathway.off <- -pathway.on # define off status
 
-  # Extract normalized RNA expression data for the pathway genes
-  temp.data <- x[names, ]
-  data.temp <- as.data.frame(temp.data@assays[["RNA"]]$data) # Seurat version
-  # "sometimes is counts not data
+  # Use only genes present in Seurat object
+  valid_names <- intersect(names, rownames(x))
+  if (length(valid_names) == 0) {
+    stop("No valid pathway genes found in the Seurat object.")
+  }
+  pathway.on <- pathway.on[valid_names]
+  pathway.off <- pathway.off[valid_names]
+
+  # Extract expression data from the desired slot
+  x <- ScaleData(x, features = valid_names)
+  slot_use <- if (scale.data) "scale.data" else "data"
+  expr_data <- GetAssayData(x, assay = "RNA", slot = slot_use)[valid_names, , drop = FALSE]
+
+  # Ensure it's a data frame
+  expr_data <- as.data.frame(expr_data)
 
   # Max and min value for genes in the pathway
   # Compute row-wise min and max values
   ranges <- cbind(
-    rowMins(as.matrix(data.temp), na.rm = FALSE),
-    rowMaxs(as.matrix(data.temp), na.rm = FALSE)
+    rowMins(as.matrix(expr_data), na.rm = FALSE),
+    rowMaxs(as.matrix(expr_data), na.rm = FALSE)
   )
 
   # Scale the ON/OFF states to the extrema of these ranges for each features
-  for (i in seq_along(pathway.on)) {  # safer than 1:length(pathway.on)
+  for (i in seq_along(pathway.on)) {
     feature_name <- names(pathway.on[i])
 
     if (!feature_name %in% rownames(ranges)) {

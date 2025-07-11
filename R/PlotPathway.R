@@ -1,27 +1,19 @@
 #' A function to plot the Pathway activation status
-#' @name PlotPathway
-#' @import Seurat
-#' @import RColorBrewer
-#' @import ggplot2
-#' @import cowplot
-#' @import tidyverse
-#' @import viridis
 #'
-#' @param to.plot A dataframe.
-#' @param pathway A name of the pathway.
-#' @param group Ident of the plot.
-#' @param color Colors for the group.
-#' @return A plot.
+#' @name PlotPathway
+#' @param to.plot A data frame with pathway activation values genereated by PreparePlotData
+#' @param pathway A character string indicating the pathway name.
+#' @param group Column name to group and color by (e.g., genotype).
+#' @param color A character vector of colors to use for fill and outline.
+#' @return A ggplot object.
 #' @examples
 #' data(fake_to_plot)
-#' PlotPathway(fake_to_plot, "Wnt", "genotype", c("#ae282c","#2066a8"))
+#' PlotPathway(to.plot = fake_to_plot,"Wnt","genotype",color = c("#ae282c", "#2066a8"))
 #' @export
 PlotPathway <- function (to.plot, pathway, group, color){
-  # get rid of NA columns (those pathway on and off values)
-  to.plot_clean <- to.plot[complete.cases(to.plot), ]
 
   #color has to be assigned
-  plot.total <- ggplot(data=to.plot_clean,
+  plot.total <- ggplot(data=to.plot,
                              aes(x=scale,
                                  group = .data[[group]],
                                  fill= .data[[group]],
@@ -29,7 +21,7 @@ PlotPathway <- function (to.plot, pathway, group, color){
 
     geom_density(alpha = 0.5) +  # Example: Density plot
     labs(title = paste(pathway, "Pathway"),
-         x = "Transduction State",
+         x = "Relative Transduction State",
          y = "Population Density") +
     scale_fill_manual(values = color) +  # Set fixed colors
     scale_color_manual(values = color) +
@@ -40,4 +32,8 @@ PlotPathway <- function (to.plot, pathway, group, color){
   return(plot.total)
 }
 
-# x=scale or normalized can use True or False
+
+
+
+
+

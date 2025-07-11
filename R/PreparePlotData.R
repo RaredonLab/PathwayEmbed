@@ -19,22 +19,23 @@
 #' @export
 PreparePlotData <- function(x, final_mds, group){
 
-  # make a data frame from final_mds
+  # Make a data frame from final_mds
   to.plot <- as.data.frame(final_mds)
 
-  # the rownames changed in last step, to make them consistent with meta.data
+  # Sometimes, the rownames changed in last step, to make them consistent with meta.data
   rownames(to.plot) <- gsub("\\.", "-", rownames(to.plot))
 
-  # add group into the dataframe and assign group
+  # Add group into the dataframe and assign group
   to.plot[[group]] <- NA
   meta.data <- x@meta.data
   to.plot[rownames(meta.data),][[group]] <- as.character(meta.data[[group]])
 
+  # Get ride of non-cell rows
+  to.plot <- to.plot[!is.na(to.plot[[group]]), ]
+
   # Scale
   to.plot$scale <- scale(to.plot$normalized,center = T)[,1]
 
-  # Get ride of non-cell rows
-  # to.plot <- to.plot[!is.na(to.plot[[group]]), ]
 
   return(to.plot)
 }

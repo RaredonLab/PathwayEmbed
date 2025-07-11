@@ -2,7 +2,7 @@
 #'
 #' This function reads pathway data from the package's built-in Excel file.
 #' @name LoadPathway
-#' @param pathway The name of the pathway interested.
+#' @param pathway A `character` string specifying the pathway name.
 #' @return A data frame with pathway data.
 #' @examples
 #' LoadPathway("Wnt")

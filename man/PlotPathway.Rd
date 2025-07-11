@@ -7,21 +7,21 @@
 PlotPathway(to.plot, pathway, group, color)
 }
 \arguments{
-\item{to.plot}{A dataframe.}
+\item{to.plot}{A data frame with pathway activation values genereated by PreparePlotData}
 
-\item{pathway}{A name of the pathway.}
+\item{pathway}{A character string indicating the pathway name.}
 
-\item{group}{Ident of the plot.}
+\item{group}{Column name to group and color by (e.g., genotype).}
 
-\item{color}{Colors for the group.}
+\item{color}{A character vector of colors to use for fill and outline.}
 }
 \value{
-A plot.
+A ggplot object.
 }
 \description{
 A function to plot the Pathway activation status
 }
 \examples{
 data(fake_to_plot)
-PlotPathway(fake_to_plot, "Wnt", "genotype", c("#ae282c","#2066a8"))
+PlotPathway(to.plot = fake_to_plot,"Wnt","genotype",color = c("#ae282c", "#2066a8"))
 }
