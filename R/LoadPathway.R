@@ -1,6 +1,7 @@
-## Pathway Data Extraction from Exceldataset
+#' LoadPathway
 #'
 #' This function reads pathway data from the package's built-in Excel file.
+#'
 #' @name LoadPathway
 #' @param pathway A `character` string specifying the pathway name.
 #' @return A data frame with pathway data.

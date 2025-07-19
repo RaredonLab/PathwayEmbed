@@ -2,7 +2,7 @@
 % Please edit documentation in R/LoadPathway.R
 \name{LoadPathway}
 \alias{LoadPathway}
-\title{This function reads pathway data from the package's built-in Excel file.}
+\title{LoadPathway}
 \usage{
 LoadPathway(pathway)
 }

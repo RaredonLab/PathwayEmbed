@@ -1,14 +1,16 @@
-#' Calculate the percentage of cells in activation status
+#' CalculatePercentage
 #'
 #' This function calculates the percentage of cells in ON (scale > 0) and OFF (scale < 0)
 #' activation states within each group defined by `group_var`. If exactly two groups
 #' are provided, it also computes Cohen's d effect size between their activation values.
+#'
 #' @name CalculatePercentage
 #' @importFrom dplyr bind_rows
 #' @importFrom effsize cohen.d
 #' @importFrom stats na.omit
 #' @param to.plot A data frame containing at least a `scale` column and a grouping column.
 #' @param group_var A string specifying the grouping variable (e.g., "genotype", "treatment").
+#'
 #' @return A data frame with the percentage of ON/OFF cells and Cohen's d (if applicable).
 #' @examples
 #' data(fake_to_plot)

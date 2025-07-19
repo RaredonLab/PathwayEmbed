@@ -1,3 +1,5 @@
+#' ComputeCellData
+#'
 #' A function computes cell status for a given pathway in single-cell RNA-seq data,
 #' based on the distance between genes in a specified pathway. The distance is computed
 #' for each batch of cells, and classical multidimensional scaling (MDS) is used to
@@ -14,7 +16,7 @@
 #'
 #' @param x A `Seurat` object containing single-cell RNA sequencing data.
 #' @param pathway A `character` string specifying the pathway name. This should match a pathway used by `LoadPathway()`.
-#' @param distance.method A `character` string specifying the distance metric to use.
+#' @param distance.method A `character` string specifying the distance metric to use.Default is "manhattan".
 #' Options include: `"manhattan"`, `"euclidean"`, `"canberra"`, `"binary"`, `"minkowski"`
 #' @param batch.size An `integer` specifying the number of cells to process per batch. Default is 1000.
 #' @param scale.data A `logical` indicating whether to use scaled data (`scale.data = TRUE`) or normalized data. Default is `TRUE`.
@@ -53,8 +55,15 @@ ComputeCellData <- function(x, pathway, distance.method, batch.size = batch.size
   shuffled_cell_id <- sample(cell_id)
 
   # Split shuffled indices into batches
+  # Check if batch.size is provided; if not, set default and message
+  if (missing(batch.size) || is.null(batch.size)) {
+    message("Parameter 'batch.size' is missing or NULL. Setting default batch size to 1000.")
+    batch.size <- 1000
+  }
+
   # Define batch size
   batch_size <- batch.size
+
   batches <- split(shuffled_cell_id, ceiling(seq_along(shuffled_cell_id) / batch.size))
 
   # Subset expression data into chunks based on sampled indices
@@ -80,6 +89,12 @@ ComputeCellData <- function(x, pathway, distance.method, batch.size = batch.size
     if (ncol(pathwaytempdata) < 2) {
       warning("Batch ", i, " does not have enough cells for distance calculation. Skipping...")
       next
+    }
+
+    # Check if distance.method is provided; if not, set default and message
+    if (missing(distance.method) || is.null(distance.method)) {
+      message("Parameter 'distance.method' is missing or NULL. Setting default distance.method to 'manhattan'.")
+      distance.method <- "manhattan"
     }
 
     # Distance calculation
