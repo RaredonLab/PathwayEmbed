@@ -1,3 +1,5 @@
+#' PlotPathway
+#'
 #' A function to plot the Pathway activation status
 #'
 #' @name PlotPathway

@@ -2,10 +2,7 @@
 % Please edit documentation in R/ComputeCellData.R
 \name{ComputeCellData}
 \alias{ComputeCellData}
-\title{A function computes cell status for a given pathway in single-cell RNA-seq data,
-based on the distance between genes in a specified pathway. The distance is computed
-for each batch of cells, and classical multidimensional scaling (MDS) is used to
-visualize the pathway expression across cells.}
+\title{ComputeCellData}
 \usage{
 ComputeCellData(
   x,
@@ -20,7 +17,7 @@ ComputeCellData(
 
 \item{pathway}{A \code{character} string specifying the pathway name. This should match a pathway used by \code{LoadPathway()}.}
 
-\item{distance.method}{A \code{character} string specifying the distance metric to use.
+\item{distance.method}{A \code{character} string specifying the distance metric to use.Default is "manhattan".
 Options include: \code{"manhattan"}, \code{"euclidean"}, \code{"canberra"}, \code{"binary"}, \code{"minkowski"}}
 
 \item{batch.size}{An \code{integer} specifying the number of cells to process per batch. Default is 1000.}

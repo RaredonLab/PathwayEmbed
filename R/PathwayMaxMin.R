@@ -1,4 +1,7 @@
+#' PathwayMaxMin
+#'
 #' A function to obtain the hypothetical max and min activation status of selected pathway for a given scRNA seq data set
+#'
 #' @name PathwayMaxMin
 #' @import Seurat
 #' @import tidyverse

@@ -2,7 +2,7 @@
 % Please edit documentation in R/PlotPathway.R
 \name{PlotPathway}
 \alias{PlotPathway}
-\title{A function to plot the Pathway activation status}
+\title{PlotPathway}
 \usage{
 PlotPathway(to.plot, pathway, group, color)
 }

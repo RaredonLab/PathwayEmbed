@@ -37,7 +37,7 @@ library(PathwayEmbed)
 data(fake_test_object)
 
 # Compute pathway data
-mds_results <- ComputeCellData(fake_test_object, pathway = "Wnt", distance.method = "manhattan")
+mds_results <- ComputeCellData(fake_test_object, pathway = "Wnt", distance.method = "manhattan", batch.size = 100) need to add a default batch size and a end message
 
 # Prepare data for plotting
 plot_data <- PreparePlotData(fake_test_object, mds_results, group = "genotype")

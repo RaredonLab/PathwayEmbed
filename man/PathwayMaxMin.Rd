@@ -2,7 +2,7 @@
 % Please edit documentation in R/PathwayMaxMin.R
 \name{PathwayMaxMin}
 \alias{PathwayMaxMin}
-\title{A function to obtain the hypothetical max and min activation status of selected pathway for a given scRNA seq data set}
+\title{PathwayMaxMin}
 \usage{
 PathwayMaxMin(x, pathway, scale.data = TRUE)
 }

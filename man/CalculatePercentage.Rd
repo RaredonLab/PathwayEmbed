@@ -2,7 +2,7 @@
 % Please edit documentation in R/CalculatePercentage.R
 \name{CalculatePercentage}
 \alias{CalculatePercentage}
-\title{Calculate the percentage of cells in activation status}
+\title{CalculatePercentage}
 \usage{
 CalculatePercentage(to.plot, group_var)
 }
