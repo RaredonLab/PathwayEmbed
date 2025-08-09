@@ -1,6 +1,5 @@
 # PathwayEmbed
 
-
 ## We are focusing on 1-D embeddings of pathway state.
 
 
@@ -25,7 +24,7 @@ if (!requireNamespace("remotes", quietly = TRUE)) {
 
 remotes::install_github("RaredonLab/PathwayEmbed")
 
-```r
+```
 ---
 
 ## Usage
@@ -37,7 +36,7 @@ library(PathwayEmbed)
 data(fake_test_object)
 
 # Compute pathway data
-mds_results <- ComputeCellData(fake_test_object, pathway = "Wnt", distance.method = "manhattan", batch.size = 100) need to add a default batch size and a end message
+mds_results <- ComputeCellData(fake_test_object, pathway = "Wnt", distance.method = "manhattan", batch.size = 100) 
 
 # Prepare data for plotting
 plot_data <- PreparePlotData(fake_test_object, mds_results, group = "genotype")
@@ -48,4 +47,4 @@ PlotPathway(to.plot = plot_data, pathway = "Wnt", group = "genotype", color = c(
 # Calculate percentage and do comparison between two groups (optional)
 CalculatePercentage(to.plot = plot_data, group_var = "genotype")
 
-```r
+```
