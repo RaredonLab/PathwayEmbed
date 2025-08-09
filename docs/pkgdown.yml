@@ -1,0 +1,8 @@
+pandoc: '3.2'
+pkgdown: 2.1.3
+pkgdown_sha: ~
+articles:
+  beta_catenin_ko: beta_catenin_ko.html
+  examples: examples.html
+  spatial_pathway: spatial_pathway.html
+last_built: 2025-08-08T18:32Z

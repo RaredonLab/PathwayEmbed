@@ -1,0 +1,69 @@
+---
+title: "Toy Set"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Toy Set}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+## Overview
+This vignette demonstrates how to use the PathwayEmbed package to compute and visualize pathway activation using single-cell transcriptomic data. We use the example dataset fake_test_object included with the package.
+
+## Load Package and Example Data
+```{r setup}
+library(PathwayEmbed)
+# Load the example Seurat object included in the package
+data(fake_test_object)
+```
+
+## Compute Pathway Activation
+```{r}
+# Calculate pathway activation using MDS
+# Default batch.size is set to 1000
+mds_results <- ComputeCellData(
+  fake_test_object,
+  pathway = "Wnt",
+  distance.method = "manhattan"
+)
+```
+
+## Prepare Data for Plotting
+```{r}
+# Format MDS results and metadata for plotting
+plot_data <- PreparePlotData(
+  fake_test_object,
+  mds_results,
+  group = "genotype"
+)
+```
+
+## Visualize Pathway Activation
+```{r}
+# Visualize 2D MDS embedding colored by genotype
+PlotPathway(
+  to.plot = plot_data,
+  pathway = "Wnt",
+  group = "genotype",
+  color = c("#ae282c", "#2066a8")
+)
+```
+
+## Calculate Group-wise Activation Percentage (Optional)
+```{r}
+# Calculate % of cells per group with high pathway activation
+CalculatePercentage(
+  to.plot = plot_data,
+  group_var = "genotype"
+)
+```
+
+---
+
