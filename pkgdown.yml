@@ -1,0 +1,17 @@
+template:
+  params:
+    bootswatch: flatly
+
+build:
+  vignettes: false
+
+articles:
+  - title: "Beta-Catenin Knockout Analysis"
+    contents:
+      - beta_catenin_ko
+  - title: "Toy Set"
+    contents:
+      - examples
+  - title: "Spatial PathwayEmbed Demonstration"
+    contents:
+      - spatial_pathway
