@@ -7,6 +7,11 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
+## Overview
+This vignette demonstrates the application of PathwayEmbed in mouse embryo spatial data (E9.5 - E12.5). With curated pathway database, we examined and compared Wnt, Notch, TGFb, Hippo, and HIF-1a signaling transduction states across spatial and temporal development.
+Reference for the initial data: Chen et al. Spatiotemporal transcriptomic atlas of mouse organogenesis using DNA nanoball-patterned arrays, Cell, Volume 185, Issue 10, 2022, Pages 1777-1792.e21.
+
+
 ```{r setup}
 knitr::opts_chunk$set(echo = TRUE)
 

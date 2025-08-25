@@ -15,6 +15,9 @@ knitr::opts_chunk$set(
 )
 ```
 
+## Overview
+This vignette shows the application of PathwayEmbed in a beta-catenin perturbed system where Ctnnb1 upstream enhancer is depleted in instestinal epithelia. Refinements of coefficients is flexible and should be case-depedent.
+References: Hua et al. A Ctnnb1 enhancer transcriptionally regulates Wnt signaling dosage to balance homeostasis and tumorigenesis of intestinal epithelia. Elife. 2024 Sep 25;13:RP98238. doi: 10.7554/eLife.98238. PMID: 39320349; PMCID: PMC11424096.
 
 ## Load Packages and Download Data from Online Source
 ```{r setup}

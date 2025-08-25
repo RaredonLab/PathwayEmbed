@@ -4,5 +4,6 @@ pkgdown_sha: ~
 articles:
   beta_catenin_ko: beta_catenin_ko.html
   examples: examples.html
+  Notch_Analysis: Notch_Analysis.html
   spatial_pathway: spatial_pathway.html
-last_built: 2025-08-08T18:32Z
+last_built: 2025-08-24T21:19Z

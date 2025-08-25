@@ -15,3 +15,6 @@ articles:
   - title: "Spatial PathwayEmbed Demonstration"
     contents:
       - spatial_pathway
+  - title: "Notch Pathway Analysis"
+    contents:
+      - Notch_Analysis

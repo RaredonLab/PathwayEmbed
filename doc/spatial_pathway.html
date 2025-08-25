@@ -340,6 +340,15 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 
 
 
+<div id="overview" class="section level2">
+<h2>Overview</h2>
+<p>This vignette demonstrates the application of PathwayEmbed in mouse
+embryo spatial data (E9.5 - E12.5). With curated pathway database, we
+examined and compared Wnt, Notch, TGFb, Hippo, and HIF-1a signaling
+transduction states across spatial and temporal development. Reference
+for the initial data: Chen et al. Spatiotemporal transcriptomic atlas of
+mouse organogenesis using DNA nanoball-patterned arrays, Cell, Volume
+185, Issue 10, 2022, Pages 1777-1792.e21.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a>knitr<span class="sc">::</span>opts_chunk<span class="sc">$</span><span class="fu">set</span>(<span class="at">echo =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a><span class="co"># load library</span></span>
@@ -349,6 +358,7 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 <span id="cb1-7"><a href="#cb1-7" tabindex="-1"></a><span class="fu">library</span>(viridis)</span></code></pre></div>
 <pre><code>## Loading required package: viridisLite</code></pre>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="fu">library</span>(cowplot)</span></code></pre></div>
+</div>
 <div id="spatial-data-load-and-process" class="section level2">
 <h2>Spatial data load and process</h2>
 <p>The files can be downloaded from figshare via below link:</p>
