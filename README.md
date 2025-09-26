@@ -33,13 +33,14 @@ remotes::install_github("RaredonLab/PathwayEmbed")
 library(PathwayEmbed)
 
 # Load example data included with the package
-data(fake_test_object)
+data(fake_test_matrix)
+data(fake_test_metadata)
 
 # Compute pathway data
-mds_results <- ComputeCellData(fake_test_object, pathway = "Wnt", distance.method = "manhattan", batch.size = 100) 
+mds_results <- ComputeCellData(fake_test_matrix, pathway = "Wnt", distance.method = "manhattan", batch.size = 100) 
 
 # Prepare data for plotting
-plot_data <- PreparePlotData(fake_test_object, mds_results, group = "genotype")
+plot_data <- PreparePlotData(fake_test_metadata, mds_results, group = "genotype")
 
 # Plot pathway activation
 PlotPathway(to.plot = plot_data, pathway = "Wnt", group = "genotype", color = c("#ae282c", "#2066a8"))
