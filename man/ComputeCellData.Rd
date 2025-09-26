@@ -13,12 +13,12 @@ ComputeCellData(
 )
 }
 \arguments{
-\item{x}{A \code{Seurat} object containing single-cell RNA sequencing data.}
+\item{x}{A \code{matrix} of genes x cells.}
 
 \item{pathway}{A \code{character} string specifying the pathway name. This should match a pathway used by \code{LoadPathway()}.}
 
 \item{distance.method}{A \code{character} string specifying the distance metric to use.Default is "manhattan".
-Options include: \code{"manhattan"}, \code{"euclidean"}, \code{"canberra"}, \code{"binary"}, \code{"minkowski"}}
+Options include: \code{"manhattan"}, \code{"euclidean"}, \code{"canberra"}, \code{"binary"}}
 
 \item{batch.size}{An \code{integer} specifying the number of cells to process per batch. Default is 1000.}
 
@@ -34,7 +34,7 @@ for each batch of cells, and classical multidimensional scaling (MDS) is used to
 visualize the pathway expression across cells.
 }
 \examples{
-data(fake_test_object)
-ComputeCellData(fake_test_object, pathway = "Wnt", distance.method = "manhattan", batch.size = 2000)
+data(fake_test_matrix)
+ComputeCellData(fake_test_matrix, pathway = "Wnt", distance.method = "manhattan", batch.size = 2000)
 
 }

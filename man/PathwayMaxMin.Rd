@@ -7,7 +7,7 @@
 PathwayMaxMin(x, pathway, scale.data = TRUE)
 }
 \arguments{
-\item{x}{A Seurat Object.}
+\item{x}{A \code{matrix} of genes x cells}
 
 \item{pathway}{A \code{character} string specifying the pathway name.}
 
@@ -20,6 +20,6 @@ The hypothetical value for Pathway on and off (max and min value for features)
 A function to obtain the hypothetical max and min activation status of selected pathway for a given scRNA seq data set
 }
 \examples{
-data(fake_test_object) # load the fake test data
-PathwayMaxMin(fake_test_object, "Wnt")
+data(fake_test_matrix) # load the fake test data
+PathwayMaxMin(fake_test_matrix, "Wnt", scale.data = TRUE)
 }

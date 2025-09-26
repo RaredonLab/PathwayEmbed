@@ -6,22 +6,23 @@ knitr::opts_chunk$set(
 
 ## ----setup--------------------------------------------------------------------
 library(PathwayEmbed)
-# Load the example Seurat object included in the package
-data(fake_test_object)
+# Load the example gene expression matrix included in the package
+data(fake_test_matrix)
 
 ## -----------------------------------------------------------------------------
 # Calculate pathway activation using MDS
 # Default batch.size is set to 1000
 mds_results <- ComputeCellData(
-  fake_test_object,
+  fake_test_matrix,
   pathway = "Wnt",
-  distance.method = "manhattan"
+  distance.method = "manhattan",
+  scale.data = TRUE
 )
 
 ## -----------------------------------------------------------------------------
 # Format MDS results and metadata for plotting
 plot_data <- PreparePlotData(
-  fake_test_object,
+  fake_test_metadata,
   mds_results,
   group = "genotype"
 )

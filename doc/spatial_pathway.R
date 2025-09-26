@@ -22,22 +22,28 @@ library(cowplot)
 # 
 # # Set Default Assay to be "RNA"
 # DefaultAssay(merged_spatial) <- "RNA"
+# 
+# # Get genes x cell matrix
+# merged_spatial_matrix <- as.matrix(GetAssayData(merged_spatial, assay = "RNA", slot = "data"))
+# 
+# # Get metadata matrix
+# merged_spatial_metadata <- merged_spatial@meta.data
 
 ## ----score compute, eval=FALSE------------------------------------------------
 # 
 # # Compute the score for each pathway
-# Wnt_mds <- ComputeCellData(merged_spatial, "Wnt", "manhattan", batch.size = 1000)
-# Notch_mds <- ComputeCellData(merged_spatial, "Notch", "manhattan", batch.size = 1000)
-# Hippo_mds <- ComputeCellData(merged_spatial, "Hippo", "manhattan", batch.size = 1000)
-# Tgfb_mds <- ComputeCellData(merged_spatial, "Tgfb", "manhattan", batch.size = 1000)
-# HIF1a_mds <- ComputeCellData(merged_spatial, "HIF-1a", "manhattan", batch.size = 1000)
+# Wnt_mds <- ComputeCellData(merged_spatial_matrix, "Wnt", "manhattan", batch.size = 1000)
+# Notch_mds <- ComputeCellData(merged_spatial_matrix, "Notch", "manhattan", batch.size = 1000)
+# Hippo_mds <- ComputeCellData(merged_spatial_matrix, "Hippo", "manhattan", batch.size = 1000)
+# Tgfb_mds <- ComputeCellData(merged_spatial_matrix, "Tgfb", "manhattan", batch.size = 1000)
+# HIF1a_mds <- ComputeCellData(merged_spatial_matrix, "HIF-1a", "manhattan", batch.size = 1000)
 # 
 # # Process the mds
-# Wnt_to.plot <- PreparePlotData(merged_spatial, Wnt_mds, "timepoint")
-# Notch_to.plot <- PreparePlotData(merged_spatial, Notch_mds, "timepoint")
-# Hippo_to.plot <- PreparePlotData(merged_spatial, Hippo_mds, "timepoint")
-# Tgfb_to.plot <- PreparePlotData(merged_spatial, Tgfb_mds, "timepoint")
-# HIF1a_to.plot <- PreparePlotData(merged_spatial, HIF1a_mds, "timepoint")
+# Wnt_to.plot <- PreparePlotData(merged_spatial_metadata, Wnt_mds, "timepoint")
+# Notch_to.plot <- PreparePlotData(merged_spatial_metadata, Notch_mds, "timepoint")
+# Hippo_to.plot <- PreparePlotData(merged_spatial_metadata, Hippo_mds, "timepoint")
+# Tgfb_to.plot <- PreparePlotData(merged_spatial_metadata, Tgfb_mds, "timepoint")
+# HIF1a_to.plot <- PreparePlotData(merged_spatial_metadata, HIF1a_mds, "timepoint")
 # 
 # # Combine to list
 # pathway_list <- list(

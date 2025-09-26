@@ -1,6 +1,5 @@
 #' A function to prepare the signal transduction dataframe for plotting
 #' @name PreparePlotData
-#' @import Seurat
 #' @import RColorBrewer
 #' @import ggplot2
 #' @import cowplot
@@ -8,14 +7,14 @@
 #' @import viridis
 #' @import matrixStats
 #'
-#' @param x A `Seurat` object containing single-cell RNA sequencing data.
+#' @param x A`matrix` framework containing cell ID x metadata.
 #' @param final_mds A 'dataframe' output from ComputeCellData.
 #' @param group group for the comparision
 #' @return data for plotting
 #' @examples
-#' data(fake_test_object)
+#' data(fake_test_metadata)
 #' data(fake_final_mds)
-#' PreparePlotData(fake_test_object, fake_final_mds, "genotype")
+#' PreparePlotData(fake_test_metadata, fake_final_mds, "genotype")
 #' @export
 PreparePlotData <- function(x, final_mds, group){
 
@@ -27,7 +26,10 @@ PreparePlotData <- function(x, final_mds, group){
 
   # Add group into the dataframe and assign group
   to.plot[[group]] <- NA
-  meta.data <- x@meta.data
+
+  # meta.data <- x@meta.data
+  meta.data <- x
+
   to.plot[rownames(meta.data),][[group]] <- as.character(meta.data[[group]])
 
   # Get ride of non-cell rows

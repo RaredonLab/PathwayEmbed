@@ -53,12 +53,19 @@ merged <- ScaleData(
   features = VariableFeatures(object = merged)
 )
 
+# Get genes x cell matrix
+merged_data <- as.matrix(GetAssayData(merged, assay = "RNA", slot = "data"))
+
+# Get metadata matrix
+merged_metadata <- merged@meta.data
+
+
 ## -----------------------------------------------------------------------------
 # Compute Wnt pathway score
-wnt_scores <- ComputeCellData(merged, "Wnt", distance.method = "manhattan", batch.size = 1000)
+wnt_scores <- ComputeCellData(merged_data, "Wnt", distance.method = "manhattan", batch.size = 1000)
 
 # Prepare for plotting
-plot_data <- PreparePlotData(merged, wnt_scores, group = "sample")
+plot_data <- PreparePlotData(merged_metadata, wnt_scores, group = "sample")
 
 # Plot
 PlotPathway(plot_data, pathway = "Wnt", group = "sample", c("#f4a4a4", "#6baed6"))

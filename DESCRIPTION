@@ -15,7 +15,6 @@ Depends:
     R (>= 3.5)
 Imports:
     readxl,
-    Seurat,
     RColorBrewer,
     ggplot2,
     cowplot,
@@ -26,9 +25,11 @@ Imports:
     effsize,
     tidyverse,
     purrr
-Suggests: 
-    knitr,
+Suggests:
+    Seurat,
+    scales,
     rmarkdown,
+    knitr,
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
 LazyData: true

@@ -82,8 +82,13 @@ COI_2 <- readRDS(system.file("extdata", "COI_2.rds", package = "PathwayEmbed"))
 ```
 
 ```{r}
-pathway_data <- ComputeCellData(COI_2 , "Notch", "manhattan")
-to_plot <- PreparePlotData(COI_2, pathway_data, "condition")
+# Extract gene expression matrix and cell meatadata for the input
+COI_2_matrix <- as.matrix(GetAssayData(COI_2, assay = "RNA", slot = "data"))
+COI_2_metadata <- COI_2@meta.data
+
+# Compute using PathwayEmbed
+pathway_data <- ComputeCellData(COI_2_matrix, "Notch", "manhattan")
+to_plot <- PreparePlotData(COI_2_metadata, pathway_data, "condition")
 PlotPathway(to_plot, "Notch", "condition", c("#FFDAB9", "#A3BFD9"))
 CalculatePercentage(to_plot, "condition")
 notch_molecule <- LoadPathway("Notch")[,1]
@@ -180,9 +185,13 @@ cluster_of_interest <- readRDS(system.file("extdata", "cluster_of_interest.rds",
 
 
 ```{r}
+# Extract Matrix data
+COI_matrix <- as.matrix(GetAssayData(cluster_of_interest, assay = "RNA", slot = "data"))
+COI_metadata <- cluster_of_interest@meta.data
 
-COI_notch <- ComputeCellData(cluster_of_interest, "Notch", "manhattan", batch.size = 1000, scale.data = TRUE)
-To_plot <- PreparePlotData(cluster_of_interest, COI_notch, "Age")
+# Compute using PathwayEmbed
+COI_notch <- ComputeCellData(COI_matrix, "Notch", "manhattan", batch.size = 1000, scale.data = TRUE)
+To_plot <- PreparePlotData(COI_metadata, COI_notch, "Age")
 plot_1 <- PlotPathway(To_plot, "Notch", "Age", c("orange", "#6baed6"))
 CalculatePercentage(To_plot, "Age")
 print(plot_1)

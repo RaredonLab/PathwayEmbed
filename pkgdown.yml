@@ -3,7 +3,7 @@ template:
     bootswatch: flatly
 
 build:
-  vignettes: false
+  vignettes: false  # we are using pkgdown articles, so disable automatic vignette building
 
 articles:
   - title: "Beta-Catenin Knockout Analysis"
@@ -18,3 +18,4 @@ articles:
   - title: "Notch Pathway Analysis"
     contents:
       - Notch_Analysis
+

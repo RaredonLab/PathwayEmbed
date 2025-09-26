@@ -3,18 +3,17 @@
 #' A function to obtain the hypothetical max and min activation status of selected pathway for a given scRNA seq data set
 #'
 #' @name PathwayMaxMin
-#' @import Seurat
 #' @import tidyverse
 #' @import viridis
 #' @importFrom matrixStats rowMins rowMaxs
 #'
-#' @param x A Seurat Object.
+#' @param x A `matrix` of genes x cells
 #' @param pathway A `character` string specifying the pathway name.
 #' @param scale.data A `logical` indicating whether to use scaled data (`scale.data = TRUE`) or normalized data. Default is `TRUE`.
 #' @return The hypothetical value for Pathway on and off (max and min value for features)
 #' @examples
-#' data(fake_test_object) # load the fake test data
-#' PathwayMaxMin(fake_test_object, "Wnt")
+#' data(fake_test_matrix) # load the fake test data
+#' PathwayMaxMin(fake_test_matrix, "Wnt", scale.data = TRUE)
 #' @export
 PathwayMaxMin <- function(x, pathway, scale.data = TRUE) {
 
@@ -33,10 +32,21 @@ PathwayMaxMin <- function(x, pathway, scale.data = TRUE) {
   pathway.on <- pathway.on[valid_names]
   pathway.off <- pathway.off[valid_names]
 
-  # Extract expression data from the desired slot
-  x <- ScaleData(x, features = valid_names)
-  slot_use <- if (scale.data) "scale.data" else "data"
-  expr_data <- GetAssayData(x, assay = "RNA", slot = slot_use)[valid_names, , drop = FALSE]
+  # Get the matrix
+  raw_expr <- x
+
+  # Filter to valid genes once
+  valid_names <- intersect(names, rownames(raw_expr))
+  if (length(valid_names) == 0) {
+    stop("No valid pathway genes found in the input.")
+  }
+
+  expr_data <- raw_expr[valid_names, , drop = FALSE]
+
+  # Optional universal scaling
+  if (scale.data) {
+    expr_data <- t(scale(t(expr_data)))  # row-wise z-score
+  }
 
   # Ensure it's a data frame
   expr_data <- as.data.frame(expr_data)
@@ -75,7 +85,6 @@ PathwayMaxMin <- function(x, pathway, scale.data = TRUE) {
                              ranges[feature_name, 1],  # Min for OFF
                              ranges[feature_name, 2])  # Max for OFF
   }
-
 
   # Bind on and off states
   pathway.stat <- data.frame(pathway.on,pathway.off)

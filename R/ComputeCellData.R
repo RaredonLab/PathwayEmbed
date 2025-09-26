@@ -6,7 +6,6 @@
 #' visualize the pathway expression across cells.
 #'
 #' @name ComputeCellData
-#' @import Seurat
 #' @importFrom matrixStats rowMins rowMaxs
 #' @importFrom stats dist cmdscale
 #' @importFrom dplyr %>%
@@ -14,39 +13,49 @@
 #' @import tidyverse
 #' @import viridis
 #'
-#' @param x A `Seurat` object containing single-cell RNA sequencing data.
+#' @param x A `matrix` of genes x cells.
 #' @param pathway A `character` string specifying the pathway name. This should match a pathway used by `LoadPathway()`.
 #' @param distance.method A `character` string specifying the distance metric to use.Default is "manhattan".
-#' Options include: `"manhattan"`, `"euclidean"`, `"canberra"`, `"binary"`, `"minkowski"`
+#' Options include: `"manhattan"`, `"euclidean"`, `"canberra"`, `"binary"`
 #' @param batch.size An `integer` specifying the number of cells to process per batch. Default is 1000.
 #' @param scale.data A `logical` indicating whether to use scaled data (`scale.data = TRUE`) or normalized data. Default is `TRUE`.
 #'
 #' @return A data frame of MDS results with normalized values per cell, suitable for thresholding or visualization.
 #'
 #' @examples
-#' data(fake_test_object)
-#' ComputeCellData(fake_test_object, pathway = "Wnt", distance.method = "manhattan", batch.size = 2000)
+#' data(fake_test_matrix)
+#' ComputeCellData(fake_test_matrix, pathway = "Wnt", distance.method = "manhattan", batch.size = 2000)
 #'
 #' @export
-ComputeCellData <- function(x, pathway, distance.method, batch.size = batch.size, scale.data = TRUE){
+ComputeCellData <- function(x, pathway, distance.method,
+                            batch.size = batch.size,
+                            scale.data = TRUE){
 
   # Get pathway data
   pathwaydata <- LoadPathway(pathway)
   names <- c(pathwaydata[[1]])
 
-  # Use only genes present in Seurat object
-  valid_names <- intersect(names, rownames(x))
-  if (length(valid_names) == 0) {
-    stop("No valid pathway genes found in the Seurat object.")
-  }
-  x <- ScaleData(x, features = valid_names)
-
-  # Extract expression data from the desired slot
-  slot_use <- if (scale.data) "scale.data" else "data"
-  expr_data <- GetAssayData(x, assay = "RNA", slot = slot_use)[valid_names, , drop = FALSE]
-
   # Pathway max and min
   pathway.stat <- PathwayMaxMin(x, pathway)
+
+  # # Extract expression matrix depending on input type
+  # if (Seurat.object) {
+  #   raw_expr <- GetAssayData(x, assay = "RNA", slot = "data")
+  # } else {
+  raw_expr <- x
+
+  # Filter to valid genes once
+  valid_names <- intersect(names, rownames(raw_expr))
+  if (length(valid_names) == 0) {
+    stop("No valid pathway genes found in the input.")
+  }
+
+  expr_data <- raw_expr[valid_names, , drop = FALSE]
+
+  # Optional universal scaling
+  if (scale.data) {
+    expr_data <- t(scale(t(expr_data)))  # row-wise z-score
+  }
 
   # Get cell indices
   cell_id <- colnames(expr_data)
@@ -104,7 +113,6 @@ ComputeCellData <- function(x, pathway, distance.method, batch.size = batch.size
     # "euclidean" is stratight-line distance, is useful for PCA clustering
     # "canberra" is weighted distance, is also good for sparse data and when values have very different scales
     # "binary" is distance based on presence/absence (0/1)
-    # "minkowski" is generalization of euclidean & manhattan, tunable using p parameter
     # choose "manhattan" as it works well for high-dimensional data and less sensitive to large outliers than euclidean distance
 
     # MDS

@@ -7,7 +7,7 @@
 PreparePlotData(x, final_mds, group)
 }
 \arguments{
-\item{x}{A \code{Seurat} object containing single-cell RNA sequencing data.}
+\item{x}{A\code{matrix} framework containing cell ID x metadata.}
 
 \item{final_mds}{A 'dataframe' output from ComputeCellData.}
 
@@ -20,7 +20,7 @@ data for plotting
 A function to prepare the signal transduction dataframe for plotting
 }
 \examples{
-data(fake_test_object)
+data(fake_test_metadata)
 data(fake_final_mds)
-PreparePlotData(fake_test_object, fake_final_mds, "genotype")
+PreparePlotData(fake_test_metadata, fake_final_mds, "genotype")
 }
