@@ -34,3 +34,5 @@ Suggests:
 Config/testthat/edition: 3
 LazyData: true
 VignetteBuilder: knitr
+URL: https://raredonlab.github.io/PathwayEmbed
+

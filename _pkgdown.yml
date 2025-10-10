@@ -1,20 +1,10 @@
 url: https://raredonlab.github.io/PathwayEmbed/
+
+home:
+  title: "PathwayEmbed"
+  description: "Quantifying and visualizing intracellular signaling pathway activation from transcriptomic data."
+
 template:
   bootstrap: 5
+  bootswatch: flatly  # optional but adds a nice theme
 
-build:
-  vignettes: false  # we are using pkgdown articles, so disable automatic vignette building
-
-articles:
-  - title: "Beta-Catenin Knockout Analysis"
-    contents:
-      - beta_catenin_ko
-  - title: "Toy Set"
-    contents:
-      - examples
-  - title: "Spatial PathwayEmbed Demonstration"
-    contents:
-      - spatial_pathway
-  - title: "Notch Pathway Analysis"
-    contents:
-      - Notch_Analysis
