@@ -1,4 +1,20 @@
-url: ~
+url: https://raredonlab.github.io/PathwayEmbed/
 template:
   bootstrap: 5
 
+build:
+  vignettes: false  # we are using pkgdown articles, so disable automatic vignette building
+
+articles:
+  - title: "Beta-Catenin Knockout Analysis"
+    contents:
+      - beta_catenin_ko
+  - title: "Toy Set"
+    contents:
+      - examples
+  - title: "Spatial PathwayEmbed Demonstration"
+    contents:
+      - spatial_pathway
+  - title: "Notch Pathway Analysis"
+    contents:
+      - Notch_Analysis

@@ -32,15 +32,7 @@
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto">
 <li class="nav-item"><a class="nav-link" href="reference/index.html">Reference</a></li>
-<li class="nav-item dropdown">
-  <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
-  <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
-<li><a class="dropdown-item" href="articles/beta_catenin_ko.html">Beta-Catenin Knockout Analysis with PathwayEmbed</a></li>
-    <li><a class="dropdown-item" href="articles/examples.html">Toy Set</a></li>
-    <li><a class="dropdown-item" href="articles/Notch_Analysis.html">Notch_Analysis</a></li>
-    <li><a class="dropdown-item" href="articles/spatial_pathway.html">Spatial Pathway Visualization</a></li>
-  </ul>
-</li>
+<li class="nav-item"><a class="nav-link" href="articles/index.html">Articles</a></li>
       </ul>
 <ul class="navbar-nav">
 <li class="nav-item"><form class="form-inline" role="search">
@@ -87,13 +79,14 @@
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">PathwayEmbed</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Load example data included with the package</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">fake_test_object</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">fake_test_matrix</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">fake_test_metadata</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Compute pathway data</span></span>
-<span><span class="va">mds_results</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/ComputeCellData.html">ComputeCellData</a></span><span class="op">(</span><span class="va">fake_test_object</span>, pathway <span class="op">=</span> <span class="st">"Wnt"</span>, distance.method <span class="op">=</span> <span class="st">"manhattan"</span>, batch.size <span class="op">=</span> <span class="fl">100</span><span class="op">)</span> </span>
+<span><span class="va">mds_results</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/ComputeCellData.html">ComputeCellData</a></span><span class="op">(</span><span class="va">fake_test_matrix</span>, pathway <span class="op">=</span> <span class="st">"Wnt"</span>, distance.method <span class="op">=</span> <span class="st">"manhattan"</span>, batch.size <span class="op">=</span> <span class="fl">100</span><span class="op">)</span> </span>
 <span></span>
 <span><span class="co"># Prepare data for plotting</span></span>
-<span><span class="va">plot_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/PreparePlotData.html">PreparePlotData</a></span><span class="op">(</span><span class="va">fake_test_object</span>, <span class="va">mds_results</span>, group <span class="op">=</span> <span class="st">"genotype"</span><span class="op">)</span></span>
+<span><span class="va">plot_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/PreparePlotData.html">PreparePlotData</a></span><span class="op">(</span><span class="va">fake_test_metadata</span>, <span class="va">mds_results</span>, group <span class="op">=</span> <span class="st">"genotype"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Plot pathway activation</span></span>
 <span><span class="fu"><a href="reference/PlotPathway.html">PlotPathway</a></span><span class="op">(</span>to.plot <span class="op">=</span> <span class="va">plot_data</span>, pathway <span class="op">=</span> <span class="st">"Wnt"</span>, group <span class="op">=</span> <span class="st">"genotype"</span>, color <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"#ae282c"</span>, <span class="st">"#2066a8"</span><span class="op">)</span><span class="op">)</span></span>
