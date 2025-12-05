@@ -123,13 +123,13 @@ ComputeCellData <- function(x, pathway, distance.method,
     # Normalize the MDS values
     temp.data.mds <- as.data.frame(fit$points)
     colnames(temp.data.mds) <- "V1"
-    V1_min <- min(temp.data.mds$V1, na.rm = TRUE)
+    V1_min <- min(temp.data.mds$V1, na.rm = TRUE) # should end up with identified pathway.on or off but perhaps in some order, sometimes reversed, but cells should be between this two.Lines 126 and 127 Should end up identifying your pathway ON and pathway OFF points (but perhaps in some order!) It should not be posibleto embed cells outside of the range between ON and OFF
     V1_max <- max(temp.data.mds$V1, na.rm = TRUE)
 
     if (V1_max == V1_min) {
       temp.data.mds$normalized <- 0
     } else {
-      temp.data.mds$normalized <- (temp.data.mds$V1 - V1_min) / (V1_max - V1_min)
+      temp.data.mds$normalized <- (temp.data.mds$V1 - V1_min) / (V1_max - V1_min) #I think there is something wrong with how you are defining ON and OFF
     }
 
     # Store result

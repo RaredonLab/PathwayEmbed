@@ -82,8 +82,8 @@ PathwayMaxMin <- function(x, pathway, scale.data = TRUE) {
 
     # Assign min or max based on value
     pathway.off[i] <- ifelse(pathway.off[i] < 0,
-                             ranges[feature_name, 1],  # Min for OFF
-                             ranges[feature_name, 2])  # Max for OFF
+                             ranges[feature_name, 2],  # Max for OFF
+                             ranges[feature_name, 1])  # Min for OFF
   }
 
   # Bind on and off states
@@ -91,3 +91,9 @@ PathwayMaxMin <- function(x, pathway, scale.data = TRUE) {
 
   return(pathway.stat)
 }
+
+# For negative coefficient genes, when pathway activation means a decrease in transcription, the pathway ON state should take the minimum gene expression value in the entire dataset, for each pathway feature.
+# For positive coefficient genes, when pathway activation means n increase in transcription, the pathway ON state should take the maximum gene expression value in the entire dataset, for each pathway feature.
+# For negative coefficient genes, when pathway activation means a decrease in transcription, the pathway OFF state should take the maximum gene expression value in the entire dataset, for each pathway feature.
+# For positive coefficient genes, when pathway activation means an increase in transcription, the pathway OFF state should take the minimum gene expression value in the entire dataset, for each pathway feature.
+# Finally, because pathway ON/OFF could embedded in the positive OR negative direction, when you pull out V1_max and V1_min, which should represent the ON and OFF states in some order, you should identify what that order is, and flips it as necessary (multiply by -1?) so that V1_max == pathway ON, and then normalize between pathway OFF/ON as 0->1
