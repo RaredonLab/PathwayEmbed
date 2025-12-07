@@ -23,6 +23,7 @@ PathwayMaxMin <- function(x, pathway, scale.data = TRUE) {
   pathway.on <- as.numeric(c(pathwaydata[[2]])) # coefficients
   names(pathway.on) <- names
   pathway.off <- -pathway.on # define off status
+  #pathway.off <- pathway.on
 
   # Use only genes present in Seurat object
   valid_names <- intersect(names, rownames(x))
@@ -66,24 +67,15 @@ PathwayMaxMin <- function(x, pathway, scale.data = TRUE) {
       warning(paste("Feature", feature_name, "not found in ranges!"))
       next  # Skip iteration if feature is missing
     }
-    if (pathway.on[i] < 0) {
-      pathway.on[i] <- ranges[feature_name, 1]  # min for ON
-    } else {
-      pathway.on[i] <- ranges[feature_name, 2]  # max for ON
-    }
-  }
-  for (i in seq_along(pathway.off)) {  # Safer indexing
-    feature_name <- names(pathway.off[i])  # Get feature name
-
-    if (!feature_name %in% rownames(ranges)) {  # Check if feature exists in ranges
-      warning(paste("Feature", feature_name, "not found in ranges! Skipping..."))
-      next  # Skip to the next iteration if missing
-    }
 
     # Assign min or max based on value
+    pathway.on[i] <- ifelse(pathway.on[i] < 0,
+                             ranges[feature_name, 1],  # Min for On
+                             ranges[feature_name, 2])  # Max for On
+    # Assign min or max based on value
     pathway.off[i] <- ifelse(pathway.off[i] < 0,
-                             ranges[feature_name, 2],  # Max for OFF
-                             ranges[feature_name, 1])  # Min for OFF
+                             ranges[feature_name, 1],  # Min for OFF since -pathway.on
+                             ranges[feature_name, 2])  # Max for OFF since -pathway.on
   }
 
   # Bind on and off states

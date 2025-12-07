@@ -38,10 +38,6 @@ ComputeCellData <- function(x, pathway, distance.method,
   # Pathway max and min
   pathway.stat <- PathwayMaxMin(x, pathway)
 
-  # # Extract expression matrix depending on input type
-  # if (Seurat.object) {
-  #   raw_expr <- GetAssayData(x, assay = "RNA", slot = "data")
-  # } else {
   raw_expr <- x
 
   # Filter to valid genes once
@@ -69,9 +65,6 @@ ComputeCellData <- function(x, pathway, distance.method,
     message("Parameter 'batch.size' is missing or NULL. Setting default batch size to 1000.")
     batch.size <- 1000
   }
-
-  # Define batch size
-  batch_size <- batch.size
 
   batches <- split(shuffled_cell_id, ceiling(seq_along(shuffled_cell_id) / batch.size))
 
@@ -120,23 +113,31 @@ ComputeCellData <- function(x, pathway, distance.method,
     fit <- cmdscale(d, eig = TRUE, k = 1)
     message("MDS finished")
 
-    # Normalize the MDS values
+    # Organize the results
     temp.data.mds <- as.data.frame(fit$points)
     colnames(temp.data.mds) <- "V1"
-    V1_min <- min(temp.data.mds$V1, na.rm = TRUE) # should end up with identified pathway.on or off but perhaps in some order, sometimes reversed, but cells should be between this two.Lines 126 and 127 Should end up identifying your pathway ON and pathway OFF points (but perhaps in some order!) It should not be posibleto embed cells outside of the range between ON and OFF
-    V1_max <- max(temp.data.mds$V1, na.rm = TRUE)
-
-    if (V1_max == V1_min) {
-      temp.data.mds$normalized <- 0
-    } else {
-      temp.data.mds$normalized <- (temp.data.mds$V1 - V1_min) / (V1_max - V1_min) #I think there is something wrong with how you are defining ON and OFF
-    }
 
     # Store result
     batch_results[[i]] <- temp.data.mds
 
     # Report
     cat("Batch", i, "processed with", ncol(expr_data), "cells\n")
+  }
+
+  for(k in 1:length(batch_results)){
+    # Check that all test values fall between pathway.on and pathway.off
+    pathway.off.embed.coord <- batch_results[[k]]["pathway.off","V1"]
+    pathway.on.embed.coord <- batch_results[[k]]["pathway.on","V1"]
+    range(pathway.off.embed.coord, pathway.on.embed.coord) == range(batch_results[[k]]$V1)
+
+    # Initialize normalized value
+    batch_results[[k]]$normalized <- NA
+
+    if (pathway.on.embed.coord  == pathway.off.embed.coord) {
+      batch_results[[k]]$normalized <- NA
+    } else {
+      batch_results[[k]]$normalized <- (batch_results[[k]]$V1 - pathway.off.embed.coord) / (pathway.on.embed.coord  - pathway.off.embed.coord)
+    }
   }
 
   final_mds <- do.call(rbind, batch_results)  # Merge all batch MDS results
