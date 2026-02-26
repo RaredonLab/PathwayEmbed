@@ -2,25 +2,37 @@
 % Please edit documentation in R/PreparePlotData.R
 \name{PreparePlotData}
 \alias{PreparePlotData}
-\title{A function to prepare the signal transduction dataframe for plotting}
+\title{PreparePlotData}
 \usage{
-PreparePlotData(x, final_mds, group)
+PreparePlotData(x, final_mds, group, Seurat.object = FALSE)
 }
 \arguments{
-\item{x}{A\code{matrix} framework containing cell ID x metadata.}
+\item{x}{Either a metadata dataframe (rows = cells) or a Seurat object.}
 
-\item{final_mds}{A 'dataframe' output from ComputeCellData.}
+\item{final_mds}{A named numeric vector or single-column dataframe from ComputeCellData.}
 
-\item{group}{group for the comparision}
+\item{group}{Column name in metadata for grouping (e.g., "genotype").}
+
+\item{Seurat.object}{Logical, TRUE if \code{x} is a Seurat object. Default is FALSE.}
 }
 \value{
-data for plotting
+A dataframe with columns:
+\describe{
+\item{normalized}{Normalized pathway activity (0-1).}
+\item{scale}{Z-scored pathway activity.}
+\item{group}{Grouping variable for plotting.}
+}
 }
 \description{
-A function to prepare the signal transduction dataframe for plotting
+Prepare a tidy dataframe of pathway activity per cell for plotting.
+Can handle either a plain metadata dataframe or a Seurat object.
 }
 \examples{
-data(fake_test_metadata)
-data(fake_final_mds)
-PreparePlotData(fake_test_metadata, fake_final_mds, "genotype")
+\dontrun{
+# Using metadata dataframe
+plotdata <- PreparePlotData(fake_metadata, fake_final_mds, "genotype")
+
+# Using Seurat object
+plotdata <- PreparePlotData(seurat_obj, fake_final_mds, "orig.ident", Seurat.object = TRUE)
+}
 }

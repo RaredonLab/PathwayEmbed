@@ -4,17 +4,25 @@
 \alias{LoadPathway}
 \title{LoadPathway}
 \usage{
-LoadPathway(pathway)
+LoadPathway(Sheet.name, species)
 }
 \arguments{
-\item{pathway}{A \code{character} string specifying the pathway name.}
+\item{Sheet.name}{A character string specifying the sheet name
+(e.g. "Hypoxia_6hr", "HIPPO_heat").}
+
+\item{species}{A character string specifying the species: either \code{"human"}
+or \code{"mouse"}. Determines which gene symbol column is returned as the
+primary \code{Gene_Symbol} column. Defaults to \code{"human"}.}
 }
 \value{
-A data frame with pathway data.
+A pathwaydata frame containing the pathway gene list and coefficients,
+with \code{Gene_Symbol} set to the requested species' symbols.
 }
 \description{
 This function reads pathway data from the package's built-in Excel file.
 }
 \examples{
-LoadPathway("Wnt")
+LoadPathway("Hypoxia_6hr", "human")
+LoadPathway("HIPPO_heat", "mouse")
+
 }

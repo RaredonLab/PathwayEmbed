@@ -4,37 +4,19 @@
 \alias{ComputeCellData}
 \title{ComputeCellData}
 \usage{
-ComputeCellData(
-  x,
-  pathway,
-  distance.method,
-  batch.size = batch.size,
-  scale.data = TRUE
-)
+ComputeCellData(expr_data, pathway.stat, distance.method = "manhattan")
 }
 \arguments{
-\item{x}{A \code{matrix} of genes x cells.}
+\item{expr_data}{Pre-processed gene-by-cell matrix (z-scored)}
 
-\item{pathway}{A \code{character} string specifying the pathway name. This should match a pathway used by \code{LoadPathway()}.}
+\item{pathway.stat}{Data.frame from PathwayMaxMin}
 
-\item{distance.method}{A \code{character} string specifying the distance metric to use.Default is "manhattan".
-Options include: \code{"manhattan"}, \code{"euclidean"}, \code{"canberra"}, \code{"binary"}}
-
-\item{batch.size}{An \code{integer} specifying the number of cells to process per batch. Default is 1000.}
-
-\item{scale.data}{A \code{logical} indicating whether to use scaled data (\code{scale.data = TRUE}) or normalized data. Default is \code{TRUE}.}
+\item{distance.method}{Distance metric (default = "manhattan")}
 }
 \value{
-A data frame of MDS results with normalized values per cell, suitable for thresholding or visualization.
+A named numeric vector of cell scores between 0 (OFF) and 1 (ON)
 }
 \description{
-A function computes cell status for a given pathway in single-cell RNA-seq data,
-based on the distance between genes in a specified pathway. The distance is computed
-for each batch of cells, and classical multidimensional scaling (MDS) is used to
-visualize the pathway expression across cells.
-}
-\examples{
-data(fake_test_matrix)
-ComputeCellData(fake_test_matrix, pathway = "Wnt", distance.method = "manhattan", batch.size = 2000)
-
+Compute cell status for a given pathway by measuring distances
+between cells and pathway ON/OFF reference states.
 }

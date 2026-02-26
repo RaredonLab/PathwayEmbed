@@ -15,42 +15,109 @@ knitr::opts_chunk$set(
 ```
 
 ## Overview
-This vignette demonstrates how to use the PathwayEmbed package to compute and visualize pathway activation using single-cell transcriptomic data. We use the example dataset fake_test_object included with the package.
+This vignette demonstrates how to use the PathwayEmbed package to compute and visualize pathway activation using single-cell transcriptomic data. We use the example dataset synthetic_test_object included with the package.
 
 ## Load Package and Example Data
 ```{r setup}
 library(PathwayEmbed)
+library(dplyr)
+library(tidyr)
+library(ggridges)
 # Load the example gene expression matrix included in the package
-data(fake_test_matrix)
+data(synthetic_test_matrix)
 ```
 
-## Compute Pathway Activation
+## Check Pathway Data
 ```{r}
-# Calculate pathway activation using MDS
-# Default batch.size is set to 1000
-mds_results <- ComputeCellData(
-  fake_test_matrix,
-  pathway = "Wnt",
-  distance.method = "manhattan",
-  scale.data = TRUE
-)
+# List all information in the Pathway database
+ListPathway()
+# List all available pathways
+ListPathway("Pathway")
+# List all options related to "WNT" pathway
+ListPathway("WNT")
+# Load Pathway database (can select one or use all)
+Wnt_12h <- LoadPathway("WNT3A_12H_ACTIVATION")
+Wnt_24h <- LoadPathway("WNT3A_24H_ACTIVATION")
+Wnt_48h <- LoadPathway("WNT3A_48H_ACTIVATION")
+Wnt_slope <- LoadPathway("WNT3A_SLOPE_ACTIVATION")
+```
+
+## Check Pathway Data
+```{r}
+# List all information in the Pathway database
+ListPathway()
+# List all available pathways
+ListPathway("Pathway")
+# List all options related to "WNT" pathway
+ListPathway("WNT")
+# Load Pathway database (can select one or use all)
+Wnt_12h <- LoadPathway("WNT3A_12H_ACTIVATION", "mouse")
+Wnt_24h <- LoadPathway("WNT3A_24H_ACTIVATION", "mouse")
+Wnt_48h <- LoadPathway("WNT3A_48H_ACTIVATION", "mouse")
+Wnt_slope <- LoadPathway("WNT3A_SLOPE_ACTIVATION","mouse")
+```
+
+## Data Preprocess and Evaluation (pathway max and min)
+```{r}
+
+# Data Preprocess to get a standardized matrix (z-scored matrix for pathway genes x cells)
+matrix_12h <- DataPreProcess(synthetic_test_matrix, Wnt_12h, Seurat.object = FALSE)
+matrix_24h<-DataPreProcess(synthetic_test_matrix, Wnt_24h, Seurat.object = FALSE)
+matrix_48h<-DataPreProcess(synthetic_test_matrix, Wnt_48h, Seurat.object = FALSE)
+matrix_slope<-DataPreProcess(synthetic_test_matrix, Wnt_slope, Seurat.object = FALSE)
+
+# Pathway Max and Min for this dataset
+pathwaystat_12h <- PathwayMaxMin(matrix_12h, Wnt_12h)
+pathwaystat_24h <- PathwayMaxMin(matrix_24h, Wnt_24h)
+pathwaystat_48h <- PathwayMaxMin(matrix_12h, Wnt_48h)
+pathwaystat_slope <- PathwayMaxMin(matrix_12h, Wnt_slope)
+
+```
+
+## Calculate Pathway Score for each cell
+```{r}
+# Calculate the score for each cell
+score_12h <- ComputeCellData(matrix_12h, pathwaystat_12h)
+score_24h <- ComputeCellData(matrix_24h, pathwaystat_24h)
+score_48h <- ComputeCellData(matrix_48h, pathwaystat_48h)
+score_slope <- ComputeCellData(matrix_slope, pathwaystat_slope)
 ```
 
 ## Prepare Data for Plotting
 ```{r}
-# Format MDS results and metadata for plotting
-plot_data <- PreparePlotData(
-  fake_test_metadata,
-  mds_results,
-  group = "genotype"
-)
+# Get metadata
+data("synthetic_test_metadata")
+# Format score results and metadata for plotting
+plot_data_12h <- PreparePlotData(synthetic_test_metadata,score_12h,group = "genotype")
+plot_data_24h <- PreparePlotData(synthetic_test_metadata,score_24h,group = "genotype")
+plot_data_48h <- PreparePlotData(synthetic_test_metadata,score_48h,group = "genotype")
+plot_data_slope <- PreparePlotData(synthetic_test_metadata,score_slope,group = "genotype")
 ```
 
-## Visualize Pathway Activation
+## Visualize Pathway Activation Using the Function Included
+The classic pathway output from `PlotPathway()`. Each curve represents the distribution of z-scored WNT activation across all cells in a group. The dotted vertical line at 0 divides ON (right) from OFF (left) cells.
 ```{r}
-# Visualize 2D MDS embedding colored by genotype
+# Visualize pathway activation colored by genotype
 PlotPathway(
-  to.plot = plot_data,
+  to.plot = plot_data_12h,
+  pathway = "12hr Wnt",
+  group = "genotype",
+  color = c("#ae282c", "#2066a8")
+)
+PlotPathway(
+  to.plot = plot_data_24h,
+  pathway = "24hr Wnt",
+  group = "genotype",
+  color = c("#ae282c", "#2066a8")
+)
+PlotPathway(
+  to.plot = plot_data_48h,
+  pathway = "48hr Wnt",
+  group = "genotype",
+  color = c("#ae282c", "#2066a8")
+)
+PlotPathway(
+  to.plot = plot_data_slope,
   pathway = "Wnt",
   group = "genotype",
   color = c("#ae282c", "#2066a8")
@@ -60,11 +127,198 @@ PlotPathway(
 ## Calculate Group-wise Activation Percentage (Optional)
 ```{r}
 # Calculate % of cells per group with high pathway activation
-CalculatePercentage(
-  to.plot = plot_data,
-  group_var = "genotype"
-)
+CalculatePercentage(to.plot = plot_data_12h,group_var = "genotype")
+CalculatePercentage(to.plot = plot_data_24h,group_var = "genotype")
+CalculatePercentage(to.plot = plot_data_48h,group_var = "genotype")
+CalculatePercentage(to.plot = plot_data_slope,group_var = "genotype")
+```
+## Add Cohen's d As a Text Annotation on the Density Plot
+```{r}
+# Extract Cohen's d from one of the timepoints
+pct_12h <- CalculatePercentage(to.plot = plot_data_12h, group_var = "genotype")
+cohens_d_12h <- round(pct_12h$cohens_d[1], 3)
+
+# Add it as a label on the plot
+PlotPathway(
+  to.plot = plot_data_12h,
+  pathway = "12hr Wnt",
+  group = "genotype",
+  color = c("#ae282c", "#2066a8")
+)+
+  annotate(
+    "text",
+    x     = Inf, y = Inf,
+    label = paste0("Cohen's d = ", cohens_d_12h),
+    hjust = 1.1, vjust = 1.5,
+    size  = 3.5,
+    color = "black"
+  )
 ```
 
+## Other Visualization 2 — Violin + Jitter Plot
+
+Violins convey the full distribution shape while also reflecting relative cell abundance through width. Overlaid jittered points expose individual cell-level heterogeneity — particularly useful when group sizes differ substantially.
+
+```{r }
+ggplot(plot_data_12h, aes(x = genotype, y = scale, fill = genotype, color = genotype)) +
+  geom_violin(alpha = 0.5, trim = FALSE) +
+  geom_jitter(width = 0.15, size = 0.6, alpha = 0.3) +
+  geom_hline(yintercept = 0, linetype = "dotted", color = "black", linewidth = 0.5) +
+  scale_fill_manual(values  =  c("#ae282c", "#2066a8")) +
+  scale_color_manual(values =  c("#ae282c", "#2066a8")) +
+  labs(
+    title = "WNT Pathway Transduction",
+    x     = NULL,
+    y     = "Relative Transduction State (z-score)"
+  ) +
+  theme_classic() +
+  theme(legend.position = "none")
+```
+
+---
+
+## Other Visualization 3 — Ridgeline Plot Across Timepoints
+
+Stacked ridgeline plots (`ggridges`) reveal how the activation distribution evolves across the four WNT time points. Each ridge is a separate density; rows are ordered chronologically so temporal trends read top-to-bottom.
+
+```{r}
+# Combine all time points into one data frame
+ridge_data <- bind_rows(
+  mutate(plot_data_12h,   timepoint = "12h"),
+  mutate(plot_data_24h,   timepoint = "24h"),
+  mutate(plot_data_48h,   timepoint = "48h"),
+  mutate(plot_data_slope, timepoint = "Slope")
+) %>%
+  mutate(timepoint = factor(timepoint, levels = c("12h", "24h", "48h", "Slope")))
+group_colors <- c("WT" = "#ae282c", "KO" = "#2066a8")
+ggplot(ridge_data, aes(x = scale, y = timepoint, fill = genotype)) +
+  geom_density_ridges(alpha = 0.55, scale = 1.2, rel_min_height = 0.01) +
+  geom_vline(xintercept = 0, linetype = "dotted", color = "black", linewidth = 0.5) +
+  scale_fill_manual(values = group_colors) +
+  labs(
+    title = "WNT3A Activation Across Timepoints",
+    x     = "Relative Transduction State (z-score)",
+    y     = "Timepoint"
+  ) +
+  theme_classic()
+```
+
+---
+
+## Visualization 4 — ON/OFF Stacked Bar Chart
+
+`CalculatePercentage()` quantifies how many cells cross the z = 0 threshold. A stacked bar chart makes the ON/OFF balance immediately legible — especially useful for comparing multiple groups or timepoints at a glance.
+
+```{r viz4-bar, fig.cap = "Percentage of ON vs OFF cells per group at each WNT timepoint."}
+# Calculate ON/OFF percentages for each time point
+pct_list <- list(
+  "12h"   = CalculatePercentage(plot_data_12h,   "genotype"),
+  "24h"   = CalculatePercentage(plot_data_24h,   "genotype"),
+  "48h"   = CalculatePercentage(plot_data_48h,   "genotype"),
+  "Slope" = CalculatePercentage(plot_data_slope, "genotype")
+)
+
+pct_df <- bind_rows(pct_list, .id = "timepoint") %>%
+  pivot_longer(cols = c(percentage_on, percentage_off),
+               names_to  = "state",
+               values_to = "percentage") %>%
+  mutate(
+    timepoint = factor(timepoint, levels = c("12h", "24h", "48h", "Slope")),
+    state     = recode(state, percentage_on = "ON", percentage_off = "OFF"),
+    state     = factor(state, levels = c("ON", "OFF"))
+  )
+
+ggplot(pct_df, aes(x = timepoint, y = percentage, fill = state)) +
+  geom_bar(stat = "identity", position = "stack", color = "white", linewidth = 0.3) +
+  facet_wrap(~ group) +
+  scale_fill_manual(values = c("ON" = "#ae282c", "OFF" = "#2066a8")) +
+  labs(
+    title = "WNT Pathway ON/OFF State Compared to WNT3A Activation",
+    x     = "Different activation timepoints",
+    y     = "Percentage of Cells (%)",
+    fill  = "State"
+  ) +
+  theme_classic() +
+  theme(strip.background = element_rect(fill = "grey90", color = NA))
+```
+
+---
+
+## Visualization 5 — Dot Plot: Effect Size vs. Mean Activation Shift
+
+When comparing two groups, Cohen's d from `CalculatePercentage()` quantifies the effect size. Plotting Cohen's d (x-axis) against the mean z-score difference (y-axis) across timepoints lets you distinguish large-effect timepoints from subtle ones, with dot size encoding total cell count.
+
+```{r viz5-dotplot, fig.cap = "Effect size (Cohen's d) vs. mean activation difference across WNT timepoints."}
+# Collect Cohen's d and mean z-score difference per timepoint
+effect_df <- bind_rows(
+  lapply(list("12h" = plot_data_12h, "24h" = plot_data_24h,
+              "48h" = plot_data_48h, "Slope" = plot_data_slope),
+    function(df) {
+      groups  <- unique(df$genotype)
+      g1_vals <- df$scale[df$genotype == groups[1]]
+      g2_vals <- df$scale[df$genotype == groups[2]]
+      data.frame(
+        cohens_d   = CalculatePercentage(df, "genotype")$cohens_d[1],
+        mean_diff  = mean(g1_vals, na.rm = TRUE) - mean(g2_vals, na.rm = TRUE),
+        total_cells = nrow(df)
+      )
+    }),
+  .id = "timepoint"
+) %>%
+  mutate(timepoint = factor(timepoint, levels = c("12h", "24h", "48h", "Slope")))
+
+ggplot(effect_df, aes(x = cohens_d, y = mean_diff,
+                       size = total_cells, color = timepoint, label = timepoint)) +
+  geom_point(alpha = 0.8) +
+  geom_text(vjust = -1.2, size = 3.5, show.legend = FALSE) +
+  geom_hline(yintercept = 0, linetype = "dashed", color = "grey60") +
+  geom_vline(xintercept = 0, linetype = "dashed", color = "grey60") +
+  scale_size_continuous(range = c(4, 10), name = "Total Cells") +
+  labs(
+    title  = "Effect Size vs. Mean Activation Shift — WNT Timepoints",
+    x      = "Cohen's d",
+    y      = "Mean z-score Difference (Group 1 − Group 2)",
+    color  = "Timepoint"
+  ) +
+  theme_classic()
+```
+
+---
+
+## Visualization 6 — Waterfall Plot (Ranked Cell Activation)
+
+For a single group, cells are ranked by their z-score and plotted as a bar chart. Bars above zero are colored red (ON), bars below are blue (OFF). This reveals inter-cell heterogeneity within a condition and is especially effective for highlighting bimodal populations.
+
+```{r}
+# Use the 48h timepoint; rank cells within each group
+waterfall_data <- plot_data_48h %>%
+  group_by(genotype) %>%
+  arrange(scale, .by_group = TRUE) %>%
+  mutate(
+    rank  = row_number(),
+    state = ifelse(scale >= 0, "ON", "OFF")
+  ) %>%
+  ungroup()
+
+ggplot(waterfall_data, aes(x = rank, y = scale, fill = state)) +
+  geom_bar(stat = "identity", width = 1) +
+  facet_wrap(~ genotype, scales = "free_x") +
+  scale_fill_manual(values = c("ON" = "#ae282c", "OFF" = "#2066a8")) +
+  geom_hline(yintercept = 0, color = "black", linewidth = 0.4) +
+  labs(
+    title = "Waterfall Plot of Cell Activation",
+    x     = "Cells (ranked by activation)",
+    y     = "Relative Transduction State (z-score)",
+    fill  = "State"
+  ) +
+  theme_classic() +
+  theme(
+    axis.text.x  = element_blank(),
+    axis.ticks.x = element_blank(),
+    strip.background = element_rect(fill = "grey90", color = NA)
+  )
+```
+
+---
 ---
 
