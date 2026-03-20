@@ -13,7 +13,8 @@
 #' @export
 ComputeCellData <- function(expr_data,
                             pathway.stat,
-                            distance.method = "manhattan") {
+                            distance.method = "manhattan",
+                            percentile = percentile ) {
 
   ## Ensure gene alignment
   common_genes <- intersect(rownames(expr_data), rownames(pathway.stat))
@@ -28,9 +29,13 @@ ComputeCellData <- function(expr_data,
   pathway_on  <- pathway.stat$pathway.on
   pathway_off <- pathway.stat$pathway.off
 
+  if (percentile == 0) {
+    stop("Not valid percentile")
+  }
+
   reference_mat <- rbind(
-    pathway.on  = pathway_on,
-    pathway.off = pathway_off
+    pathway.on  = pathway_on*percentile,
+    pathway.off = pathway_off*percentile
   )
 
   cell_mat <- t(expr_data)

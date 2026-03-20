@@ -224,15 +224,51 @@ cluster_of_interest <- readRDS(system.file("extdata", "cluster_of_interest.rds",
 
 
 ```{r}
-# Extract Matrix data
-COI_matrix <- as.matrix(GetAssayData(cluster_of_interest, assay = "RNA", slot = "data"))
-COI_metadata <- cluster_of_interest@meta.data
+# For pathway data, we called the pathwaydata_24hr that loaded in preivous example
+# pathwaydata_24hr <- LoadPathway("NOTCH_JAG1_24H", "mouse")
 
-# Compute using PathwayEmbed 
-COI_notch <- ComputeCellData(COI_matrix, "Notch", "manhattan", batch.size = 1000, scale.data = TRUE)
-To_plot <- PreparePlotData(COI_metadata, COI_notch, "Age")
-plot_1 <- PlotPathway(To_plot, "Notch", "Age", c("orange", "#6baed6"))
-CalculatePercentage(To_plot, "Age")
-print(plot_1)
+# Datapreprocess -using Seurat Objct this time 
+matrix_notch <- DataPreProcess(cluster_of_interest, pathwaydata_24hr, Seurat.object = TRUE)
+
+# Pathway Max and Min 
+pathwaystat_notch <- PathwayMaxMin(matrix_notch, pathwaydata_24hr)
+
+# Calculate Score
+Notch_score <- ComputeCellData(matrix_notch, pathwaystat_notch)
+
+# Map metadata back so we can visualize downstream
+to_plot <- PreparePlotData(cluster_of_interest, Notch_score, "Age", Seurat.object = TRUE)
+
+# Check their comparisons
+age_stats <- CalculatePercentage(to_plot, "Age")
+# #   group     percentage_on percentage_off cohens_d
+#   <chr>             <dbl>          <dbl>    <dbl>
+# 1 MiddleAge          55.8           44.2    0.605
+# 2 Young              26.1           73.9    0.605
+
+# Extract stats
+cohens_d <- round(age_stats$cohens_d[1], 3)
+middleage_on <- age_stats$percentage_on[age_stats$group == "MiddleAge"]
+young_on     <- age_stats$percentage_on[age_stats$group == "Young"]
+
+# Build annotation label
+annotation_label <- paste0(
+  "MiddleAge: ", middleage_on, "% on | ", round(100 - middleage_on, 1), "% off\n",
+  "Young: ",     young_on,     "% on | ", round(100 - young_on, 1),     "% off\n",
+  "Cohen's d = ", cohens_d
+)
+
+# Visualization
+PlotPathway(to_plot, "Notch", "Age", c("orange", "#6baed6")) + annotate(
+  "text",
+  x     = Inf, y = Inf,
+  label = annotation_label,
+  hjust = 1.1, vjust = 1.5,
+  size  = 3.5,
+  color = "black"
+)
+```
+
+
 
 ```

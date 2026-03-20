@@ -51,31 +51,79 @@ merged_spatial <- merge(
 DefaultAssay(merged_spatial) <- "RNA"
 
 # Get genes x cell matrix
-merged_spatial_matrix <- as.matrix(GetAssayData(merged_spatial, assay = "RNA", slot = "data"))
+merged_spatial_matrix <- as.matrix(GetAssayData(merged_spatial, assay = "RNA", layer = "data"))
 
 # Get metadata matrix
 merged_spatial_metadata <- merged_spatial@meta.data
 ```
 
-## Compute pathway score
+## Get Pathway Data for Each Pathway first
 
-Compute score for Wnt, Notch, Hippo, Tgfb, and HIF-1a pathways for the merged subject using 'ComputeCellData' in PathwayEmbed
+```{r}
+
+# All Pathways
+ListPathway("Pathway")
+ListPathway("HIF1A") # Pick Hypoxia_24hr
+ListPathway("HIPPO") # Only one: HIPPO_heat
+ListPathway("NOTCH") # Use NOTCH_JAG1_24H -> validated in another datasets
+ListPathway("TGFB") # Use TGFB_Mouse since this is the only Ms dataset 
+ListPathway("WNT") # Use WNT3A_SLOPE_ACTIVATION
+
+# Load Each Pathwaydatabase
+HIf1a_pathwaydata <- LoadPathway("Hypoxia_24hr", "mouse")
+Hippo_pathwaydata <- LoadPathway("HIPPO_heat", "mouse")
+Notch_pathwaydata <- LoadPathway("NOTCH_JAG1_24H", "mouse")
+TGFb_pathwaydata <- LoadPathway("TGFB_Mouse", "mouse")
+Wnt_pathwaydata <- LoadPathway("WNT3A_SLOPE_ACTIVATION", "mouse")
+
+
+```
+
+## Calculation
+
+Using Matrix extracted to avoid large size data object, compute score for Wnt, Notch, Hippo, Tgfb, and HIF-1a pathways for the merged subject using 'ComputeCellData' in PathwayEmbed
+
+```{r score compute, eval=FALSE}
+
+
+# DataPreProcess
+matrix_HIf1a <- DataPreProcess(merged_spatial_matrix, HIf1a_pathwaydata, Seurat.object = FALSE)
+matrix_Hippo <- DataPreProcess(merged_spatial_matrix, Hippo_pathwaydata, Seurat.object = FALSE)
+matrix_Notch <- DataPreProcess(merged_spatial_matrix, Notch_pathwaydata, Seurat.object = FALSE)
+matrix_TGFb <- DataPreProcess(merged_spatial_matrix, TGFb_pathwaydata, Seurat.object = FALSE)
+matrix_Wnt <- DataPreProcess(merged_spatial_matrix, Wnt_pathwaydata, Seurat.object = FALSE)
+
+# PathwayMaxMin
+pathwaystat_HIf1a <- PathwayMaxMin(matrix_HIf1a, HIf1a_pathwaydata)
+pathwaystat_Hippo <- PathwayMaxMin(matrix_Hippo, Hippo_pathwaydata)
+pathwaystat_Notch <- PathwayMaxMin(matrix_Notch, Notch_pathwaydata)
+pathwaystat_TGFb <- PathwayMaxMin(matrix_TGFb, TGFb_pathwaydata)
+pathwaystat_Wnt <- PathwayMaxMin(matrix_Wnt, Wnt_pathwaydata)
+
+# Computing Score
+HIf1a_score <- ComputeCellData(matrix_HIf1a, pathwaystat_HIf1a, percentile = 0.5)
+Hippo_score <- ComputeCellData(matrix_Hippo, pathwaystat_Hippo, percentile = 0.5)
+Notch_score <- ComputeCellData(matrix_Notch, pathwaystat_Notch, percentile = 0.5)
+TGFb_score <- ComputeCellData(matrix_TGFb, pathwaystat_TGFb, percentile = 0.5)
+Wnt_score <- ComputeCellData(matrix_Wnt, pathwaystat_Wnt, percentile = 0.5)
+
+
+```
+
+
+## Prepare plot data
+
+Map Timepoints back to the data
 
 ```{r score compute, eval=FALSE}
 
 # Compute the score for each pathway
-Wnt_mds <- ComputeCellData(merged_spatial_matrix, "Wnt", "manhattan", batch.size = 1000)
-Notch_mds <- ComputeCellData(merged_spatial_matrix, "Notch", "manhattan", batch.size = 1000)
-Hippo_mds <- ComputeCellData(merged_spatial_matrix, "Hippo", "manhattan", batch.size = 1000)
-Tgfb_mds <- ComputeCellData(merged_spatial_matrix, "Tgfb", "manhattan", batch.size = 1000)
-HIF1a_mds <- ComputeCellData(merged_spatial_matrix, "HIF-1a", "manhattan", batch.size = 1000)
+Wnt_to.plot <- PreparePlotData(merged_spatial_metadata, Wnt_score, "timepoint", Seurat.object = FALSE)
+Notch_to.plot <- PreparePlotData(merged_spatial_metadata, Notch_score, "timepoint", Seurat.object = FALSE)
+Hippo_to.plot <- PreparePlotData(merged_spatial_metadata, Hippo_score, "timepoint", Seurat.object = FALSE)
+Tgfb_to.plot <- PreparePlotData(merged_spatial_metadata, TGFb_score, "timepoint", Seurat.object = FALSE)
+HIF1a_to.plot <- PreparePlotData(merged_spatial_metadata, HIf1a_score,"timepoint", Seurat.object = FALSE)
 
-# Process the mds
-Wnt_to.plot <- PreparePlotData(merged_spatial_metadata, Wnt_mds, "timepoint")
-Notch_to.plot <- PreparePlotData(merged_spatial_metadata, Notch_mds, "timepoint")
-Hippo_to.plot <- PreparePlotData(merged_spatial_metadata, Hippo_mds, "timepoint")
-Tgfb_to.plot <- PreparePlotData(merged_spatial_metadata, Tgfb_mds, "timepoint")
-HIF1a_to.plot <- PreparePlotData(merged_spatial_metadata, HIF1a_mds, "timepoint")
 
 # Combine to list
 pathway_list <- list(
@@ -191,37 +239,41 @@ for (pathway in pathways) {
 ## Plot the spatial data
 
 ```{r, echo=FALSE}
-combined_df_lists <- readRDS(system.file("extdata", "combined_df_lists.rds", package = "PathwayEmbed"))
+combined_df_lists_updated <- readRDS(system.file("extdata", "combined_df_lists.rds", package = "PathwayEmbed"))
 
 ```
 
 ```{r}
-limits_list <- list(
-  Wnt = c(-3, 4),
-  Notch = c(-3, 4),
-  Hippo = c(-2, 3),
-  Tgfb = c(-2, 3),
-  HIF1a = c(-3, 5)
-)
+# Compute global symmetric limits (recommended)
+all_values <- unlist(lapply(combined_df_lists_updated, function(df) df$scale))
+q <- quantile(all_values, c(0.02, 0.98), na.rm = TRUE)
+max_abs <- max(abs(q))
+global_limits <- c(-max_abs, max_abs)
 
-for (pathway in names(combined_df_lists)) {
-  combined_df <- combined_df_lists[[pathway]]
-  selected_limits <- limits_list[[pathway]]
+for (pathway in names(combined_df_lists_updated)) {
   
-  p <- ggplot(combined_df, aes(x = x, y = y, color = score)) +
+  combined_df <- combined_df_lists_updated[[pathway]]
+  
+  p <- ggplot(combined_df, aes(x = x, y = y, color = scale)) +
     geom_point(size = 0.3) +
     scale_color_viridis_c(
-      option = "magma",
-      name = paste0(pathway, "_score"),
-      limits = selected_limits,
-      oob = scales::squish
+      option = "magma",      
+      limits = global_limits,  # symmetric across all pathways
+      oob = scales::squish,
+      name = paste0(pathway, "_score")
     ) +
     scale_y_reverse() +
     coord_fixed() +
     theme_void() +
-    theme(legend.position = "right")
+    theme(
+      legend.position = "right",
+      plot.title = element_text(hjust = 0.5, face = "bold")
+    ) +
+    ggtitle(pathway)
   
   print(p)
 }
 
 ```
+
+
