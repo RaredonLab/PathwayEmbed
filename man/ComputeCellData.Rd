@@ -7,16 +7,33 @@
 ComputeCellData(expr_data, pathway.stat, distance.method = "manhattan")
 }
 \arguments{
-\item{expr_data}{Pre-processed gene-by-cell matrix (z-scored)}
+\item{expr_data}{A z-scored gene-by-cell numeric matrix, e.g. from
+\code{DataPreProcess()}.}
 
-\item{pathway.stat}{Data.frame from PathwayMaxMin}
+\item{pathway.stat}{A data frame from \code{PathwayMaxMin()} with columns
+\code{pathway.on} and \code{pathway.off}. Rownames must be gene symbols.}
 
-\item{distance.method}{Distance metric (default = "manhattan")}
+\item{distance.method}{Character string specifying the distance metric.
+One of \code{"manhattan"} (default) or \code{"euclidean"}.}
 }
 \value{
-A named numeric vector of cell scores between 0 (OFF) and 1 (ON)
+A named numeric vector of length equal to the number of cells,
+with scores in [0, 1]. A score near 1 indicates the cell is close to
+the ON state; a score near 0 indicates proximity to the OFF state.
+Cells where both distances are 0 return \code{NaN} with a warning.
 }
 \description{
-Compute cell status for a given pathway by measuring distances
-between cells and pathway ON/OFF reference states.
+Computes a per-cell pathway activation score by measuring each cell's
+distance to the pathway ON and OFF reference states from
+\code{PathwayMaxMin()}. Scores are normalized to [0, 1]\, where 1 indicates
+proximity to the ON state and 0 indicates proximity to the OFF state.
+}
+\examples{
+\dontrun{
+pathwaydata   <- LoadPathway("Hypoxia_6hr", "human")
+expr_filtered <- DataPreProcess(norm_matrix, pathwaydata)
+pathway_stat  <- PathwayMaxMin(expr_filtered, pathwaydata)
+scores        <- ComputeCellData(expr_filtered, pathway_stat)
+}
+
 }

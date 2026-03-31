@@ -18,10 +18,11 @@
       <ul class="navbar-nav me-auto"><li class="active nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
 <li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
-  <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/beta_catenin_ko.html">Beta-Catenin Knockout Analysis with PathwayEmbed</a></li>
-    <li><a class="dropdown-item" href="../articles/examples.html">Toy Set</a></li>
-    <li><a class="dropdown-item" href="../articles/Notch_Analysis.html">Notch_Analysis</a></li>
-    <li><a class="dropdown-item" href="../articles/spatial_pathway.html">Spatial Pathway Visualization</a></li>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/beta_catenin_ko_updated.html">Beta-Catenin Knockout Analysis with PathwayEmbed</a></li>
+    <li><a class="dropdown-item" href="../articles/examples_updated.html">Toy Set</a></li>
+    <li><a class="dropdown-item" href="../articles/Notch_Analysis_updated.html">Notch_Analysis</a></li>
+    <li><a class="dropdown-item" href="../articles/spatial_pathway_updated.html">Spatial Pathway Visualization</a></li>
+    <li><a class="dropdown-item" href="../articles/TGFB_database_construction.html">TGF-β Pathway Database Construction</a></li>
   </ul></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json"></form></li>
@@ -44,53 +45,33 @@
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">PathwayMaxMin</span><span class="op">(</span><span class="va">x</span>, <span class="va">pathway</span>, scale.data <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">PathwayMaxMin</span><span class="op">(</span><span class="va">expr_data</span>, <span class="va">pathwaydata</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
 
 
-<dl><dt id="arg-x">x<a class="anchor" aria-label="anchor" href="#arg-x"></a></dt>
-<dd><p>A <code>matrix</code> of genes x cells</p></dd>
+<dl><dt id="arg-expr-data">expr_data<a class="anchor" aria-label="anchor" href="#arg-expr-data"></a></dt>
+<dd><p>Pre-processed gene-by-cell matrix (z-scored, pathway-filtered)</p></dd>
 
 
-<dt id="arg-pathway">pathway<a class="anchor" aria-label="anchor" href="#arg-pathway"></a></dt>
-<dd><p>A <code>character</code> string specifying the pathway name.</p></dd>
-
-
-<dt id="arg-scale-data">scale.data<a class="anchor" aria-label="anchor" href="#arg-scale-data"></a></dt>
-<dd><p>A <code>logical</code> indicating whether to use scaled data (<code>scale.data = TRUE</code>) or normalized data. Default is <code>TRUE</code>.</p></dd>
+<dt id="arg-pathwaydata">pathwaydata<a class="anchor" aria-label="anchor" href="#arg-pathwaydata"></a></dt>
+<dd><p>Pathway data outcome from LoadPathway()</p></dd>
 
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>The hypothetical value for Pathway on and off (max and min value for features)</p>
+    <p>A data.frame with pathway.on and pathway.off values per gene</p>
     </div>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">fake_test_matrix</span><span class="op">)</span> <span class="co"># load the fake test data</span></span></span>
-<span class="r-in"><span><span class="fu">PathwayMaxMin</span><span class="op">(</span><span class="va">fake_test_matrix</span>, <span class="st">"Wnt"</span>, scale.data <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>         pathway.on pathway.off</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Lgr5      1.851647  -11.600077</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Rnf43     1.479722   -9.998238</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Lrp5      1.880735   -7.935503</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Lrp6      1.635447   -7.746165</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Fzd6      1.873864   -8.215280</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Ctnnb1    1.896552   -8.294299</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Gsk3b     1.981532  -11.693745</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Ccnd1     1.975098  -13.129679</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Axin2     1.994353  -13.235483</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Myc       1.685388  -11.679067</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Lef1      1.596498  -10.771246</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Tcf7      1.595631  -10.436295</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Tcf7l1    1.497348   -9.843343</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Tcf7l2    1.716832  -11.026494</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Tle1      1.891611  -12.632374</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Apc       1.944771   -8.883710</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Csnk1a1   1.808021   -8.091854</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Dvl1     -8.132137    2.135900</span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># \dontrun{</span></span></span>
+<span class="r-in"><span><span class="va">pathwaydata</span> <span class="op">&lt;-</span> <span class="fu"><a href="LoadPathway.html">LoadPathway</a></span><span class="op">(</span><span class="st">"Hypoxia_6hr"</span>, <span class="st">"human"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">matrix_filtered</span> <span class="op">&lt;-</span> <span class="fu"><a href="DataPreProcess.html">DataPreProcess</a></span><span class="op">(</span><span class="va">expr_data</span>, <span class="va">pathwaydata</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">PathwayMaxMin</span><span class="op">(</span><span class="va">matrix_filtered</span>, <span class="va">pathwaydata</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
@@ -102,7 +83,7 @@
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
     </footer></div>

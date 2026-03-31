@@ -4,35 +4,42 @@
 \alias{PreparePlotData}
 \title{PreparePlotData}
 \usage{
-PreparePlotData(x, final_mds, group, Seurat.object = FALSE)
+PreparePlotData(x, score, group, Seurat.object = FALSE)
 }
 \arguments{
-\item{x}{Either a metadata dataframe (rows = cells) or a Seurat object.}
+\item{x}{A metadata data frame (rows = cells, columns = metadata fields)
+or a Seurat object. Must contain the column specified by \code{group}.}
 
-\item{final_mds}{A named numeric vector or single-column dataframe from ComputeCellData.}
+\item{score}{A named numeric vector of per-cell scores from
+\code{ComputeCellData()}. Names must be cell IDs matching rownames of \code{x}.}
 
-\item{group}{Column name in metadata for grouping (e.g., "genotype").}
+\item{group}{A character string giving the column name in \code{x} metadata
+to use for grouping (e.g. \code{"genotype"}, \code{"Age"}).}
 
-\item{Seurat.object}{Logical, TRUE if \code{x} is a Seurat object. Default is FALSE.}
+\item{Seurat.object}{Logical; set \code{TRUE} if \code{x} is a Seurat object.
+Default \code{FALSE}.}
 }
 \value{
-A dataframe with columns:
+A data frame with one row per cell and three columns:
 \describe{
-\item{normalized}{Normalized pathway activity (0-1).}
-\item{scale}{Z-scored pathway activity.}
-\item{group}{Grouping variable for plotting.}
+\item{normalized}{Normalized pathway activity score in [0, 1]\ from
+\code{ComputeCellData()}.}
+\item{scale}{Z-scored pathway activity across all cells.}
+\item{\if{html}{\out{<group>}}}{The grouping variable, named after the \code{group} argument.}
 }
 }
 \description{
-Prepare a tidy dataframe of pathway activity per cell for plotting.
-Can handle either a plain metadata dataframe or a Seurat object.
+Prepares a tidy data frame of pathway activity scores per cell for
+downstream plotting with \code{PlotPathway()} or \code{CalculatePercentage()}.
+Accepts either a plain metadata data frame or a Seurat object.
 }
 \examples{
 \dontrun{
-# Using metadata dataframe
-plotdata <- PreparePlotData(fake_metadata, fake_final_mds, "genotype")
+# Using a plain metadata data frame
+plotdata <- PreparePlotData(metadata_df, scores, "genotype")
 
-# Using Seurat object
-plotdata <- PreparePlotData(seurat_obj, fake_final_mds, "orig.ident", Seurat.object = TRUE)
+# Using a Seurat object
+plotdata <- PreparePlotData(seurat_obj, scores, "orig.ident", Seurat.object = TRUE)
 }
+
 }

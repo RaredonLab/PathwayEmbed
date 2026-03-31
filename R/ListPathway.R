@@ -1,31 +1,35 @@
+#' ListPathway
 #' List available pathways or pathway metadata
 #'
 #' @description
-#' Reads the "Summary" sheet from Pathway_Database_Combined.xlsx.
-#' Can return the full table, unique pathway names, or
-#' rows for a specific pathway.
+#' Reads the "SUMMARY" sheet from Pathway_Database_Combined.xlsx.
+#' Behaviour depends on the \code{query} argument:
+#' \itemize{
+#'   \item \code{NULL}: returns the full summary table as a tibble.
+#'   \item \code{"Pathway"}: returns a sorted character vector of unique pathway names.
+#'   \item A valid pathway name (e.g. \code{"WNT"}, \code{"NOTCH"}): returns the
+#'     subset of rows for that pathway as a tibble.
+#' }
 #'
-#' @param query Optional character.
-#'   - NULL: return full summary table
-#'   - "Pathway": return unique pathway names
-#'   - pathway name (e.g. "WNT", "NOTCH"): return rows for that pathway
+#' @param query Optional character string. One of \code{NULL}, \code{"Pathway"},
+#'   or a valid pathway name. Default \code{NULL}.
+#' @param drop_empty Logical; if \code{TRUE}, removes entries with 0 genes.
+#'   Default \code{TRUE}.
 #'
-#' @param drop_empty Logical; remove entries with 0 genes.
-#'   Default TRUE.
+#' @return A tibble (full table or pathway subset) or a character vector
+#'   (when \code{query = "Pathway"}).
 #'
-#' @return
-#' A tibble or a character vector depending on query.
+#' @importFrom readxl read_excel
 #'
 #' @examples
+#' \dontrun{
 #' ListPathway()
 #' ListPathway("Pathway")
 #' ListPathway("WNT")
+#' }
 #'
 #' @export
-ListPathway <- function(
-    query = NULL,
-    drop_empty = TRUE
-) {
+ListPathway <- function(query = NULL, drop_empty = TRUE) {
 
   if (!requireNamespace("readxl", quietly = TRUE)) {
     stop("Package 'readxl' is required but not installed.")
@@ -36,34 +40,22 @@ ListPathway <- function(
     "Pathway_Database_Combined.xlsx",
     package = "PathwayEmbed"
   )
-
   if (file_path == "") {
     stop("Pathway_Database_Combined.xlsx not found in extdata.")
   }
 
-  df <- readxl::read_excel(
-    path = file_path,
-    sheet = "SUMMARY"
-  )
+  df <- readxl::read_excel(path = file_path, sheet = "SUMMARY")
 
   colnames(df) <- make.names(colnames(df))
+  gene_col <- grep("^No\\.+Genes$", colnames(df), value = TRUE)
 
-  if (drop_empty && "No..Genes" %in% colnames(df)) {
-    df <- df[df$No..Genes > 0, ]
+  if (drop_empty && length(gene_col) == 1) {
+    df <- df[df[[gene_col]] > 0, ]
   }
 
-  # ---- query dispatch ----
-  if (is.null(query)) {
-    return(df)
-  }
-
-  if (query == "Pathway") {
-    return(sort(unique(df$Pathway)))
-  }
-
-  if (query %in% unique(df$Pathway)) {
-    return(df[df$Pathway == query, ])
-  }
+  if (is.null(query))              return(df)
+  if (query == "Pathway")          return(sort(unique(df$Pathway)))
+  if (query %in% df$Pathway)       return(df[df$Pathway == query, ])
 
   stop(
     "Query not recognized. Use NULL, 'Pathway', or a valid pathway name:\n",

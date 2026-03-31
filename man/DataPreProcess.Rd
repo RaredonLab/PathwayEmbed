@@ -9,7 +9,8 @@ DataPreProcess(
   pathwaydata,
   Seurat.object = FALSE,
   assay = "RNA",
-  slot = "data"
+  slot = "data",
+  scale.data = TRUE
 )
 }
 \arguments{
@@ -22,15 +23,24 @@ DataPreProcess(
 \item{assay}{Assay to use if x is a Seurat object (default = "RNA")}
 
 \item{slot}{Slot to extract from Seurat object (default = "data")}
+
+\item{scale.data}{Logical; whether to apply row-wise z-score scaling
+(default = TRUE). If FALSE, the filtered expression matrix is returned
+as-is without any scaling.}
 }
 \value{
-A z-scored expression matrix of pathway genes x cell
+A gene-by-cell expression matrix of pathway genes. If
+\code{scale.data = TRUE} (default), values are row-wise z-scored;
+if \code{scale.data = FALSE}, raw input filtered values are returned.
 }
 \description{
 Preprocess expression data for pathway analysis.
 }
 \examples{
+\dontrun{
 DataPreProcess(seurat_obj, pathwaydata, Seurat.object = TRUE)
 DataPreProcess(norm_matrix, pathwaydata)
+DataPreProcess(norm_matrix, pathwaydata, scale.data = FALSE)
+}
 
 }

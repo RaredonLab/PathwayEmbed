@@ -2,32 +2,37 @@
 % Please edit documentation in R/ListPathway.R
 \name{ListPathway}
 \alias{ListPathway}
-\title{List available pathways or pathway metadata}
+\title{ListPathway
+List available pathways or pathway metadata}
 \usage{
 ListPathway(query = NULL, drop_empty = TRUE)
 }
 \arguments{
-\item{query}{Optional character.
-\itemize{
-\item NULL: return full summary table
-\item "Pathway": return unique pathway names
-\item pathway name (e.g. "WNT", "NOTCH"): return rows for that pathway
-}}
+\item{query}{Optional character string. One of \code{NULL}, \code{"Pathway"},
+or a valid pathway name. Default \code{NULL}.}
 
-\item{drop_empty}{Logical; remove entries with 0 genes.
-Default TRUE.}
+\item{drop_empty}{Logical; if \code{TRUE}, removes entries with 0 genes.
+Default \code{TRUE}.}
 }
 \value{
-A tibble or a character vector depending on query.
+A tibble (full table or pathway subset) or a character vector
+(when \code{query = "Pathway"}).
 }
 \description{
-Reads the "Summary" sheet from Pathway_Database_Combined.xlsx.
-Can return the full table, unique pathway names, or
-rows for a specific pathway.
+Reads the "SUMMARY" sheet from Pathway_Database_Combined.xlsx.
+Behaviour depends on the \code{query} argument:
+\itemize{
+\item \code{NULL}: returns the full summary table as a tibble.
+\item \code{"Pathway"}: returns a sorted character vector of unique pathway names.
+\item A valid pathway name (e.g. \code{"WNT"}, \code{"NOTCH"}): returns the
+subset of rows for that pathway as a tibble.
+}
 }
 \examples{
+\dontrun{
 ListPathway()
 ListPathway("Pathway")
 ListPathway("WNT")
+}
 
 }

@@ -7,12 +7,20 @@
 #' @param Seurat.object Logical; whether x is a Seurat object
 #' @param assay Assay to use if x is a Seurat object (default = "RNA")
 #' @param slot Slot to extract from Seurat object (default = "data")
+#' @param scale.data Logical; whether to apply row-wise z-score scaling
+#'   (default = TRUE). If FALSE, the filtered expression matrix is returned
+#'   as-is without any scaling.
 #'
-#' @return A z-scored expression matrix of pathway genes x cell
+#' @return A gene-by-cell expression matrix of pathway genes. If
+#'   \code{scale.data = TRUE} (default), values are row-wise z-scored;
+#'   if \code{scale.data = FALSE}, raw input filtered values are returned.
 #'
 #' @examples
+#' \dontrun{
 #' DataPreProcess(seurat_obj, pathwaydata, Seurat.object = TRUE)
 #' DataPreProcess(norm_matrix, pathwaydata)
+#' DataPreProcess(norm_matrix, pathwaydata, scale.data = FALSE)
+#' }
 #'
 #' @export
 DataPreProcess <- function(
@@ -20,7 +28,8 @@ DataPreProcess <- function(
     pathwaydata,
     Seurat.object = FALSE,
     assay = "RNA",
-    slot = "data"
+    slot = "data",
+    scale.data = TRUE
 ) {
 
   #Extract expression matrix from Seurat.object
@@ -67,9 +76,11 @@ DataPreProcess <- function(
 
   expr_data <- expr_mat[valid_names, , drop = FALSE]
 
-  #Row-wise z-score
-  expr_data <- t(scale(t(expr_data)))
-  expr_data[is.na(expr_data)] <- 0
+  # Row-wise z-score (optional)
+  if (scale.data) {
+    expr_data <- t(scale(t(expr_data)))
+    expr_data[is.na(expr_data)] <- 0
+  }
 
   return(expr_data)
 }

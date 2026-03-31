@@ -8,11 +8,14 @@
 #' @return A data.frame with pathway.on and pathway.off values per gene
 #'
 #' @importFrom matrixStats rowMins rowMaxs
-#' @export
 #'
 #' @examples
-#' data(fake_test_matrix)
-#' PathwayMaxMin(fake_test_matrix, pathwaydata)
+#' \dontrun{
+#' pathwaydata <- LoadPathway("Hypoxia_6hr", "human")
+#' matrix_filtered <- DataPreProcess(expr_data, pathwaydata)
+#' PathwayMaxMin(matrix_filtered, pathwaydata)
+#' }
+#' @export
 PathwayMaxMin <- function(expr_data, pathwaydata) {
 
   # Load pathway coefficients

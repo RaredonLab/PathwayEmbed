@@ -1,0 +1,100 @@
+# PathwayEmbed
+
+## We are focusing on 1-D embeddings of pathway state.
+
+# PathwayEmbed
+
+[![Build
+Status](https://github.com/RaredonLab/PathwayEmbed/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/RaredonLab/PathwayEmbed/actions)
+[![License:
+MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
+PathwayEmbed is an R package for quantifying and visualizing
+intracellular signaling pathway activation from transcriptomic data,
+integrating pathway topology and gene expression data.
+
+------------------------------------------------------------------------
+
+## Installation
+
+You can install the released version of PathwayEmbed from GitHub using:
+
+``` r
+# Install remotes if you haven't already
+if (!requireNamespace("remotes", quietly = TRUE)) {
+  install.packages("remotes")
+}
+
+remotes::install_github("RaredonLab/PathwayEmbed")
+```
+
+------------------------------------------------------------------------
+
+## Usage
+
+``` r
+library(PathwayEmbed)
+
+# Load example data included with the package
+data(fake_test_matrix)
+data(fake_test_metadata)
+
+# Compute pathway data
+mds_results <- ComputeCellData(fake_test_matrix, pathway = "Wnt", distance.method = "manhattan", batch.size = 100) 
+
+# Prepare data for plotting
+plot_data <- PreparePlotData(fake_test_metadata, mds_results, group = "genotype")
+
+# Plot pathway activation
+PlotPathway(to.plot = plot_data, pathway = "Wnt", group = "genotype", color = c("#ae282c", "#2066a8"))
+
+# Calculate percentage and do comparison between two groups (optional)
+CalculatePercentage(to.plot = plot_data, group_var = "genotype")
+```
+
+# Package index
+
+## All functions
+
+- [`CalculatePercentage()`](https://raredonlab.github.io/PathwayEmbed/reference/CalculatePercentage.md)
+  : CalculatePercentage
+- [`ComputeCellData()`](https://raredonlab.github.io/PathwayEmbed/reference/ComputeCellData.md)
+  : ComputeCellData
+- [`DataPreProcess()`](https://raredonlab.github.io/PathwayEmbed/reference/DataPreProcess.md)
+  : DataPreProcess
+- [`ListPathway()`](https://raredonlab.github.io/PathwayEmbed/reference/ListPathway.md)
+  : ListPathway List available pathways or pathway metadata
+- [`LoadPathway()`](https://raredonlab.github.io/PathwayEmbed/reference/LoadPathway.md)
+  : LoadPathway
+- [`PathwayMaxMin()`](https://raredonlab.github.io/PathwayEmbed/reference/PathwayMaxMin.md)
+  : PathwayMaxMin
+- [`PlotPathway()`](https://raredonlab.github.io/PathwayEmbed/reference/PlotPathway.md)
+  : PlotPathway
+- [`PreparePlotData()`](https://raredonlab.github.io/PathwayEmbed/reference/PreparePlotData.md)
+  : PreparePlotData
+- [`synthetic_test_matrix`](https://raredonlab.github.io/PathwayEmbed/reference/synthetic_test_matrix.md)
+  : Example Matrix for Testing
+- [`synthetic_test_matrix_100`](https://raredonlab.github.io/PathwayEmbed/reference/synthetic_test_matrix_100.md)
+  : Expanded Example Matrix for Testing (100 genes)
+- [`synthetic_test_metadata`](https://raredonlab.github.io/PathwayEmbed/reference/synthetic_test_metadata.md)
+  : synthetic metadata for test cells
+- [`synthetic_test_metadata_100`](https://raredonlab.github.io/PathwayEmbed/reference/synthetic_test_metadata_100.md)
+  : Expanded Synthetic Metadata for Test Cells (100-gene dataset)
+- [`synthetic_test_object`](https://raredonlab.github.io/PathwayEmbed/reference/synthetic_test_object.md)
+  : Example Seurat Object for Testing
+- [`synthetic_test_object_100`](https://raredonlab.github.io/PathwayEmbed/reference/synthetic_test_object_100.md)
+  : Expanded Example Seurat Object for Testing (100 genes)
+
+# Articles
+
+### All vignettes
+
+- [Beta-Catenin Knockout Analysis with
+  PathwayEmbed](https://raredonlab.github.io/PathwayEmbed/articles/beta_catenin_ko_updated.md):
+- [Toy
+  Set](https://raredonlab.github.io/PathwayEmbed/articles/examples_updated.md):
+- [Notch_Analysis](https://raredonlab.github.io/PathwayEmbed/articles/Notch_Analysis_updated.md):
+- [Spatial Pathway
+  Visualization](https://raredonlab.github.io/PathwayEmbed/articles/spatial_pathway_updated.md):
+- [TGF-β Pathway Database
+  Construction](https://raredonlab.github.io/PathwayEmbed/articles/TGFB_database_construction.md):

@@ -1,24 +1,33 @@
 #' LoadPathway
 #'
-#' This function reads pathway data from the package's built-in Excel file.
+#' Reads pathway gene data from the package's built-in Excel database and
+#' returns a two-column data frame with gene symbols and their coefficients
+#' for the requested species.
 #'
 #' @param Sheet.name A character string specifying the sheet name
-#'   (e.g. "Hypoxia_6hr", "HIPPO_heat").
-#' @param species A character string specifying the species: either \code{"human"}
-#'   or \code{"mouse"}. Determines which gene symbol column is returned as the
-#'   primary \code{Gene_Symbol} column. Defaults to \code{"human"}.
+#'   (e.g. \code{"Hypoxia_6hr"}, \code{"HIPPO_heat"}). Use \code{ListPathway()}
+#'   to see available sheets.
+#' @param species A character string specifying the species: either
+#'   \code{"human"} or \code{"mouse"}. Determines which gene symbol column is
+#'   used. Default \code{"human"}.
 #'
-#' @return
-#' A pathwaydata frame containing the pathway gene list and coefficients,
-#' with \code{Gene_Symbol} set to the requested species' symbols.
-#'
-#' @examples
-#' LoadPathway("Hypoxia_6hr", "human")
-#' LoadPathway("HIPPO_heat", "mouse")
+#' @return A data frame with two columns:
+#' \describe{
+#'   \item{Gene_Symbol}{Gene symbols for the requested species.}
+#'   \item{Coefficient}{Numeric pathway coefficients.}
+#' }
+#' Rows with \code{NA} gene symbols are dropped.
 #'
 #' @importFrom readxl read_excel excel_sheets
+#'
+#' @examples
+#' \dontrun{
+#' LoadPathway("Hypoxia_6hr", "human")
+#' LoadPathway("HIPPO_heat", "mouse")
+#' }
+#'
 #' @export
-LoadPathway <- function(Sheet.name, species) {
+LoadPathway <- function(Sheet.name, species = "human") {
 
   species <- tolower(species)
   if (!species %in% c("human", "mouse")) {
@@ -45,11 +54,26 @@ LoadPathway <- function(Sheet.name, species) {
 
   symbol_col <- if (species == "human") "Gene_Symbol_Human" else "Gene_Symbol_Mouse"
 
+  # Check required columns exist
+  for (col in c(symbol_col, "Coefficient")) {
+    if (!col %in% colnames(df)) {
+      stop("Expected column '", col, "' not found in sheet '", Sheet.name, "'.")
+    }
+  }
+
   pathwaydata <- data.frame(
-    Gene_Symbol = df[[symbol_col]],
-    Coefficient = df$Coefficient,
+    Gene_Symbol  = df[[symbol_col]],
+    Coefficient  = df$Coefficient,
     stringsAsFactors = FALSE
   )
+
+  # Drop rows with missing gene symbols
+  n_before <- nrow(pathwaydata)
+  pathwaydata <- pathwaydata[!is.na(pathwaydata$Gene_Symbol), ]
+  n_dropped <- n_before - nrow(pathwaydata)
+  if (n_dropped > 0) {
+    message(n_dropped, " row(s) with NA gene symbols removed.")
+  }
 
   return(pathwaydata)
 }

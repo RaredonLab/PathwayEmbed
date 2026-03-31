@@ -1,0 +1,641 @@
+# TGF-β Pathway Database Construction
+
+------------------------------------------------------------------------
+
+## Overview
+
+This vignette documents the construction of the **TGF-β signaling
+pathway database** used by `PathwayEmbed` for downstream pathway
+activity scoring and embedding. The same construction workflow is
+applied to all pathway databases in the package (e.g., WNT, NOTCH, YAP);
+the TGF-β pathway is used here as the worked example.
+
+The database integrates:
+
+1.  A manually curated pathway gene list organized by functional
+    category (KEGG hsa04350 )
+2.  Separately curated mouse ortholog lists, with attention to symbols
+    that differ substantially between species
+3.  Differential expression results from two independent bulk RNA-seq
+    datasets covering multiple species and contexts
+4.  Per-gene **activity coefficients** (+1 / −1) derived from the
+    direction of regulation under TGF-β stimulation
+
+The final output is a formatted Excel workbook
+(`TGFB_Pathway_Database.xlsx`) with three sheets: human Day 1, human Day
+20, and mouse.
+
+**Datasets used:**
+
+| GEO Accession | Species | Model | Comparison |
+|----|----|----|----|
+| GSE110021 | Human | Lung fibroblasts | TGFβ1 vs. no TGFβ at Day 1 and Day 20 |
+| GSE246932 | Mouse | T cells | TGFβ vs. none (2h) |
+
+------------------------------------------------------------------------
+
+## Step 1: Curate the Pathway Gene List
+
+### Human Gene List
+
+TGF-β pathway genes were curated from **KEGG hsa04350** and organized
+into 20 functional categories spanning canonical SMAD signaling,
+non-canonical branches (MAPK, PI3K/AKT, RHO), and the extracellular
+ligand/antagonist landscape.
+
+``` r
+tgfb_genes_human <- list(
+
+  Ligands_TGFB = c("TGFB1", "TGFB2", "TGFB3"),
+
+  Ligands_BMP = c("BMP2", "BMP4", "BMP5", "BMP6", "BMP7", "BMP8A", "BMP8B",
+                  "BMP10", "BMP15", "GDF5", "GDF6", "GDF7"),
+
+  # NOTE: INHBC and INHBE have no mouse orthologs (see mouse section)
+  Ligands_Activin_GDF = c("INHBA", "INHBB", "INHBC", "INHBE",
+                          "GDF1", "GDF2", "GDF3", "GDF8", "GDF9", "GDF10",
+                          "GDF11", "GDF15", "AMH", "NODAL"),
+
+  Receptors_TypeI   = c("TGFBR1", "ACVR1", "ACVR1B", "ACVR1C",
+                        "BMPR1A", "BMPR1B", "ACVRL1"),
+
+  Receptors_TypeII  = c("TGFBR2", "ACVR2A", "ACVR2B", "BMPR2", "AMHR2"),
+
+  # Type III receptors act as co-receptors/presenters
+  Receptors_TypeIII = c("TGFBR3", "ENG"),
+
+  # R-SMADs: phosphorylated by type I receptors; SMAD1/5/9 for BMP arm,
+  # SMAD2/3 for TGF-β/Activin arm
+  SMAD_Regulated  = c("SMAD1", "SMAD2", "SMAD3", "SMAD5", "SMAD9"),
+  SMAD_Common     = c("SMAD4"),
+  SMAD_Inhibitory = c("SMAD6", "SMAD7"),
+
+  # SARA (ZFYVE9) anchors SMAD2/3 at the receptor membrane
+  SMAD_Anchors = c("SARA", "ZFYVE9"),
+
+  Coactivators = c("CREBBP", "EP300", "SKI", "SKIL", "CITED1", "CITED2",
+                   "FOXH1", "FOXO1", "FOXO3", "RUNX1", "RUNX2", "RUNX3",
+                   "SP1", "JUN", "FOS", "ATF2"),
+
+  Corepressors = c("TGIF1", "TGIF2", "SKI", "SKIL", "SIN3A", "NCOR1",
+                   "NCOR2", "HDAC1", "HDAC2", "HDAC3"),
+
+  E3_Ligases = c("SMURF1", "SMURF2", "NEDD4L", "WWP1", "WWP2",
+                 "RNF12", "STUB1", "TRIM33"),
+
+  Transcriptional_Targets = c(
+    "SERPINE1", "SMAD7", "CDKN1A", "CDKN2B",
+    "MYC", "SNAI1", "SNAI2", "TWIST1", "ZEB1", "ZEB2",
+    "VIM", "CDH1", "CDH2", "MMP2", "MMP9",
+    "COL1A1", "COL1A2", "COL3A1", "FN1", "ACTA2",
+    "CTGF", "TGFB1", "ID1", "ID2", "ID3"
+  ),
+
+  Secreted_Antagonists = c(
+    "FST", "FSTL1", "FSTL3", "CHRD", "CHRDL1", "CHRDL2",
+    "NOG", "GREM1", "GREM2", "NBL1", "BAMBI",
+    "LTBP1", "LTBP2", "LTBP3", "LTBP4", "THBS1", "THBS2",
+    "DCN", "BGN", "ASPN"
+  ),
+
+  MAPK_Pathway = c(
+    "MAP3K7", "TAB1", "TAB2", "TAB3",
+    "MAP2K3", "MAP2K4", "MAP2K6", "MAP2K7",
+    "MAPK1", "MAPK3", "MAPK8", "MAPK9", "MAPK10",
+    "MAPK11", "MAPK12", "MAPK13", "MAPK14"
+  ),
+
+  PI3K_AKT_Pathway = c("PIK3CA", "PIK3CB", "PIK3CD", "PIK3R1", "PIK3R2",
+                       "AKT1", "AKT2", "AKT3", "MTOR", "RHEB"),
+
+  RHO_Pathway = c("RHOA", "RAC1", "CDC42", "ROCK1", "ROCK2",
+                  "TGFBR1", "PAK1", "PAK2", "LIMK1", "LIMK2"),
+
+  Latency_Activation = c(
+    "LTBP1", "LTBP2", "LTBP3", "LTBP4",
+    "LRRC32", "LRRC33", "THBS1", "ITGAV", "ITGB1",
+    "ITGB3", "ITGB5", "ITGB6", "ITGB8", "MMP2", "MMP9"
+  ),
+
+  Phosphatases = c("PPM1A", "PPP1CA", "PPP1CB", "PPP1CC", "MTMR4"),
+
+  Nuclear_Transport = c("IMPORTIN7", "IMPORTIN8", "XPO1", "RAN"),
+
+  Other_Regulators = c(
+    "DAXX", "FNTA", "FKBP1A", "ELF", "YAP1", "TAZ",
+    "PMEPA1", "TRIM33", "EVI1", "BCOR", "DRAP1", "MAML1",
+    "PPP2CA", "PPP2R1A", "STRAP", "CDKN1B", "CDKN1C",
+    "RBL1", "RBL2", "E2F4", "E2F5", "COPS5"
+  )
+)
+
+# Genes per category
+sapply(tgfb_genes_human, length)
+#>            Ligands_TGFB             Ligands_BMP     Ligands_Activin_GDF 
+#>                       3                      12                      14 
+#>         Receptors_TypeI        Receptors_TypeII       Receptors_TypeIII 
+#>                       7                       5                       2 
+#>          SMAD_Regulated             SMAD_Common         SMAD_Inhibitory 
+#>                       5                       1                       2 
+#>            SMAD_Anchors            Coactivators            Corepressors 
+#>                       2                      16                      10 
+#>              E3_Ligases Transcriptional_Targets    Secreted_Antagonists 
+#>                       8                      25                      20 
+#>            MAPK_Pathway        PI3K_AKT_Pathway             RHO_Pathway 
+#>                      17                      10                      10 
+#>      Latency_Activation            Phosphatases       Nuclear_Transport 
+#>                      15                       5                       4 
+#>        Other_Regulators 
+#>                      22
+cat("Total unique human TGF-β genes:", length(unique(unlist(tgfb_genes_human))), "\n")
+#> Total unique human TGF-β genes: 202
+```
+
+### Mouse Gene List
+
+> ⚠️ **Mouse symbols are NOT simply lowercased human symbols.** The
+> mouse list was curated manually with special attention to genes that
+> have completely different symbols between species. Key differences are
+> highlighted below.
+
+``` r
+# Critical human → mouse symbol differences:
+# RNF12       → Rlim          (E3_Ligases)
+# IMPORTIN7   → Ipo7          (Nuclear_Transport)
+# IMPORTIN8   → Ipo8          (Nuclear_Transport)
+# TAZ (WWTR1) → Wwtr1         (Other_Regulators)
+# EVI1 (MECOM)→ Mecom         (Other_Regulators)
+# SARA        → removed (protein name, not gene; gene is Zfyve9)
+# INHBC, INHBE→ removed (no mouse ortholog)
+# ELF         → removed (ambiguous; could be Elf1–5)
+
+tgfb_genes_mouse <- list(
+
+  Ligands_TGFB        = c("Tgfb1", "Tgfb2", "Tgfb3"),
+
+  Ligands_BMP         = c("Bmp2", "Bmp4", "Bmp5", "Bmp6", "Bmp7", "Bmp8a", "Bmp8b",
+                          "Bmp10", "Bmp15", "Gdf5", "Gdf6", "Gdf7"),
+
+  # INHBC and INHBE have no mouse orthologs and are excluded
+  Ligands_Activin_GDF = c("Inhba", "Inhbb",
+                          "Gdf1", "Gdf2", "Gdf3", "Gdf8", "Gdf9", "Gdf10",
+                          "Gdf11", "Gdf15", "Amh", "Nodal"),
+
+  Receptors_TypeI     = c("Tgfbr1", "Acvr1", "Acvr1b", "Acvr1c",
+                          "Bmpr1a", "Bmpr1b", "Acvrl1"),
+
+  Receptors_TypeII    = c("Tgfbr2", "Acvr2a", "Acvr2b", "Bmpr2", "Amhr2"),
+
+  Receptors_TypeIII   = c("Tgfbr3", "Eng"),
+
+  SMAD_Regulated      = c("Smad1", "Smad2", "Smad3", "Smad5", "Smad9"),
+  SMAD_Common         = c("Smad4"),
+  SMAD_Inhibitory     = c("Smad6", "Smad7"),
+
+  # SARA is a protein name for ZFYVE9; only the gene symbol is used
+  SMAD_Anchors        = c("Zfyve9"),
+
+  Coactivators        = c("Crebbp", "Ep300", "Ski", "Skil", "Cited1", "Cited2",
+                          "Foxh1", "Foxo1", "Foxo3", "Runx1", "Runx2", "Runx3",
+                          "Sp1", "Jun", "Fos", "Atf2"),
+
+  Corepressors        = c("Tgif1", "Tgif2", "Ski", "Skil", "Sin3a", "Ncor1",
+                          "Ncor2", "Hdac1", "Hdac2", "Hdac3"),
+
+  # RNF12 (human) = Rlim (mouse) — different symbol!
+  E3_Ligases          = c("Smurf1", "Smurf2", "Nedd4l", "Wwp1", "Wwp2",
+                          "Rlim", "Stub1", "Trim33"),
+
+  Transcriptional_Targets = c(
+    "Serpine1", "Smad7", "Cdkn1a", "Cdkn2b",
+    "Myc", "Snai1", "Snai2", "Twist1", "Zeb1", "Zeb2",
+    "Vim", "Cdh1", "Cdh2", "Mmp2", "Mmp9",
+    "Col1a1", "Col1a2", "Col3a1", "Fn1", "Acta2",
+    "Ctgf", "Tgfb1", "Id1", "Id2", "Id3"
+  ),
+
+  Secreted_Antagonists = c(
+    "Fst", "Fstl1", "Fstl3", "Chrd", "Chrdl1", "Chrdl2",
+    "Nog", "Grem1", "Grem2", "Nbl1", "Bambi",
+    "Ltbp1", "Ltbp2", "Ltbp3", "Ltbp4", "Thbs1", "Thbs2",
+    "Dcn", "Bgn", "Aspn"
+  ),
+
+  MAPK_Pathway        = c("Map3k7", "Tab1", "Tab2", "Tab3",
+                          "Map2k3", "Map2k4", "Map2k6", "Map2k7",
+                          "Mapk1", "Mapk3", "Mapk8", "Mapk9", "Mapk10",
+                          "Mapk11", "Mapk12", "Mapk13", "Mapk14"),
+
+  PI3K_AKT_Pathway    = c("Pik3ca", "Pik3cb", "Pik3cd", "Pik3r1", "Pik3r2",
+                          "Akt1", "Akt2", "Akt3", "Mtor", "Rheb"),
+
+  RHO_Pathway         = c("Rhoa", "Rac1", "Cdc42", "Rock1", "Rock2",
+                          "Tgfbr1", "Pak1", "Pak2", "Limk1", "Limk2"),
+
+  Latency_Activation  = c("Ltbp1", "Ltbp2", "Ltbp3", "Ltbp4",
+                          "Lrrc32", "Lrrc33", "Thbs1", "Itgav", "Itgb1",
+                          "Itgb3", "Itgb5", "Itgb6", "Itgb8", "Mmp2", "Mmp9"),
+
+  Phosphatases        = c("Ppm1a", "Ppp1ca", "Ppp1cb", "Ppp1cc", "Mtmr4"),
+
+  # IMPORTIN7 = Ipo7, IMPORTIN8 = Ipo8 in mouse
+  Nuclear_Transport   = c("Ipo7", "Ipo8", "Xpo1", "Ran"),
+
+  # TAZ = Wwtr1 (mouse), EVI1 = Mecom (mouse)
+  Other_Regulators    = c("Daxx", "Fnta", "Fkbp1a",
+                          "Yap1", "Wwtr1", "Pmepa1", "Trim33",
+                          "Mecom", "Bcor", "Drap1", "Maml1",
+                          "Ppp2ca", "Ppp2r1a", "Strap", "Cdkn1b", "Cdkn1c",
+                          "Rbl1", "Rbl2", "E2f4", "E2f5", "Cops5")
+)
+
+cat("Total unique mouse TGF-β genes:", length(unique(unlist(tgfb_genes_mouse))), "\n")
+#> Total unique mouse TGF-β genes: 198
+```
+
+### Flatten to Data Frames
+
+Both lists are converted to flat two-column data frames (`gene`,
+`category`) for downstream joining operations.
+
+``` r
+flatten_gene_list <- function(gene_list) {
+  do.call(rbind, lapply(names(gene_list), function(cat) {
+    data.frame(gene = gene_list[[cat]], category = cat, stringsAsFactors = FALSE)
+  }))
+}
+
+tgfb_genes_human_flat <- flatten_gene_list(tgfb_genes_human)
+tgfb_genes_mouse_flat <- flatten_gene_list(tgfb_genes_mouse)
+
+head(tgfb_genes_human_flat)
+#>    gene     category
+#> 1 TGFB1 Ligands_TGFB
+#> 2 TGFB2 Ligands_TGFB
+#> 3 TGFB3 Ligands_TGFB
+#> 4  BMP2  Ligands_BMP
+#> 5  BMP4  Ligands_BMP
+#> 6  BMP5  Ligands_BMP
+```
+
+------------------------------------------------------------------------
+
+## Step 2: Bulk RNA-seq Differential Expression
+
+### Human — Lung Fibroblasts (GSE110021)
+
+Human WI-38 fibroblasts were treated with TGFβ1 and profiled at **Day
+1** (acute response) and **Day 20** (chronic/fibrotic response). The
+dataset provides voom-normalized log-counts, so limma is applied
+directly without further normalization.
+
+``` r
+library(limma)
+
+# Load voom-normalized expression matrix
+data_fibroblasts <- read.table(
+  "GSE110021_counts.voom.annot.txt.gz",
+  header = TRUE, sep = "\t", row.names = 1
+)
+
+# Separate expression values from annotation columns
+expr <- as.matrix(data_fibroblasts[, -(1:2)])
+rownames(expr) <- data_fibroblasts$GeneSymbol
+
+# Sample metadata: 24 samples total, 12 per treatment, 6 per timepoint per treatment
+sample_info <- data.frame(
+  sample    = colnames(expr),
+  treatment = rep(c("noTGFb", "TGFb"), each = 12),
+  timepoint = rep(c("D1", "D20"), each = 6, times = 2)
+)
+
+# Design matrix with all four groups
+design <- model.matrix(~ 0 + treatment:timepoint, data = sample_info)
+colnames(design) <- c("D1_noTGFb", "D1_TGFb", "D20_noTGFb", "D20_TGFb")
+
+fit <- lmFit(expr, design)
+
+# Contrasts: TGFb vs. control at each timepoint
+contrast_matrix <- makeContrasts(
+  D1_TGFb_vs_noTGFb  = D1_TGFb  - D1_noTGFb,
+  D20_TGFb_vs_noTGFb = D20_TGFb - D20_noTGFb,
+  levels = design
+)
+
+fit2 <- contrasts.fit(fit, contrast_matrix)
+fit2 <- eBayes(fit2)
+
+# Extract full results tables
+res_D1  <- topTable(fit2, coef = "D1_TGFb_vs_noTGFb",  number = Inf, sort.by = "p")
+res_D20 <- topTable(fit2, coef = "D20_TGFb_vs_noTGFb", number = Inf, sort.by = "p")
+
+# Add gene descriptions
+res_D1$Description  <- data_fibroblasts$Description[match(rownames(res_D1),  data_fibroblasts$GeneSymbol)]
+res_D20$Description <- data_fibroblasts$Description[match(rownames(res_D20), data_fibroblasts$GeneSymbol)]
+
+write.csv(res_D1,  "DEG_D1_TGFb_vs_noTGFb.csv",  row.names = TRUE)
+write.csv(res_D20, "DEG_D20_TGFb_vs_noTGFb.csv", row.names = TRUE)
+```
+
+### Mouse — T Cells (GSE246932)
+
+Mouse CD8+ T cells were treated with TGFβ for 2 hours. Raw count data
+required DESeq2 for normalization and differential testing.
+
+``` r
+library(DESeq2)
+library(dplyr)
+
+# Load raw counts
+counts_data <- read.csv(
+  "GSE246932_220809-P490-1_RawGeneCounts.csv.gz",
+  header = TRUE, check.names = FALSE
+)
+
+# Remove SIINFEKL peptide-treated samples (not relevant to TGFb comparison)
+counts_data <- counts_data[, !grepl("SIINFEKL", colnames(counts_data))]
+
+# Separate gene annotation from count columns
+gene_anno  <- counts_data[, 1:4]
+counts_only <- counts_data[, -(1:4)]
+
+# Collapse duplicate gene IDs by summing
+counts_collapsed <- counts_only %>%
+  mutate(geneId = gene_anno$geneId) %>%
+  group_by(geneId) %>%
+  summarise(across(where(is.numeric), sum), .groups = "drop")
+
+counts_mat <- as.matrix(counts_collapsed[, -1])
+rownames(counts_mat) <- counts_collapsed$geneId
+
+# Build DESeq2 object
+sample_names <- colnames(counts_mat)
+coldata <- data.frame(
+  treatment = factor(
+    ifelse(grepl("TGFb", sample_names), "TGFb", "none"),
+    levels = c("none", "TGFb")
+  ),
+  row.names = sample_names
+)
+
+dds <- DESeqDataSetFromMatrix(
+  countData = counts_mat,
+  colData   = coldata,
+  design    = ~ treatment
+)
+dds <- dds[rowSums(counts(dds)) > 10, ]  # low-count filter
+dds <- DESeq(dds)
+
+res    <- results(dds, contrast = c("treatment", "TGFb", "none"))
+res_df <- as.data.frame(res)
+
+# Map gene names back from annotation
+res_df$geneId      <- rownames(res_df)
+res_df$geneName    <- gene_anno$geneName[match(res_df$geneId, gene_anno$geneId)]
+res_df$description <- gene_anno$description[match(res_df$geneId, gene_anno$geneId)]
+
+library(openxlsx)
+write.xlsx(res_df, file = "Mus_TGFb_vs_none.xlsx", rowNames = FALSE)
+```
+
+------------------------------------------------------------------------
+
+## Step 3: Filter for TGF-β Pathway Genes
+
+DEG results are joined against the curated gene lists, retaining only
+TGF-β pathway members that reach statistical significance (adjusted *p*
+\< 0.05).
+
+``` r
+library(readr)
+library(readxl)
+library(dplyr)
+
+human_d1  <- read_csv("DEG_D1_TGFb_vs_noTGFb.csv")
+human_d20 <- read_csv("DEG_D20_TGFb_vs_noTGFb.csv")
+mouse_df  <- read_excel("Mus_TGFb_vs_none.xlsx")
+
+# Human Day 1
+human_d1_results <- human_d1 %>%
+  filter(ID %in% tgfb_genes_human_flat$gene) %>%
+  left_join(tgfb_genes_human_flat, by = c("ID" = "gene")) %>%
+  filter(!is.na(adj.P.Val) & adj.P.Val < 0.05) %>%
+  arrange(adj.P.Val)
+
+# Human Day 20
+human_d20_results <- human_d20 %>%
+  filter(ID %in% tgfb_genes_human_flat$gene) %>%
+  left_join(tgfb_genes_human_flat, by = c("ID" = "gene")) %>%
+  filter(!is.na(adj.P.Val) & adj.P.Val < 0.05) %>%
+  arrange(adj.P.Val)
+
+# Mouse
+mouse_df_results <- mouse_df %>%
+  filter(geneName %in% tgfb_genes_mouse_flat$gene) %>%
+  left_join(tgfb_genes_mouse_flat, by = c("geneName" = "gene")) %>%
+  filter(!is.na(padj) & padj < 0.05) %>%
+  arrange(padj)
+
+cat("Human D1  pathway genes (padj<0.05):", nrow(human_d1_results),  "\n")
+cat("Human D20 pathway genes (padj<0.05):", nrow(human_d20_results), "\n")
+cat("Mouse     pathway genes (padj<0.05):", nrow(mouse_df_results),  "\n")
+```
+
+------------------------------------------------------------------------
+
+## Step 4: Assign Activity Coefficients
+
+### Rationale
+
+Each gene receives a **direction coefficient** reflecting its behavior
+under TGFβ activation:
+
+| Coefficient | Meaning                                                      |
+|:-----------:|--------------------------------------------------------------|
+|   **+1**    | Upregulated with TGFβ — consistent with pathway activation   |
+|   **−1**    | Downregulated with TGFβ — consistent with pathway inhibition |
+
+These coefficients are used by `PathwayEmbed` to compute a **signed
+pathway activity score**: the weighted sum of a sample’s expression
+values multiplied by their coefficients, giving a single number that
+reflects the net direction and magnitude of TGF-β activity.
+
+The function also supports inhibitor experiments via
+`TGFB_activation = FALSE`, which flips the sign logic — a gene
+downregulated by an inhibitor is inferred to be positively regulated
+under activation.
+
+``` r
+assign_coefficient_tgfb <- function(log2FoldChange,
+                                    fc_threshold    = 0,
+                                    TGFB_activation = TRUE) {
+  if (is.na(log2FoldChange)) return(0)
+
+  if (TGFB_activation) {
+    if      (log2FoldChange >  fc_threshold) return( 1)
+    else if (log2FoldChange < -fc_threshold) return(-1)
+    else                                      return( 0)
+  } else {
+    # Inhibitor data: flip direction
+    if      (log2FoldChange < -fc_threshold) return( 1)
+    else if (log2FoldChange >  fc_threshold) return(-1)
+    else                                      return( 0)
+  }
+}
+```
+
+> **Threshold note:** `fc_threshold = 0` assigns a coefficient to any
+> non-zero fold-change. For stricter databases, use `fc_threshold = 0.5`
+> to restrict to genes with \|log₂FC\| ≥ 0.5, focusing on more robust
+> responses.
+
+``` r
+human_d1_results <- human_d1_results %>%
+  mutate(coef = sapply(logFC, assign_coefficient_tgfb, fc_threshold = 0))
+
+human_d20_results <- human_d20_results %>%
+  mutate(coef = sapply(logFC, assign_coefficient_tgfb, fc_threshold = 0))
+
+mouse_df_results <- mouse_df_results %>%
+  mutate(coef = sapply(log2FoldChange, assign_coefficient_tgfb, fc_threshold = 0))
+```
+
+------------------------------------------------------------------------
+
+## Step 5: Export to Excel
+
+The final database is exported as a formatted `.xlsx` workbook with a
+styled header row, frozen pane, and auto-sized columns.
+
+``` r
+library(openxlsx)
+
+# --- Helper: prepare one sheet's data frame ---
+prepare_sheet <- function(results, gene_col, logfc_col) {
+  results %>%
+    dplyr::select(
+      Gene_Symbol    = !!sym(gene_col),
+      Category       = category,
+      Coefficient    = coef,
+      log2FoldChange = !!sym(logfc_col)
+    ) %>%
+    as.data.frame()
+}
+
+human_d1_sheet  <- prepare_sheet(human_d1_results,  "ID",       "logFC")
+human_d20_sheet <- prepare_sheet(human_d20_results, "ID",       "logFC")
+mouse_df_sheet  <- prepare_sheet(mouse_df_results,  "geneName", "log2FoldChange")
+
+# --- Helper: write one formatted sheet ---
+add_pathway_sheet <- function(wb, sheet_name, df) {
+
+  addWorksheet(wb, sheet_name)
+
+  writeData(wb, sheet_name, df,
+    headerStyle = createStyle(
+      fontSize = 11, fontColour = "#FFFFFF", halign = "center",
+      fgFill = "#4472C4", border = "TopBottom",
+      fontName = "Arial", textDecoration = "bold"
+    )
+  )
+
+  freezePane(wb, sheet_name, firstRow = TRUE)
+  tryCatch(
+    setColWidths(wb, sheet_name, cols = seq_len(ncol(df)), widths = "auto"),
+    error = function(e)
+      setColWidths(wb, sheet_name, cols = seq_len(ncol(df)), widths = 15)
+  )
+}
+
+# --- Build workbook ---
+wb <- createWorkbook()
+add_pathway_sheet(wb, "TGFB_Human_D1",  human_d1_sheet)
+add_pathway_sheet(wb, "TGFB_Human_D20", human_d20_sheet)
+add_pathway_sheet(wb, "TGFB_Mouse",     mouse_df_sheet)
+
+saveWorkbook(wb, "TGFB_Pathway_Database.xlsx", overwrite = TRUE)
+cat("Saved: TGFB_Pathway_Database.xlsx\n")
+```
+
+------------------------------------------------------------------------
+
+## Final Database Structure
+
+Each sheet in `TGFB_Pathway_Database.xlsx` contains:
+
+| Column | Description |
+|----|----|
+| `Gene_Symbol` | HGNC (human) or MGI (mouse) gene symbol |
+| `Category` | Functional category from KEGG + curation |
+| `Coefficient` | +1 (activated) or −1 (repressed) under TGFβ; filtered by padj \< 0.05 |
+| `log2FoldChange` | Log₂ fold-change from the corresponding DEG analysis |
+
+Sheets produced:
+
+| Sheet            | Species | Context                  | Method       |
+|------------------|---------|--------------------------|--------------|
+| `TGFB_Human_D1`  | Human   | Lung fibroblasts, Day 1  | limma / voom |
+| `TGFB_Human_D20` | Human   | Lung fibroblasts, Day 20 | limma / voom |
+| `TGFB_Mouse`     | Mouse   | CD8+ T cells, 2h         | DESeq2       |
+
+------------------------------------------------------------------------
+
+## Important Curation Notes
+
+The following caveats should be kept in mind when extending or modifying
+the database:
+
+**Genes excluded from the mouse list due to no ortholog:** `INHBC`,
+`INHBE` — these activin subunits are primate-specific and have no mouse
+ortholog.
+
+**Gene name ambiguities resolved:** `SARA` is a protein alias for the
+gene `ZFYVE9` and should not be used as a gene symbol. `ELF` is
+ambiguous (could refer to `ELF1` through `ELF5`) and was removed from
+the mouse list.
+
+**Genes with completely different human/mouse symbols:**
+
+| Human        | Mouse | Category          |
+|--------------|-------|-------------------|
+| RNF12        | Rlim  | E3_Ligases        |
+| IMPORTIN7    | Ipo7  | Nuclear_Transport |
+| IMPORTIN8    | Ipo8  | Nuclear_Transport |
+| TAZ (WWTR1)  | Wwtr1 | Other_Regulators  |
+| EVI1 (MECOM) | Mecom | Other_Regulators  |
+
+Always verify mouse gene symbols against
+[MGI](http://www.informatics.jax.org/) before adding new genes.
+
+------------------------------------------------------------------------
+
+## Session Information
+
+``` r
+sessionInfo()
+#> R version 4.4.2 (2024-10-31)
+#> Platform: aarch64-apple-darwin20
+#> Running under: macOS Sonoma 14.6
+#> 
+#> Matrix products: default
+#> BLAS:   /Library/Frameworks/R.framework/Versions/4.4-arm64/Resources/lib/libRblas.0.dylib 
+#> LAPACK: /Library/Frameworks/R.framework/Versions/4.4-arm64/Resources/lib/libRlapack.dylib;  LAPACK version 3.12.0
+#> 
+#> locale:
+#> [1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
+#> 
+#> time zone: America/New_York
+#> tzcode source: internal
+#> 
+#> attached base packages:
+#> [1] stats     graphics  grDevices utils     datasets  methods   base     
+#> 
+#> loaded via a namespace (and not attached):
+#>  [1] digest_0.6.39     desc_1.4.3        R6_2.6.1          fastmap_1.2.0    
+#>  [5] xfun_0.57         cachem_1.1.0      knitr_1.51        htmltools_0.5.9  
+#>  [9] rmarkdown_2.30    lifecycle_1.0.5   cli_3.6.5         sass_0.4.10      
+#> [13] pkgdown_2.2.0     textshaping_1.0.5 jquerylib_0.1.4   systemfonts_1.3.2
+#> [17] compiler_4.4.2    rstudioapi_0.18.0 tools_4.4.2       ragg_1.5.1       
+#> [21] bslib_0.10.0      evaluate_1.0.5    yaml_2.3.12       otel_0.2.0       
+#> [25] jsonlite_2.0.0    htmlwidgets_1.6.4 rlang_1.1.7       fs_1.6.7
+```
