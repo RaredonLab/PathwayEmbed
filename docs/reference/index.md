@@ -24,8 +24,6 @@
   : Expanded Example Matrix for Testing (100 genes)
 - [`synthetic_test_metadata`](https://raredonlab.github.io/PathwayEmbed/reference/synthetic_test_metadata.md)
   : synthetic metadata for test cells
-- [`synthetic_test_metadata_100`](https://raredonlab.github.io/PathwayEmbed/reference/synthetic_test_metadata_100.md)
-  : Expanded Synthetic Metadata for Test Cells (100-gene dataset)
 - [`synthetic_test_object`](https://raredonlab.github.io/PathwayEmbed/reference/synthetic_test_object.md)
   : Example Seurat Object for Testing
 - [`synthetic_test_object_100`](https://raredonlab.github.io/PathwayEmbed/reference/synthetic_test_object_100.md)

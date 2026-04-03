@@ -12,7 +12,7 @@ count matrix (\code{synthetic_test_matrix_100}).}
 \item{meta.data}{Cell-level metadata with four columns:
 \code{orig.ident}, \code{nCount_RNA}, \code{nFeature_RNA}, and
 \code{genotype} (WT vs. Mutant). See
-\code{\link{synthetic_test_metadata_100}}.}
+\code{\link{synthetic_test_metadata}}.}
 \item{features}{100 genes: 18 original Wnt genes (rows 1–18) plus
 82 randomly expressed genes from housekeeping, cell-cycle, TF,
 Notch, MAPK/ERK, TGF-β/BMP, and adhesion panels (rows 19–100).}
@@ -28,7 +28,7 @@ synthetic_test_object_100
 }
 \description{
 A simulated Seurat object built from \code{synthetic_test_matrix_100}
-and \code{synthetic_test_metadata_100}. It is the 100-gene counterpart
+and \code{synthetic_test_metadata}. It is the 100-gene counterpart
 of \code{synthetic_test_object} and is structurally identical except
 for the larger gene panel. The original 18 Wnt genes and their
 expression values are fully preserved.
@@ -47,6 +47,5 @@ table(Seurat::Idents(synthetic_test_object_100))  # 1000 WT, 1000 Mutant
 \seealso{
 \code{\link{synthetic_test_object}},
 \code{\link{synthetic_test_matrix_100}},
-\code{\link{synthetic_test_metadata_100}}
 }
 \keyword{datasets}

@@ -41,6 +41,5 @@ data(synthetic_test_matrix_100) dim(synthetic_test_matrix_100) \# 100 x
 2000 rownames(synthetic_test_matrix_100)\[1:18\] \# original Wnt genes
 mean(synthetic_test_matrix_100 \> 0) \# ~0.35 non-zero density
 [`synthetic_test_matrix`](https://raredonlab.github.io/PathwayEmbed/reference/synthetic_test_matrix.md),
-[`synthetic_test_metadata_100`](https://raredonlab.github.io/PathwayEmbed/reference/synthetic_test_metadata_100.md),
 [`synthetic_test_object_100`](https://raredonlab.github.io/PathwayEmbed/reference/synthetic_test_object_100.md)
 datasets

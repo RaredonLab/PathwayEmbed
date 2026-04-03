@@ -1,7 +1,7 @@
 # Expanded Example Seurat Object for Testing (100 genes)
 
 A simulated Seurat object built from `synthetic_test_matrix_100` and
-`synthetic_test_metadata_100`. It is the 100-gene counterpart of
+`synthetic_test_metadata`. It is the 100-gene counterpart of
 `synthetic_test_object` and is structurally identical except for the
 larger gene panel. The original 18 Wnt genes and their expression values
 are fully preserved.
@@ -25,7 +25,7 @@ A Seurat object containing:
 
   Cell-level metadata with four columns: `orig.ident`, `nCount_RNA`,
   `nFeature_RNA`, and `genotype` (WT vs. Mutant). See
-  [`synthetic_test_metadata_100`](https://raredonlab.github.io/PathwayEmbed/reference/synthetic_test_metadata_100.md).
+  [`synthetic_test_metadata`](https://raredonlab.github.io/PathwayEmbed/reference/synthetic_test_metadata.md).
 
 - features:
 
@@ -51,7 +51,6 @@ with Seurat v4 and v5 (`SeuratObject` \>= 4.1).
 
 [`synthetic_test_object`](https://raredonlab.github.io/PathwayEmbed/reference/synthetic_test_object.md),
 [`synthetic_test_matrix_100`](https://raredonlab.github.io/PathwayEmbed/reference/synthetic_test_matrix_100.md),
-[`synthetic_test_metadata_100`](https://raredonlab.github.io/PathwayEmbed/reference/synthetic_test_metadata_100.md)
 
 ## Examples
 

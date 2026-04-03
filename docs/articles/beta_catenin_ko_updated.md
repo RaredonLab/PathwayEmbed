@@ -18,31 +18,11 @@ Reference: Hua et al., *eLife* 13: RP98238 (2024).
 ``` r
 library(PathwayEmbed)
 library(Seurat)
-#> Warning: package 'Seurat' was built under R version 4.4.3
-#> Loading required package: SeuratObject
-#> Warning: package 'SeuratObject' was built under R version 4.4.3
-#> Loading required package: sp
-#> Warning: package 'sp' was built under R version 4.4.3
-#> 
-#> Attaching package: 'SeuratObject'
-#> The following objects are masked from 'package:base':
-#> 
-#>     intersect, t
 library(ggplot2)
-#> Warning: package 'ggplot2' was built under R version 4.4.3
 library(patchwork)
 library(pheatmap)
 library(progeny)
 library(pROC)
-#> Registered S3 method overwritten by 'pROC':
-#>   method   from            
-#>   plot.roc spatstat.explore
-#> Type 'citation("pROC")' for a citation.
-#> 
-#> Attaching package: 'pROC'
-#> The following objects are masked from 'package:stats':
-#> 
-#>     cov, smooth, var
 ```
 
 ------------------------------------------------------------------------
@@ -94,18 +74,13 @@ ko$sample <- "KO"
 wt$sample <- "WT"
 
 merged          <- merge(ko, wt)
-#> Warning: Some cell names are duplicated across objects provided. Renaming to
-#> enforce unique cell names.
 merged[["RNA"]] <- JoinLayers(merged[["RNA"]])
 
 merged <- NormalizeData(merged, normalization.method = "LogNormalize",
                          scale.factor = 10000)
-#> Normalizing layer: counts
 merged <- FindVariableFeatures(merged, selection.method = "vst",
                                 nfeatures = 2000)
-#> Finding variable features for layer counts
 merged <- ScaleData(merged, features = VariableFeatures(merged))
-#> Centering and scaling data matrix
 ```
 
 ------------------------------------------------------------------------
@@ -119,17 +94,9 @@ Wnt_48h   <- LoadPathway("WNT3A_48H_ACTIVATION",  "mouse")
 Wnt_slope <- LoadPathway("WNT3A_SLOPE_ACTIVATION", "mouse")
 
 matrix_12h   <- DataPreProcess(merged, Wnt_12h,   Seurat.object = TRUE)
-#> Warning in asMethod(object): sparse->dense coercion: allocating vector of size
-#> 3.3 GiB
 matrix_24h   <- DataPreProcess(merged, Wnt_24h,   Seurat.object = TRUE)
-#> Warning in asMethod(object): sparse->dense coercion: allocating vector of size
-#> 3.3 GiB
 matrix_48h   <- DataPreProcess(merged, Wnt_48h,   Seurat.object = TRUE)
-#> Warning in asMethod(object): sparse->dense coercion: allocating vector of size
-#> 3.3 GiB
 matrix_slope <- DataPreProcess(merged, Wnt_slope, Seurat.object = TRUE)
-#> Warning in asMethod(object): sparse->dense coercion: allocating vector of size
-#> 3.3 GiB
 
 pathwaystat_12h   <- PathwayMaxMin(matrix_12h,   Wnt_12h)
 pathwaystat_24h   <- PathwayMaxMin(matrix_24h,   Wnt_24h)
@@ -137,13 +104,9 @@ pathwaystat_48h   <- PathwayMaxMin(matrix_48h,   Wnt_48h)
 pathwaystat_slope <- PathwayMaxMin(matrix_slope, Wnt_slope)
 
 score_12h   <- ComputeCellData(matrix_12h,   pathwaystat_12h)
-#> Computing distance...
 score_24h   <- ComputeCellData(matrix_24h,   pathwaystat_24h)
-#> Computing distance...
 score_48h   <- ComputeCellData(matrix_48h,   pathwaystat_48h)
-#> Computing distance...
 score_slope <- ComputeCellData(matrix_slope, pathwaystat_slope)
-#> Computing distance...
 ```
 
 ------------------------------------------------------------------------
@@ -186,13 +149,6 @@ pct_12h; pct_24h; pct_48h; pct_slope
 p_12h <- PlotPathway(plot_data_12h,   "Wnt 12h",    "sample", c("#ae282c", "#2066a8")) +
   annotate("text", x = Inf, y = Inf, hjust = 1.1, vjust = 1.5,
            label = make_label(pct_12h, "KO", "WT"), size = 3.5, color = "black")
-#> Warning: Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0.
-#> ℹ Please use `linewidth` instead.
-#> ℹ The deprecated feature was likely used in the PathwayEmbed package.
-#>   Please report the issue to the authors.
-#> This warning is displayed once per session.
-#> Call `lifecycle::last_lifecycle_warnings()` to see where this warning was
-#> generated.
 
 p_24h <- PlotPathway(plot_data_24h,   "Wnt 24h",    "sample", c("#ae282c", "#2066a8")) +
   annotate("text", x = Inf, y = Inf, hjust = 1.1, vjust = 1.5,
@@ -249,9 +205,6 @@ for (cov in c("nCount_RNA", "nFeature_RNA", "percent_mt")) {
 (make_scatter(confounder_df, "nCount_RNA",   "nCount_RNA") +
  make_scatter(confounder_df, "nFeature_RNA", "nFeature_RNA") +
  make_scatter(confounder_df, "percent_mt",   "percent.mt"))
-#> `geom_smooth()` using formula = 'y ~ x'
-#> `geom_smooth()` using formula = 'y ~ x'
-#> `geom_smooth()` using formula = 'y ~ x'
 ```
 
 ![](beta_catenin_ko_updated_files/figure-html/confounders-1.png)
@@ -263,8 +216,6 @@ for (cov in c("nCount_RNA", "nFeature_RNA", "percent_mt")) {
 ``` r
 normalized_mat       <- GetAssayData(merged, assay = "RNA", layer = "data")
 normalized_mat_dense <- as.matrix(normalized_mat)
-#> Warning in asMethod(object): sparse->dense coercion: allocating vector of size
-#> 3.3 GiB
 
 common_genes         <- intersect(rownames(normalized_mat_dense), Wnt_slope$Gene_Symbol)
 gene_matrix          <- normalized_mat_dense[common_genes, ]

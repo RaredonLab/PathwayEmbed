@@ -14,43 +14,13 @@ Reference: Remark et al., *Bone Res* 11, 50 (2023).
 
 ``` r
 library(Seurat)
-#> Warning: package 'Seurat' was built under R version 4.4.3
-#> Loading required package: SeuratObject
-#> Warning: package 'SeuratObject' was built under R version 4.4.3
-#> Loading required package: sp
-#> Warning: package 'sp' was built under R version 4.4.3
-#> 
-#> Attaching package: 'SeuratObject'
-#> The following objects are masked from 'package:base':
-#> 
-#>     intersect, t
 library(PathwayEmbed)
 library(ggplot2)
-#> Warning: package 'ggplot2' was built under R version 4.4.3
 library(dplyr)
-#> Warning: package 'dplyr' was built under R version 4.4.3
-#> 
-#> Attaching package: 'dplyr'
-#> The following objects are masked from 'package:stats':
-#> 
-#>     filter, lag
-#> The following objects are masked from 'package:base':
-#> 
-#>     intersect, setdiff, setequal, union
 library(patchwork)
 library(pheatmap)
 library(tidyr)
-#> Warning: package 'tidyr' was built under R version 4.4.3
 library(pROC)
-#> Registered S3 method overwritten by 'pROC':
-#>   method   from            
-#>   plot.roc spatstat.explore
-#> Type 'citation("pROC")' for a citation.
-#> 
-#> Attaching package: 'pROC'
-#> The following objects are masked from 'package:stats':
-#> 
-#>     cov, smooth, var
 ```
 
 ------------------------------------------------------------------------
@@ -148,9 +118,7 @@ pathwaystat_mus  <- PathwayMaxMin(matrix_mus,  pathwaydata_mus)
 pathwaystat_24hr <- PathwayMaxMin(matrix_24hr, pathwaydata_24hr)
 
 Notch_score_mus  <- ComputeCellData(matrix_mus,  pathwaystat_mus)
-#> Computing distance...
 Notch_score_24hr <- ComputeCellData(matrix_24hr, pathwaystat_24hr)
-#> Computing distance...
 
 to_plot_1 <- PreparePlotData(COI_2_metadata, Notch_score_mus,  "condition")
 to_plot_2 <- PreparePlotData(COI_2_metadata, Notch_score_24hr, "condition")
@@ -195,13 +163,6 @@ PlotPathway(to_plot_1, "Notch (mouse database)", "condition",
             c("#FFDAB9", "#A3BFD9")) +
   annotate("text", x = Inf, y = Inf, hjust = 1.1, vjust = 1.5,
            label = make_label(pct_1, "WT", "KO"), size = 3.5, color = "black")
-#> Warning: Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0.
-#> ℹ Please use `linewidth` instead.
-#> ℹ The deprecated feature was likely used in the PathwayEmbed package.
-#>   Please report the issue to the authors.
-#> This warning is displayed once per session.
-#> Call `lifecycle::last_lifecycle_warnings()` to see where this warning was
-#> generated.
 ```
 
 ![](Notch_Analysis_updated_files/figure-html/notch-ko-1.png)
@@ -437,7 +398,6 @@ matrix_notch      <- DataPreProcess(cluster_of_interest, pathwaydata_24hr,
                                      Seurat.object = TRUE)
 pathwaystat_notch <- PathwayMaxMin(matrix_notch, pathwaydata_24hr)
 Notch_score       <- ComputeCellData(matrix_notch, pathwaystat_notch)
-#> Computing distance...
 
 to_plot   <- PreparePlotData(cluster_of_interest, Notch_score, "Age",
                               Seurat.object = TRUE)
@@ -463,7 +423,6 @@ PlotPathway(to_plot, "Notch", "Age", c("orange", "#6baed6")) +
 
 ``` r
 HIf1a_pathwaydata <- LoadPathway("Hypoxia_24hr",          "mouse")
-#> 1 row(s) with NA gene symbols removed.
 Hippo_pathwaydata <- LoadPathway("HIPPO_heat",             "mouse")
 TGFb_pathwaydata  <- LoadPathway("TGFB_Mouse",             "mouse")
 Wnt_pathwaydata   <- LoadPathway("WNT3A_SLOPE_ACTIVATION", "mouse")
@@ -502,22 +461,9 @@ for (pathway_name in names(pathway_list)) {
     plot     = p, width = 5, height = 4, dpi = 300
   )
 }
-#> Computing distance...
 ```
 
-![](Notch_Analysis_updated_files/figure-html/multi-pathway-1.png)
-
-    #> Computing distance...
-
-![](Notch_Analysis_updated_files/figure-html/multi-pathway-2.png)
-
-    #> Computing distance...
-
-![](Notch_Analysis_updated_files/figure-html/multi-pathway-3.png)
-
-    #> Computing distance...
-
-![](Notch_Analysis_updated_files/figure-html/multi-pathway-4.png)
+![](Notch_Analysis_updated_files/figure-html/multi-pathway-1.png)![](Notch_Analysis_updated_files/figure-html/multi-pathway-2.png)![](Notch_Analysis_updated_files/figure-html/multi-pathway-3.png)![](Notch_Analysis_updated_files/figure-html/multi-pathway-4.png)
 
 ------------------------------------------------------------------------
 
@@ -661,24 +607,6 @@ cluster_of_interest <- CellCycleScoring(
   g2m.features = cc_genes$g2m.genes,
   set.ident    = FALSE
 )
-#> Warning: The following features are not present in the object: MCM5, PCNA,
-#> TYMS, FEN1, MCM7, MCM4, RRM1, UNG, GINS2, MCM6, CDCA7, DTL, PRIM1, UHRF1,
-#> CENPU, HELLS, RFC2, POLR1B, NASP, RAD51AP1, GMNN, WDR76, SLBP, CCNE2, UBR7,
-#> POLD3, MSH2, ATAD2, RAD51, RRM2, CDC45, CDC6, EXO1, TIPIN, DSCC1, BLM,
-#> CASP8AP2, USP1, CLSPN, POLA1, CHAF1B, MRPL36, E2F8, not searching for symbol
-#> synonyms
-#> Warning: The following features are not present in the object: HMGB2, CDK1,
-#> NUSAP1, UBE2C, BIRC5, TPX2, TOP2A, NDC80, CKS2, NUF2, CKS1B, MKI67, TMPO,
-#> CENPF, TACC3, PIMREG, SMC4, CCNB2, CKAP2L, CKAP2, AURKB, BUB1, KIF11, ANP32E,
-#> TUBB4B, GTSE1, KIF20B, HJURP, CDCA3, JPT1, CDC20, TTK, CDC25C, KIF2C, RANGAP1,
-#> NCAPD2, DLGAP5, CDCA2, CDCA8, ECT2, KIF23, HMMR, AURKA, PSRC1, ANLN, LBR,
-#> CKAP5, CENPE, CTCF, NEK2, G2E3, GAS2L3, CBX5, CENPA, not searching for symbol
-#> synonyms
-#> Warning in AddModuleScore.Assay(object = input, features = features, kmeans.obj
-#> = kmeans.obj, : Could not find enough features in the object from the following
-#> feature lists: S.Score Attempting to match case...Could not find enough
-#> features in the object from the following feature lists: G2M.Score Attempting
-#> to match case...
 
 stress_genes <- c(
   "Fos", "Jun", "Junb", "Atf3", "Egr1",
@@ -761,7 +689,6 @@ ggplot(plot_df_long, aes(x = Stress, y = Score)) +
   theme_classic() +
   labs(title = "Pathway scores vs. stress score (Spearman)",
        x = "Stress score", y = "Pathway score")
-#> `geom_smooth()` using formula = 'y ~ x'
 ```
 
 ![](Notch_Analysis_updated_files/figure-html/confounders-2.png)

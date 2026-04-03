@@ -10,6 +10,8 @@ vignette: >
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(
   collapse  = TRUE,
+  warning = FALSE,
+  message = FALSE,
   comment   = "#>",
   dpi       = 300,
   fig.width = 8,
@@ -19,11 +21,10 @@ knitr::opts_chunk$set(
 ```
 
 ## Overview
-This vignette demonstrates how to use the PathwayEmbed package to compute and
-visualize pathway activation using single-cell transcriptomic data. We use the
-example dataset `synthetic_test_object_100` included with the package.
 
----
+This vignette demonstrates how to use the PathwayEmbed package to compute and visualize pathway activation using single-cell transcriptomic data. We use the example dataset `synthetic_test_object_100` included with the package.
+
+------------------------------------------------------------------------
 
 ## Load Packages and Data
 
@@ -43,7 +44,7 @@ data("synthetic_test_object_100")
 data("synthetic_test_metadata")
 ```
 
----
+------------------------------------------------------------------------
 
 ## Helper: Annotation Label Builder
 
@@ -64,11 +65,13 @@ make_label <- function(stats, group1, group2) {
 }
 ```
 
----
+------------------------------------------------------------------------
 
 ## Load Pathway Databases
 
 ```{r pathways}
+ListPathway()
+ListPathway("Pathway")
 ListPathway("WNT")
 
 Wnt_12h   <- LoadPathway("WNT3A_12H_ACTIVATION",  "mouse")
@@ -77,7 +80,7 @@ Wnt_48h   <- LoadPathway("WNT3A_48H_ACTIVATION",  "mouse")
 Wnt_slope <- LoadPathway("WNT3A_SLOPE_ACTIVATION", "mouse")
 ```
 
----
+------------------------------------------------------------------------
 
 ## Preprocessing and Pathway Reference States
 
@@ -93,7 +96,7 @@ pathwaystat_48h   <- PathwayMaxMin(matrix_48h,   Wnt_48h)
 pathwaystat_slope <- PathwayMaxMin(matrix_slope, Wnt_slope)
 ```
 
----
+------------------------------------------------------------------------
 
 ## Compute Pathway Scores
 
@@ -104,7 +107,7 @@ score_48h   <- ComputeCellData(matrix_48h,   pathwaystat_48h)
 score_slope <- ComputeCellData(matrix_slope, pathwaystat_slope)
 ```
 
----
+------------------------------------------------------------------------
 
 ## Prepare Plot Data and Calculate Group Statistics
 
@@ -122,7 +125,7 @@ pct_slope <- CalculatePercentage(to.plot = plot_data_slope, group_var = "genotyp
 pct_12h; pct_24h; pct_48h; pct_slope
 ```
 
----
+------------------------------------------------------------------------
 
 ## Visualization 1 — Density Plots
 
@@ -146,7 +149,7 @@ p4 <- PlotPathway(plot_data_slope, "Wnt (slope)", "genotype", c("#ae282c", "#206
 p1; p2; p3; p4
 ```
 
----
+------------------------------------------------------------------------
 
 ## Visualization 2 — Violin + Jitter Plot
 
@@ -167,7 +170,7 @@ p5 <- ggplot(plot_data_12h,
 p5
 ```
 
----
+------------------------------------------------------------------------
 
 ## Visualization 3 — Waterfall Plot
 
@@ -207,9 +210,9 @@ p6 <- ggplot(waterfall_data, aes(x = rank, y = scale, fill = state)) +
 p6
 ```
 
----
+------------------------------------------------------------------------
 
-## Customize Pathway Input 
+## Customize Pathway Input
 
 ```{r self-defined pathway}
 # Customize the wnt pathway using coefficients defined by us
@@ -337,7 +340,7 @@ p7 <- ggplot() +
 p7
 ```
 
----
+------------------------------------------------------------------------
 
 ## Null Distribution — Within Pathway Gene Pool
 
@@ -411,7 +414,7 @@ p_null <- ggplot() +
 p_null
 ```
 
----
+------------------------------------------------------------------------
 
 ## Sensitivity Analysis 1 — Effect of Input Matrix Type
 
@@ -487,7 +490,7 @@ p13 <- wrap_plots(density_plots, ncol = 2) +
 p12; p13
 ```
 
----
+------------------------------------------------------------------------
 
 ## Correlation with Technical Confounders
 
@@ -564,7 +567,7 @@ p_raw <- (make_scatter(confounder_df_raw, "mean_expr",    "Mean expression") +
 p_raw
 ```
 
----
+------------------------------------------------------------------------
 
 ## Benchmark Against PROGENy and AddModuleScore
 
@@ -697,7 +700,7 @@ p11 <- ggplot(cohens_d_results, aes(x = reorder(Method, Cohens_d), y = Cohens_d,
 p10; p11
 ```
 
----
+------------------------------------------------------------------------
 
 ## Sensitivity Analysis 2 — Effect of Distance Method
 

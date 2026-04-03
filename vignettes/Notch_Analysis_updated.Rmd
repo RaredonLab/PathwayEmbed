@@ -16,6 +16,8 @@ Reference: Remark et al., *Bone Res* 11, 50 (2023).
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(
   collapse  = TRUE,
+  warning = FALSE,
+  message = FALSE,
   comment   = "#>",
   dpi       = 300,
   fig.width = 6,

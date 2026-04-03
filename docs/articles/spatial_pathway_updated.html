@@ -78,7 +78,15 @@ for the initial data: Chen et al. Spatiotemporal transcriptomic atlas of
 mouse organogenesis using DNA nanoball-patterned arrays, Cell, Volume
 185, Issue 10, 2022, Pages 1777-1792.e21.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">knitr</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/knitr/man/opts_chunk.html" class="external-link">opts_chunk</a></span><span class="op">$</span><span class="fu">set</span><span class="op">(</span>echo <span class="op">=</span> <span class="cn">TRUE</span>, fig.width <span class="op">=</span> <span class="fl">8</span>, fig.height <span class="op">=</span> <span class="fl">6</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="fu">knitr</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/knitr/man/opts_chunk.html" class="external-link">opts_chunk</a></span><span class="op">$</span><span class="fu">set</span><span class="op">(</span></span>
+<span>  echo <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  collapse <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  warning <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  message <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  comment <span class="op">=</span> <span class="st">"#&gt;"</span>,</span>
+<span>  fig.width <span class="op">=</span> <span class="fl">8</span>,</span>
+<span>  fig.height <span class="op">=</span> <span class="fl">6</span></span>
+<span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># load library</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://raredonlab.github.io/PathwayEmbed">PathwayEmbed</a></span><span class="op">)</span></span>
@@ -175,57 +183,51 @@ mouse organogenesis using DNA nanoball-patterned arrays, Cell, Volume
 <h2 id="get-pathway-data-for-each-pathway-first">Get Pathway Data for Each Pathway first<a class="anchor" aria-label="anchor" href="#get-pathway-data-for-each-pathway-first"></a>
 </h2>
 <div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># All Pathways</span></span>
-<span><span class="fu"><a href="../reference/ListPathway.html">ListPathway</a></span><span class="op">(</span><span class="st">"Pathway"</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## [1] "HIF1A" "HIPPO" "NOTCH" "TGFB"  "WNT"</span></span></code></pre>
-<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/ListPathway.html">ListPathway</a></span><span class="op">(</span><span class="st">"HIF1A"</span><span class="op">)</span> <span class="co"># Pick Hypoxia_24hr</span></span></code></pre></div>
-<pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 3 × 8</span></span></span>
-<span><span class="co">##   Pathway Sheet.Name GEO.Accession Condition Cell.Source Species No..Genes Notes</span></span>
-<span><span class="co">##   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">1</span> HIF1A   Hypoxia_6… GSE227502     Hypoxia … Primary hu… Human          21 <span style="color: #BB0000;">NA</span>   </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">2</span> HIF1A   Hypoxia_2… GSE227502     Hypoxia … Primary hu… Human          18 <span style="color: #BB0000;">NA</span>   </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">3</span> HIF1A   Hypoxia_5… GSE227502     Hypoxia … Primary hu… Human          10 <span style="color: #BB0000;">NA</span></span></span></code></pre>
-<div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/ListPathway.html">ListPathway</a></span><span class="op">(</span><span class="st">"HIPPO"</span><span class="op">)</span> <span class="co"># Only one: HIPPO_heat</span></span></code></pre></div>
-<pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 1 × 8</span></span></span>
-<span><span class="co">##   Pathway Sheet.Name GEO.Accession Condition Cell.Source Species No..Genes Notes</span></span>
-<span><span class="co">##   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">1</span> HIPPO   HIPPO_heat GSE133251     Heat str… B16-OVA me… Mouse          40 <span style="color: #BB0000;">NA</span></span></span></code></pre>
-<div class="sourceCode" id="cb39"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/ListPathway.html">ListPathway</a></span><span class="op">(</span><span class="st">"NOTCH"</span><span class="op">)</span> <span class="co"># Use NOTCH_JAG1_24H -&gt; validated in another datasets</span></span></code></pre></div>
-<pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 6 × 8</span></span></span>
-<span><span class="co">##   Pathway Sheet.Name GEO.Accession Condition Cell.Source Species No..Genes Notes</span></span>
-<span><span class="co">##   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">1</span> NOTCH   NOTCH_JAG1 GSE223734     rJAG1 li… Mouse embr… Mouse           5 <span style="color: #BB0000;">NA</span>   </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">2</span> NOTCH   NOTCH_CB1… GSE221577     CB-103 N… RPMI-8402 … Human          46 <span style="color: #BB0000;">NA</span>   </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">3</span> NOTCH   NOTCH_LY_… GSE221577     LY411575… RPMI-8402 … Human          46 <span style="color: #BB0000;">NA</span>   </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">4</span> NOTCH   NOTCH_JAG… GSE235637     JAG1 sti… SVG-A cells Human          11 <span style="color: #BB0000;">NA</span>   </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">5</span> NOTCH   NOTCH_JAG… GSE235637     JAG1 sti… SVG-A cells Human          11 <span style="color: #BB0000;">NA</span>   </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">6</span> NOTCH   NOTCH_JAG… GSE235637     JAG1 sti… SVG-A cells Human          11 <span style="color: #BB0000;">NA</span></span></span></code></pre>
-<div class="sourceCode" id="cb41"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/ListPathway.html">ListPathway</a></span><span class="op">(</span><span class="st">"TGFB"</span><span class="op">)</span> <span class="co"># Use TGFB_Mouse since this is the only Ms dataset </span></span></code></pre></div>
-<pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 3 × 8</span></span></span>
-<span><span class="co">##   Pathway Sheet.Name GEO.Accession Condition Cell.Source Species No..Genes Notes</span></span>
-<span><span class="co">##   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">1</span> TGFB    TGFB_Huma… GSE110021     TGF-β1 t… WI-38 fibr… Human          35 <span style="color: #BB0000;">NA</span>   </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">2</span> TGFB    TGFB_Huma… GSE110021     TGF-β1 t… WI-38 fibr… Human          39 <span style="color: #BB0000;">NA</span>   </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">3</span> TGFB    TGFB_Mouse GSE246932     TGF-β1 t… T Cells     Mouse           9 <span style="color: #BB0000;">NA</span></span></span></code></pre>
-<div class="sourceCode" id="cb43"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/ListPathway.html">ListPathway</a></span><span class="op">(</span><span class="st">"WNT"</span><span class="op">)</span> <span class="co"># Use WNT3A_SLOPE_ACTIVATION</span></span></code></pre></div>
-<pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 4 × 8</span></span></span>
-<span><span class="co">##   Pathway Sheet.Name GEO.Accession Condition Cell.Source Species No..Genes Notes</span></span>
-<span><span class="co">##   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">1</span> WNT     WNT3A_12H… GSE103175     WNT3A tr… Human Embr… Human          90 <span style="color: #BB0000;">NA</span>   </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">2</span> WNT     WNT3A_24H… GSE103175     WNT3A tr… Human Embr… Human          88 <span style="color: #BB0000;">NA</span>   </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">3</span> WNT     WNT3A_48H… GSE103175     WNT3A tr… Human Embr… Human          90 <span style="color: #BB0000;">NA</span>   </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">4</span> WNT     WNT3A_SLO… GSE103175     WNT3A tr… Human Embr… Human          90 <span style="color: #BB0000;">NA</span></span></span></code></pre>
-<div class="sourceCode" id="cb45"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Load Each Pathwaydatabase</span></span>
-<span><span class="va">HIf1a_pathwaydata</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/LoadPathway.html">LoadPathway</a></span><span class="op">(</span><span class="st">"Hypoxia_24hr"</span>, <span class="st">"mouse"</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## 1 row(s) with NA gene symbols removed.</span></span></code></pre>
-<div class="sourceCode" id="cb47"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">Hippo_pathwaydata</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/LoadPathway.html">LoadPathway</a></span><span class="op">(</span><span class="st">"HIPPO_heat"</span>, <span class="st">"mouse"</span><span class="op">)</span></span>
+<code class="sourceCode R"><span></span>
+<span><span class="co"># All Pathways</span></span>
+<span><span class="fu"><a href="../reference/ListPathway.html">ListPathway</a></span><span class="op">(</span><span class="st">"Pathway"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] "HIF1A" "HIPPO" "NOTCH" "TGFB"  "WNT"</span></span>
+<span><span class="fu"><a href="../reference/ListPathway.html">ListPathway</a></span><span class="op">(</span><span class="st">"HIF1A"</span><span class="op">)</span> <span class="co"># Pick Hypoxia_24hr</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 × 8</span></span></span>
+<span><span class="co">#&gt;   Pathway Sheet.Name GEO.Accession Condition Cell.Source Species No..Genes Notes</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> HIF1A   Hypoxia_6… GSE227502     Hypoxia … Primary hu… Human          21 <span style="color: #BB0000;">NA</span>   </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> HIF1A   Hypoxia_2… GSE227502     Hypoxia … Primary hu… Human          18 <span style="color: #BB0000;">NA</span>   </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> HIF1A   Hypoxia_5… GSE227502     Hypoxia … Primary hu… Human          10 <span style="color: #BB0000;">NA</span></span></span>
+<span><span class="fu"><a href="../reference/ListPathway.html">ListPathway</a></span><span class="op">(</span><span class="st">"HIPPO"</span><span class="op">)</span> <span class="co"># Only one: HIPPO_heat</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 8</span></span></span>
+<span><span class="co">#&gt;   Pathway Sheet.Name GEO.Accession Condition Cell.Source Species No..Genes Notes</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> HIPPO   HIPPO_heat GSE133251     Heat str… B16-OVA me… Mouse          40 <span style="color: #BB0000;">NA</span></span></span>
+<span><span class="fu"><a href="../reference/ListPathway.html">ListPathway</a></span><span class="op">(</span><span class="st">"NOTCH"</span><span class="op">)</span> <span class="co"># Use NOTCH_JAG1_24H -&gt; validated in another datasets</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 8</span></span></span>
+<span><span class="co">#&gt;   Pathway Sheet.Name GEO.Accession Condition Cell.Source Species No..Genes Notes</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> NOTCH   NOTCH_JAG1 GSE223734     rJAG1 li… Mouse embr… Mouse           5 <span style="color: #BB0000;">NA</span>   </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> NOTCH   NOTCH_CB1… GSE221577     CB-103 N… RPMI-8402 … Human          46 <span style="color: #BB0000;">NA</span>   </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> NOTCH   NOTCH_LY_… GSE221577     LY411575… RPMI-8402 … Human          46 <span style="color: #BB0000;">NA</span>   </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> NOTCH   NOTCH_JAG… GSE235637     JAG1 sti… SVG-A cells Human          11 <span style="color: #BB0000;">NA</span>   </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> NOTCH   NOTCH_JAG… GSE235637     JAG1 sti… SVG-A cells Human          11 <span style="color: #BB0000;">NA</span>   </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> NOTCH   NOTCH_JAG… GSE235637     JAG1 sti… SVG-A cells Human          11 <span style="color: #BB0000;">NA</span></span></span>
+<span><span class="fu"><a href="../reference/ListPathway.html">ListPathway</a></span><span class="op">(</span><span class="st">"TGFB"</span><span class="op">)</span> <span class="co"># Use TGFB_Mouse since this is the only Ms dataset </span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 × 8</span></span></span>
+<span><span class="co">#&gt;   Pathway Sheet.Name GEO.Accession Condition Cell.Source Species No..Genes Notes</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> TGFB    TGFB_Huma… GSE110021     TGF-β1 t… WI-38 fibr… Human          35 <span style="color: #BB0000;">NA</span>   </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> TGFB    TGFB_Huma… GSE110021     TGF-β1 t… WI-38 fibr… Human          39 <span style="color: #BB0000;">NA</span>   </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> TGFB    TGFB_Mouse GSE246932     TGF-β1 t… T Cells     Mouse           9 <span style="color: #BB0000;">NA</span></span></span>
+<span><span class="fu"><a href="../reference/ListPathway.html">ListPathway</a></span><span class="op">(</span><span class="st">"WNT"</span><span class="op">)</span> <span class="co"># Use WNT3A_SLOPE_ACTIVATION</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 4 × 8</span></span></span>
+<span><span class="co">#&gt;   Pathway Sheet.Name GEO.Accession Condition Cell.Source Species No..Genes Notes</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> WNT     WNT3A_12H… GSE103175     WNT3A tr… Human Embr… Human          90 <span style="color: #BB0000;">NA</span>   </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> WNT     WNT3A_24H… GSE103175     WNT3A tr… Human Embr… Human          88 <span style="color: #BB0000;">NA</span>   </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> WNT     WNT3A_48H… GSE103175     WNT3A tr… Human Embr… Human          90 <span style="color: #BB0000;">NA</span>   </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> WNT     WNT3A_SLO… GSE103175     WNT3A tr… Human Embr… Human          90 <span style="color: #BB0000;">NA</span></span></span>
+<span></span>
+<span><span class="co"># Load Each Pathwaydatabase</span></span>
+<span><span class="va">HIf1a_pathwaydata</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/LoadPathway.html">LoadPathway</a></span><span class="op">(</span><span class="st">"Hypoxia_24hr"</span>, <span class="st">"mouse"</span><span class="op">)</span></span>
+<span><span class="va">Hippo_pathwaydata</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/LoadPathway.html">LoadPathway</a></span><span class="op">(</span><span class="st">"HIPPO_heat"</span>, <span class="st">"mouse"</span><span class="op">)</span></span>
 <span><span class="va">Notch_pathwaydata</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/LoadPathway.html">LoadPathway</a></span><span class="op">(</span><span class="st">"NOTCH_JAG1_24H"</span>, <span class="st">"mouse"</span><span class="op">)</span></span>
 <span><span class="va">TGFb_pathwaydata</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/LoadPathway.html">LoadPathway</a></span><span class="op">(</span><span class="st">"TGFB_Mouse"</span>, <span class="st">"mouse"</span><span class="op">)</span></span>
 <span><span class="va">Wnt_pathwaydata</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/LoadPathway.html">LoadPathway</a></span><span class="op">(</span><span class="st">"WNT3A_SLOPE_ACTIVATION"</span>, <span class="st">"mouse"</span><span class="op">)</span></span></code></pre></div>
@@ -236,8 +238,10 @@ mouse organogenesis using DNA nanoball-patterned arrays, Cell, Volume
 <p>Using Matrix extracted to avoid large size data object, compute score
 for Wnt, Notch, Hippo, Tgfb, and HIF-1a pathways for the merged subject
 using ‘ComputeCellData’ in PathwayEmbed</p>
-<div class="sourceCode" id="cb48"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># DataPreProcess</span></span>
+<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
+<span></span>
+<span><span class="co"># DataPreProcess</span></span>
 <span><span class="va">matrix_HIf1a</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/DataPreProcess.html">DataPreProcess</a></span><span class="op">(</span><span class="va">merged_spatial_matrix</span>, <span class="va">HIf1a_pathwaydata</span>, Seurat.object <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span><span class="va">matrix_Hippo</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/DataPreProcess.html">DataPreProcess</a></span><span class="op">(</span><span class="va">merged_spatial_matrix</span>, <span class="va">Hippo_pathwaydata</span>, Seurat.object <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span><span class="va">matrix_Notch</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/DataPreProcess.html">DataPreProcess</a></span><span class="op">(</span><span class="va">merged_spatial_matrix</span>, <span class="va">Notch_pathwaydata</span>, Seurat.object <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
@@ -262,8 +266,9 @@ using ‘ComputeCellData’ in PathwayEmbed</p>
 <h2 id="prepare-plot-data">Prepare plot data<a class="anchor" aria-label="anchor" href="#prepare-plot-data"></a>
 </h2>
 <p>Map Timepoints back to the data</p>
-<div class="sourceCode" id="cb49"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Compute the score for each pathway</span></span>
+<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
+<span><span class="co"># Compute the score for each pathway</span></span>
 <span><span class="va">Wnt_to.plot</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/PreparePlotData.html">PreparePlotData</a></span><span class="op">(</span><span class="va">merged_spatial_metadata</span>, <span class="va">Wnt_score</span>, <span class="st">"timepoint"</span>, Seurat.object <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span><span class="va">Notch_to.plot</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/PreparePlotData.html">PreparePlotData</a></span><span class="op">(</span><span class="va">merged_spatial_metadata</span>, <span class="va">Notch_score</span>, <span class="st">"timepoint"</span>, Seurat.object <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span><span class="va">Hippo_to.plot</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/PreparePlotData.html">PreparePlotData</a></span><span class="op">(</span><span class="va">merged_spatial_metadata</span>, <span class="va">Hippo_score</span>, <span class="st">"timepoint"</span>, Seurat.object <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
@@ -283,9 +288,9 @@ using ‘ComputeCellData’ in PathwayEmbed</p>
 <div class="section level2">
 <h2 id="preparation-for-groups">Preparation for groups<a class="anchor" aria-label="anchor" href="#preparation-for-groups"></a>
 </h2>
-<pre><code><span><span class="co">## /private/var/folders/dy/dxff9z6j5cdd5sqsvz2l5ngc0000gn/T/Rtmpbu6fbj/temp_libpath14fe9549162be/PathwayEmbed/extdata/pathway_list_timepoint.rds</span></span></code></pre>
-<pre><code><span><span class="co">## /private/var/folders/dy/dxff9z6j5cdd5sqsvz2l5ngc0000gn/T/Rtmpbu6fbj/temp_libpath14fe9549162be /Library/Frameworks/R.framework/Versions/4.4-arm64/Resources/library</span></span></code></pre>
-<div class="sourceCode" id="cb52"><pre class="downlit sourceCode r">
+<pre><code><span><span class="co">#&gt; /private/var/folders/dy/dxff9z6j5cdd5sqsvz2l5ngc0000gn/T/RtmpAOrgi8/temp_libpath3ff17d773dd5/PathwayEmbed/extdata/pathway_list_timepoint.rds</span></span>
+<span><span class="co">#&gt; /private/var/folders/dy/dxff9z6j5cdd5sqsvz2l5ngc0000gn/T/RtmpAOrgi8/temp_libpath3ff17d773dd5 /Library/Frameworks/R.framework/Versions/4.4-arm64/Resources/library</span></span></code></pre>
+<div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Color set-up</span></span>
 <span><span class="va">magma_colors</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"#000004FF"</span>, <span class="st">"#721F81FF"</span>, <span class="st">"#F1605DFF"</span>, <span class="st">"#5A90E6"</span><span class="op">)</span></span>
 <span></span>
@@ -300,7 +305,7 @@ using ‘ComputeCellData’ in PathwayEmbed</p>
 <div class="section level2">
 <h2 id="plot-across-different-timepoints">Plot across different timepoints<a class="anchor" aria-label="anchor" href="#plot-across-different-timepoints"></a>
 </h2>
-<div class="sourceCode" id="cb53"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb38"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Calculation</span></span>
 <span></span>
 <span><span class="va">stats</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span></span>
@@ -347,19 +352,12 @@ using ‘ComputeCellData’ in PathwayEmbed</p>
 <span>  <span class="co">#   dpi = 300</span></span>
 <span><span class="co">#  )</span></span>
 <span><span class="op">}</span></span></code></pre></div>
-<pre><code><span><span class="co">## Warning: Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0.</span></span>
-<span><span class="co">## <span style="color: #00BBBB;">ℹ</span> Please use `linewidth` instead.</span></span>
-<span><span class="co">## <span style="color: #00BBBB;">ℹ</span> The deprecated feature was likely used in the <span style="color: #0000BB;">PathwayEmbed</span> package.</span></span>
-<span><span class="co">##   Please report the issue to the authors.</span></span>
-<span><span class="co">## <span style="color: #555555;">This warning is displayed once per session.</span></span></span>
-<span><span class="co">## <span style="color: #555555;">Call `lifecycle::last_lifecycle_warnings()` to see where this warning was</span></span></span>
-<span><span class="co">## <span style="color: #555555;">generated.</span></span></span></code></pre>
 <p><img src="spatial_pathway_updated_files/figure-html/unnamed-chunk-3-1.png" class="r-plt" alt="" width="768"><img src="spatial_pathway_updated_files/figure-html/unnamed-chunk-3-2.png" class="r-plt" alt="" width="768"><img src="spatial_pathway_updated_files/figure-html/unnamed-chunk-3-3.png" class="r-plt" alt="" width="768"><img src="spatial_pathway_updated_files/figure-html/unnamed-chunk-3-4.png" class="r-plt" alt="" width="768"><img src="spatial_pathway_updated_files/figure-html/unnamed-chunk-3-5.png" class="r-plt" alt="" width="768"></p>
 </div>
 <div class="section level2">
 <h2 id="merge-score-with-original-metadata">Merge score with original metadata<a class="anchor" aria-label="anchor" href="#merge-score-with-original-metadata"></a>
 </h2>
-<div class="sourceCode" id="cb55"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb39"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Step 1: Create named score vectors for each pathway</span></span>
 <span><span class="va">score_list</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="va">pathway_list</span>, <span class="kw">function</span><span class="op">(</span><span class="va">df</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="va">s</span> <span class="op">&lt;-</span> <span class="va">df</span><span class="op">$</span><span class="va">scale</span></span>
@@ -390,7 +388,7 @@ using ‘ComputeCellData’ in PathwayEmbed</p>
 <div class="section level2">
 <h2 id="extract-the-coordinates">Extract the coordinates<a class="anchor" aria-label="anchor" href="#extract-the-coordinates"></a>
 </h2>
-<div class="sourceCode" id="cb56"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb40"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Function to extract </span></span>
 <span><span class="va">extract_pathway_df</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">seu</span>, <span class="va">pathway</span>, <span class="va">sample_name</span> <span class="op">=</span> <span class="st">"sample"</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="va">coords</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame</a></span><span class="op">(</span><span class="fu"><a href="https://satijalab.github.io/seurat-object/reference/Embeddings.html" class="external-link">Embeddings</a></span><span class="op">(</span><span class="va">seu</span><span class="op">[[</span><span class="st">"spatial"</span><span class="op">]</span><span class="op">]</span><span class="op">)</span><span class="op">)</span></span>
@@ -420,7 +418,7 @@ using ‘ComputeCellData’ in PathwayEmbed</p>
 <div class="section level2">
 <h2 id="plot-the-spatial-data">Plot the spatial data<a class="anchor" aria-label="anchor" href="#plot-the-spatial-data"></a>
 </h2>
-<div class="sourceCode" id="cb57"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb41"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Compute global symmetric limits (recommended)</span></span>
 <span><span class="va">all_values</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/unlist.html" class="external-link">unlist</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="va">combined_df_lists</span>, <span class="kw">function</span><span class="op">(</span><span class="va">df</span><span class="op">)</span> <span class="va">df</span><span class="op">$</span><span class="va">scale</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">q</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/quantile.html" class="external-link">quantile</a></span><span class="op">(</span><span class="va">all_values</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.02</span>, <span class="fl">0.98</span><span class="op">)</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
@@ -454,7 +452,7 @@ using ‘ComputeCellData’ in PathwayEmbed</p>
 <span><span class="op">}</span></span></code></pre></div>
 <p><img src="spatial_pathway_updated_files/figure-html/unnamed-chunk-7-1.png" class="r-plt" alt="" width="768"><img src="spatial_pathway_updated_files/figure-html/unnamed-chunk-7-2.png" class="r-plt" alt="" width="768"><img src="spatial_pathway_updated_files/figure-html/unnamed-chunk-7-3.png" class="r-plt" alt="" width="768"><img src="spatial_pathway_updated_files/figure-html/unnamed-chunk-7-4.png" class="r-plt" alt="" width="768"><img src="spatial_pathway_updated_files/figure-html/unnamed-chunk-7-5.png" class="r-plt" alt="" width="768">
 ## Spatial Correlation Analysis using Moran’s I</p>
-<div class="sourceCode" id="cb58"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb42"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/r-spatial/spdep/" class="external-link">spdep</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Global Moran's I</span></span>
@@ -484,15 +482,15 @@ using ‘ComputeCellData’ in PathwayEmbed</p>
 <span>  <span class="op">)</span></span>
 <span><span class="op">}</span><span class="op">)</span></span>
 <span><span class="va">moran_results</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/do.call.html" class="external-link">do.call</a></span><span class="op">(</span><span class="va">rbind</span>, <span class="va">moran_results</span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb59"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">moran_results</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">##   pathway   morans_I p_value</span></span>
-<span><span class="co">## 1     Wnt 0.08640729       0</span></span>
-<span><span class="co">## 2   Notch 0.21093640       0</span></span>
-<span><span class="co">## 3   Hippo 0.09334557       0</span></span>
-<span><span class="co">## 4    Tgfb 0.12592755       0</span></span>
-<span><span class="co">## 5   HIF1a 0.25478622       0</span></span></code></pre>
-<div class="sourceCode" id="cb61"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb43"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">moran_results</span><span class="op">)</span></span>
+<span><span class="co">#&gt;   pathway   morans_I p_value</span></span>
+<span><span class="co">#&gt; 1     Wnt 0.08640729       0</span></span>
+<span><span class="co">#&gt; 2   Notch 0.21093640       0</span></span>
+<span><span class="co">#&gt; 3   Hippo 0.09334557       0</span></span>
+<span><span class="co">#&gt; 4    Tgfb 0.12592755       0</span></span>
+<span><span class="co">#&gt; 5   HIF1a 0.25478622       0</span></span></code></pre></div>
+<div class="sourceCode" id="cb44"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># compute neighbor Moran's I for pathways with high spatial autocorrelation</span></span>
 <span><span class="va">compute_local_moran</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">df</span>, <span class="va">lw</span>, <span class="va">pathway_name</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  </span>
@@ -513,7 +511,7 @@ using ‘ComputeCellData’ in PathwayEmbed</p>
 <span><span class="va">df_plot</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/do.call.html" class="external-link">do.call</a></span><span class="op">(</span><span class="va">rbind</span>, <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="va">selected_pathways</span>, <span class="kw">function</span><span class="op">(</span><span class="va">pw</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="fu">compute_local_moran</span><span class="op">(</span><span class="va">combined_df_lists_updated</span><span class="op">[[</span><span class="va">pw</span><span class="op">]</span><span class="op">]</span>, <span class="va">lw</span>, <span class="va">pw</span><span class="op">)</span></span>
 <span><span class="op">}</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb62"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb45"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://sjmgarnier.github.io/viridis/" class="external-link">viridis</a></span><span class="op">)</span></span>
 <span></span>
@@ -551,7 +549,7 @@ using ‘ComputeCellData’ in PathwayEmbed</p>
 <h2 id="benchmark-towards-progeny">Benchmark towards Progeny<a class="anchor" aria-label="anchor" href="#benchmark-towards-progeny"></a>
 </h2>
 <p>Benchmark + Technical Confounding Factors</p>
-<div class="sourceCode" id="cb63"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb46"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">123</span><span class="op">)</span></span>
 <span><span class="co"># Load all required libraries</span></span>
 <span>  <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/saezlab/progeny" class="external-link">progeny</a></span><span class="op">)</span></span>
@@ -579,14 +577,14 @@ using ‘ComputeCellData’ in PathwayEmbed</p>
 <span>  top      <span class="op">=</span> <span class="fl">100</span>,</span>
 <span>  perm     <span class="op">=</span> <span class="fl">1</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb64"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb47"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Extract pathways — check column names exist first</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">progeny_scores</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">##  [1] "Androgen" "EGFR"     "Estrogen" "Hypoxia"  "JAK-STAT" "MAPK"    </span></span>
-<span><span class="co">##  [7] "NFkB"     "p53"      "PI3K"     "TGFb"     "TNFa"     "Trail"   </span></span>
-<span><span class="co">## [13] "VEGF"     "WNT"</span></span></code></pre>
-<div class="sourceCode" id="cb66"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Extract existed pathways</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">progeny_scores</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt;  [1] "Androgen" "EGFR"     "Estrogen" "Hypoxia"  "JAK-STAT" "MAPK"    </span></span>
+<span><span class="co">#&gt;  [7] "NFkB"     "p53"      "PI3K"     "TGFb"     "TNFa"     "Trail"   </span></span>
+<span><span class="co">#&gt; [13] "VEGF"     "WNT"</span></span>
+<span></span>
+<span><span class="co"># Extract existed pathways</span></span>
 <span><span class="va">progeny_wnt</span>     <span class="op">&lt;-</span> <span class="va">progeny_scores</span><span class="op">[</span>, <span class="st">"WNT"</span><span class="op">]</span></span>
 <span><span class="va">progeny_hypoxia</span> <span class="op">&lt;-</span> <span class="va">progeny_scores</span><span class="op">[</span>, <span class="st">"Hypoxia"</span><span class="op">]</span></span>
 <span><span class="va">progeny_tgfb</span>    <span class="op">&lt;-</span> <span class="va">progeny_scores</span><span class="op">[</span>, <span class="st">"TGFb"</span><span class="op">]</span></span>
@@ -644,7 +642,6 @@ using ‘ComputeCellData’ in PathwayEmbed</p>
 <span>  <span class="op">)</span></span>
 <span></span>
 <span><span class="va">p_benchmark</span></span></code></pre></div>
-<pre><code><span><span class="co">## `geom_smooth()` using formula = 'y ~ x'</span></span></code></pre>
 </div>
 <div class="section level2">
 <h2 id="section">
@@ -654,7 +651,7 @@ using ‘ComputeCellData’ in PathwayEmbed</p>
 <div class="section level2">
 <h2 id="cross-pathway-spearman-correlation-matrix">Cross-pathway Spearman Correlation matrix<a class="anchor" aria-label="anchor" href="#cross-pathway-spearman-correlation-matrix"></a>
 </h2>
-<div class="sourceCode" id="cb68"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb48"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">score_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
 <span>  HIf1a <span class="op">=</span> <span class="va">HIf1a_score</span>,</span>
 <span>  Hippo <span class="op">=</span> <span class="va">Hippo_score</span>,</span>
@@ -668,15 +665,15 @@ using ‘ComputeCellData’ in PathwayEmbed</p>
 <span><span class="va">cor_test</span> <span class="op">&lt;-</span> <span class="fu">Hmisc</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/Hmisc/man/rcorr.html" class="external-link">rcorr</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">as.matrix</a></span><span class="op">(</span><span class="va">score_df</span><span class="op">)</span>, type <span class="op">=</span> <span class="st">"spearman"</span><span class="op">)</span></span>
 <span><span class="va">p_matrix</span> <span class="op">&lt;-</span> <span class="va">cor_test</span><span class="op">$</span><span class="va">P</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/diag.html" class="external-link">diag</a></span><span class="op">(</span><span class="va">p_matrix</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fl">0</span>  <span class="co"># rcorr sets diagonal to NA; corrplot requires numeric diagonal</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="va">cor_matrix</span>, <span class="fl">3</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">##        HIf1a  Hippo  Notch   TGFb    Wnt</span></span>
-<span><span class="co">## HIf1a  1.000 -0.088  0.118  0.078  0.033</span></span>
-<span><span class="co">## Hippo -0.088  1.000 -0.041 -0.093 -0.036</span></span>
-<span><span class="co">## Notch  0.118 -0.041  1.000  0.099  0.041</span></span>
-<span><span class="co">## TGFb   0.078 -0.093  0.099  1.000  0.031</span></span>
-<span><span class="co">## Wnt    0.033 -0.036  0.041  0.031  1.000</span></span></code></pre>
-<div class="sourceCode" id="cb70"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Correlation heatmap</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="va">cor_matrix</span>, <span class="fl">3</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt;        HIf1a  Hippo  Notch   TGFb    Wnt</span></span>
+<span><span class="co">#&gt; HIf1a  1.000 -0.088  0.118  0.078  0.033</span></span>
+<span><span class="co">#&gt; Hippo -0.088  1.000 -0.041 -0.093 -0.036</span></span>
+<span><span class="co">#&gt; Notch  0.118 -0.041  1.000  0.099  0.041</span></span>
+<span><span class="co">#&gt; TGFb   0.078 -0.093  0.099  1.000  0.031</span></span>
+<span><span class="co">#&gt; Wnt    0.033 -0.036  0.041  0.031  1.000</span></span>
+<span></span>
+<span><span class="co"># Correlation heatmap</span></span>
 <span></span>
 <span><span class="fu">corrplot</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/corrplot/man/corrplot.html" class="external-link">corrplot</a></span><span class="op">(</span><span class="va">cor_matrix</span>,</span>
 <span>         method <span class="op">=</span> <span class="st">"color"</span>, type <span class="op">=</span> <span class="st">"upper"</span>,</span>
@@ -691,7 +688,7 @@ using ‘ComputeCellData’ in PathwayEmbed</p>
 <div class="section level2">
 <h2 id="technical-cofounders">Technical Cofounders<a class="anchor" aria-label="anchor" href="#technical-cofounders"></a>
 </h2>
-<div class="sourceCode" id="cb71"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb49"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">#---Basic QC metrics from the raw count matrix ----</span></span>
 <span><span class="co"># merged_spatial_matrix is genes x spots (dense or sparse both work here)</span></span>
 <span><span class="va">nCount</span>   <span class="op">&lt;-</span> <span class="fu">Matrix</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/Matrix/man/colSums-methods.html" class="external-link">colSums</a></span><span class="op">(</span><span class="va">merged_spatial_matrix</span><span class="op">)</span></span>
@@ -806,7 +803,7 @@ using ‘ComputeCellData’ in PathwayEmbed</p>
 <span>  Stress      <span class="op">=</span> <span class="va">stress_score</span><span class="op">[</span><span class="va">spot_names</span><span class="op">]</span>,</span>
 <span>  row.names   <span class="op">=</span> <span class="va">spot_names</span>,</span>
 <span>  stringsAsFactors <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb72"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb50"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">pathway_cols</span>    <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Wnt"</span>, <span class="st">"TGFb"</span>, <span class="st">"HIf1a"</span>, <span class="st">"Hippo"</span>, <span class="st">"Notch"</span><span class="op">)</span></span>
 <span><span class="va">confounder_cols</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"nCount"</span>, <span class="st">"nFeature"</span>, <span class="st">"pct_mt"</span>,</span>
 <span>                     <span class="st">"S_score"</span>, <span class="st">"G2M_score"</span>, <span class="st">"CC_score"</span>, <span class="st">"Stress"</span><span class="op">)</span></span>
@@ -834,45 +831,45 @@ using ‘ComputeCellData’ in PathwayEmbed</p>
 <span><span class="co"># FDR correction across all pathway-covariate pairs</span></span>
 <span><span class="va">cor_table</span><span class="op">$</span><span class="va">p_adj_BH</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/p.adjust.html" class="external-link">p.adjust</a></span><span class="op">(</span><span class="va">cor_table</span><span class="op">$</span><span class="va">p_value</span>, method <span class="op">=</span> <span class="st">"BH"</span><span class="op">)</span></span>
 <span><span class="va">cor_table</span><span class="op">$</span><span class="va">significant</span> <span class="op">&lt;-</span> <span class="va">cor_table</span><span class="op">$</span><span class="va">p_adj_BH</span> <span class="op">&lt;</span> <span class="fl">0.05</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">cor_table</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"pathway"</span>, <span class="st">"covariate"</span>, <span class="st">"spearman_r"</span>, <span class="st">"p_adj_BH"</span>, <span class="st">"significant"</span><span class="op">)</span><span class="op">]</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">##    pathway covariate spearman_r      p_adj_BH significant</span></span>
-<span><span class="co">## 1      Wnt    nCount     0.0433  4.415180e-45        TRUE</span></span>
-<span><span class="co">## 2      Wnt  nFeature     0.0426  1.536189e-43        TRUE</span></span>
-<span><span class="co">## 3      Wnt    pct_mt     0.0125  5.228341e-05        TRUE</span></span>
-<span><span class="co">## 4      Wnt   S_score     0.0735 1.130319e-126        TRUE</span></span>
-<span><span class="co">## 5      Wnt G2M_score     0.0871 6.075138e-177        TRUE</span></span>
-<span><span class="co">## 6      Wnt  CC_score    -0.0199  9.980877e-11        TRUE</span></span>
-<span><span class="co">## 7      Wnt    Stress     0.0684 8.929403e-110        TRUE</span></span>
-<span><span class="co">## 8     TGFb    nCount     0.2328  0.000000e+00        TRUE</span></span>
-<span><span class="co">## 9     TGFb  nFeature     0.2108  0.000000e+00        TRUE</span></span>
-<span><span class="co">## 10    TGFb    pct_mt    -0.0755 1.735223e-133        TRUE</span></span>
-<span><span class="co">## 11    TGFb   S_score     0.2074  0.000000e+00        TRUE</span></span>
-<span><span class="co">## 12    TGFb G2M_score     0.2050  0.000000e+00        TRUE</span></span>
-<span><span class="co">## 13    TGFb  CC_score     0.0002  9.384768e-01       FALSE</span></span>
-<span><span class="co">## 14    TGFb    Stress     0.0996 2.252103e-231        TRUE</span></span>
-<span><span class="co">## 15   HIf1a    nCount     0.4212  0.000000e+00        TRUE</span></span>
-<span><span class="co">## 16   HIf1a  nFeature     0.3167  0.000000e+00        TRUE</span></span>
-<span><span class="co">## 17   HIf1a    pct_mt    -0.3226  0.000000e+00        TRUE</span></span>
-<span><span class="co">## 18   HIf1a   S_score     0.3803  0.000000e+00        TRUE</span></span>
-<span><span class="co">## 19   HIf1a G2M_score     0.3572  0.000000e+00        TRUE</span></span>
-<span><span class="co">## 20   HIf1a  CC_score     0.0261  2.706127e-17        TRUE</span></span>
-<span><span class="co">## 21   HIf1a    Stress     0.2466  0.000000e+00        TRUE</span></span>
-<span><span class="co">## 22   Hippo    nCount    -0.1506  0.000000e+00        TRUE</span></span>
-<span><span class="co">## 23   Hippo  nFeature    -0.1228  0.000000e+00        TRUE</span></span>
-<span><span class="co">## 24   Hippo    pct_mt     0.1003 2.944881e-234        TRUE</span></span>
-<span><span class="co">## 25   Hippo   S_score    -0.1268  0.000000e+00        TRUE</span></span>
-<span><span class="co">## 26   Hippo G2M_score    -0.1192  0.000000e+00        TRUE</span></span>
-<span><span class="co">## 27   Hippo  CC_score     0.0047  1.274208e-01       FALSE</span></span>
-<span><span class="co">## 28   Hippo    Stress    -0.0960 8.909423e-215        TRUE</span></span>
-<span><span class="co">## 29   Notch    nCount     0.3083  0.000000e+00        TRUE</span></span>
-<span><span class="co">## 30   Notch  nFeature     0.2871  0.000000e+00        TRUE</span></span>
-<span><span class="co">## 31   Notch    pct_mt    -0.2177  0.000000e+00        TRUE</span></span>
-<span><span class="co">## 32   Notch   S_score     0.2753  0.000000e+00        TRUE</span></span>
-<span><span class="co">## 33   Notch G2M_score     0.2975  0.000000e+00        TRUE</span></span>
-<span><span class="co">## 34   Notch  CC_score    -0.0247  9.902323e-16        TRUE</span></span>
-<span><span class="co">## 35   Notch    Stress     0.1689  0.000000e+00        TRUE</span></span></code></pre>
-<div class="sourceCode" id="cb74"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">cor_wide</span> <span class="op">&lt;-</span> <span class="va">cor_table</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">cor_table</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"pathway"</span>, <span class="st">"covariate"</span>, <span class="st">"spearman_r"</span>, <span class="st">"p_adj_BH"</span>, <span class="st">"significant"</span><span class="op">)</span><span class="op">]</span><span class="op">)</span></span>
+<span><span class="co">#&gt;    pathway covariate spearman_r      p_adj_BH significant</span></span>
+<span><span class="co">#&gt; 1      Wnt    nCount     0.0433  4.415180e-45        TRUE</span></span>
+<span><span class="co">#&gt; 2      Wnt  nFeature     0.0426  1.536189e-43        TRUE</span></span>
+<span><span class="co">#&gt; 3      Wnt    pct_mt     0.0125  5.228341e-05        TRUE</span></span>
+<span><span class="co">#&gt; 4      Wnt   S_score     0.0735 1.130319e-126        TRUE</span></span>
+<span><span class="co">#&gt; 5      Wnt G2M_score     0.0871 6.075138e-177        TRUE</span></span>
+<span><span class="co">#&gt; 6      Wnt  CC_score    -0.0199  9.980877e-11        TRUE</span></span>
+<span><span class="co">#&gt; 7      Wnt    Stress     0.0684 8.929403e-110        TRUE</span></span>
+<span><span class="co">#&gt; 8     TGFb    nCount     0.2328  0.000000e+00        TRUE</span></span>
+<span><span class="co">#&gt; 9     TGFb  nFeature     0.2108  0.000000e+00        TRUE</span></span>
+<span><span class="co">#&gt; 10    TGFb    pct_mt    -0.0755 1.735223e-133        TRUE</span></span>
+<span><span class="co">#&gt; 11    TGFb   S_score     0.2074  0.000000e+00        TRUE</span></span>
+<span><span class="co">#&gt; 12    TGFb G2M_score     0.2050  0.000000e+00        TRUE</span></span>
+<span><span class="co">#&gt; 13    TGFb  CC_score     0.0002  9.384768e-01       FALSE</span></span>
+<span><span class="co">#&gt; 14    TGFb    Stress     0.0996 2.252103e-231        TRUE</span></span>
+<span><span class="co">#&gt; 15   HIf1a    nCount     0.4212  0.000000e+00        TRUE</span></span>
+<span><span class="co">#&gt; 16   HIf1a  nFeature     0.3167  0.000000e+00        TRUE</span></span>
+<span><span class="co">#&gt; 17   HIf1a    pct_mt    -0.3226  0.000000e+00        TRUE</span></span>
+<span><span class="co">#&gt; 18   HIf1a   S_score     0.3803  0.000000e+00        TRUE</span></span>
+<span><span class="co">#&gt; 19   HIf1a G2M_score     0.3572  0.000000e+00        TRUE</span></span>
+<span><span class="co">#&gt; 20   HIf1a  CC_score     0.0261  2.706127e-17        TRUE</span></span>
+<span><span class="co">#&gt; 21   HIf1a    Stress     0.2466  0.000000e+00        TRUE</span></span>
+<span><span class="co">#&gt; 22   Hippo    nCount    -0.1506  0.000000e+00        TRUE</span></span>
+<span><span class="co">#&gt; 23   Hippo  nFeature    -0.1228  0.000000e+00        TRUE</span></span>
+<span><span class="co">#&gt; 24   Hippo    pct_mt     0.1003 2.944881e-234        TRUE</span></span>
+<span><span class="co">#&gt; 25   Hippo   S_score    -0.1268  0.000000e+00        TRUE</span></span>
+<span><span class="co">#&gt; 26   Hippo G2M_score    -0.1192  0.000000e+00        TRUE</span></span>
+<span><span class="co">#&gt; 27   Hippo  CC_score     0.0047  1.274208e-01       FALSE</span></span>
+<span><span class="co">#&gt; 28   Hippo    Stress    -0.0960 8.909423e-215        TRUE</span></span>
+<span><span class="co">#&gt; 29   Notch    nCount     0.3083  0.000000e+00        TRUE</span></span>
+<span><span class="co">#&gt; 30   Notch  nFeature     0.2871  0.000000e+00        TRUE</span></span>
+<span><span class="co">#&gt; 31   Notch    pct_mt    -0.2177  0.000000e+00        TRUE</span></span>
+<span><span class="co">#&gt; 32   Notch   S_score     0.2753  0.000000e+00        TRUE</span></span>
+<span><span class="co">#&gt; 33   Notch G2M_score     0.2975  0.000000e+00        TRUE</span></span>
+<span><span class="co">#&gt; 34   Notch  CC_score    -0.0247  9.902323e-16        TRUE</span></span>
+<span><span class="co">#&gt; 35   Notch    Stress     0.1689  0.000000e+00        TRUE</span></span>
+<span></span>
+<span><span class="va">cor_wide</span> <span class="op">&lt;-</span> <span class="va">cor_table</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">pathway</span>, <span class="va">covariate</span>, <span class="va">spearman_r</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu">tidyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_wider.html" class="external-link">pivot_wider</a></span><span class="op">(</span>names_from <span class="op">=</span> <span class="va">covariate</span>, values_from <span class="op">=</span> <span class="va">spearman_r</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/rownames.html" class="external-link">column_to_rownames</a></span><span class="op">(</span><span class="st">"pathway"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
@@ -902,11 +899,6 @@ using ‘ComputeCellData’ in PathwayEmbed</p>
 <span>  title       <span class="op">=</span> <span class="st">"Pathway scores vs technical confounders (Spearman rho)"</span>,</span>
 <span>  mar         <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">2</span>, <span class="fl">0</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## Warning in text.default(pos.xlabel[, 1], pos.xlabel[, 2], newcolnames, srt =</span></span>
-<span><span class="co">## tl.srt, : "cl.lim" is not a graphical parameter</span></span></code></pre>
-<pre><code><span><span class="co">## Warning in text.default(pos.ylabel[, 1], pos.ylabel[, 2], newrownames, col =</span></span>
-<span><span class="co">## tl.col, : "cl.lim" is not a graphical parameter</span></span></code></pre>
-<pre><code><span><span class="co">## Warning in title(title, ...): "cl.lim" is not a graphical parameter</span></span></code></pre>
 <p><img src="spatial_pathway_updated_files/figure-html/unnamed-chunk-17-1.png" class="r-plt" alt="" width="768"></p>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

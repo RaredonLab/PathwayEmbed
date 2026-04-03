@@ -13,7 +13,15 @@ Reference for the initial data: Chen et al. Spatiotemporal transcriptomic atlas 
 
 
 ```{r setup}
-knitr::opts_chunk$set(echo = TRUE, fig.width = 8, fig.height = 6)
+knitr::opts_chunk$set(
+  echo = TRUE,
+  collapse = TRUE,
+  warning = FALSE,
+  message = FALSE,
+  comment = "#>",
+  fig.width = 8,
+  fig.height = 6
+)
 
 # load library
 library(PathwayEmbed)

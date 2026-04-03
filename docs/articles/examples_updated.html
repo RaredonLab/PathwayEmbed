@@ -82,44 +82,14 @@ transcriptomic data. We use the example dataset
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://raredonlab.github.io/PathwayEmbed">PathwayEmbed</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://satijalab.org/seurat" class="external-link">Seurat</a></span><span class="op">)</span></span>
-<span><span class="co">#&gt; Warning: package 'Seurat' was built under R version 4.4.3</span></span>
-<span><span class="co">#&gt; Loading required package: SeuratObject</span></span>
-<span><span class="co">#&gt; Warning: package 'SeuratObject' was built under R version 4.4.3</span></span>
-<span><span class="co">#&gt; Loading required package: sp</span></span>
-<span><span class="co">#&gt; Warning: package 'sp' was built under R version 4.4.3</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Attaching package: 'SeuratObject'</span></span>
-<span><span class="co">#&gt; The following objects are masked from 'package:base':</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt;     intersect, t</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
-<span><span class="co">#&gt; Warning: package 'dplyr' was built under R version 4.4.3</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Attaching package: 'dplyr'</span></span>
-<span><span class="co">#&gt; The following objects are masked from 'package:stats':</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt;     filter, lag</span></span>
-<span><span class="co">#&gt; The following objects are masked from 'package:base':</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt;     intersect, setdiff, setequal, union</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyr.tidyverse.org" class="external-link">tidyr</a></span><span class="op">)</span></span>
-<span><span class="co">#&gt; Warning: package 'tidyr' was built under R version 4.4.3</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span>
-<span><span class="co">#&gt; Warning: package 'ggplot2' was built under R version 4.4.3</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://wilkelab.org/ggridges/" class="external-link">ggridges</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://patchwork.data-imaginist.com" class="external-link">patchwork</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">pheatmap</span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/saezlab/progeny" class="external-link">progeny</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://xrobin.github.io/pROC/" class="external-link">pROC</a></span><span class="op">)</span></span>
-<span><span class="co">#&gt; Registered S3 method overwritten by 'pROC':</span></span>
-<span><span class="co">#&gt;   method   from            </span></span>
-<span><span class="co">#&gt;   plot.roc spatstat.explore</span></span>
-<span><span class="co">#&gt; Type 'citation("pROC")' for a citation.</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Attaching package: 'pROC'</span></span>
-<span><span class="co">#&gt; The following objects are masked from 'package:stats':</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt;     cov, smooth, var</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"synthetic_test_object_100"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"synthetic_test_metadata"</span><span class="op">)</span></span></code></pre></div>
@@ -149,7 +119,31 @@ transcriptomic data. We use the example dataset
 <h2 id="load-pathway-databases">Load Pathway Databases<a class="anchor" aria-label="anchor" href="#load-pathway-databases"></a>
 </h2>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/ListPathway.html">ListPathway</a></span><span class="op">(</span><span class="st">"WNT"</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/ListPathway.html">ListPathway</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 17 × 8</span></span></span>
+<span><span class="co">#&gt;    Pathway Sheet.Name      GEO.Accession Condition Cell.Source Species No..Genes</span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> HIF1A   Hypoxia_6hr     GSE227502     Hypoxia … Primary hu… Human          21</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> HIF1A   Hypoxia_24hr    GSE227502     Hypoxia … Primary hu… Human          18</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> HIF1A   Hypoxia_5Day    GSE227502     Hypoxia … Primary hu… Human          10</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> HIPPO   HIPPO_heat      GSE133251     Heat str… B16-OVA me… Mouse          40</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> NOTCH   NOTCH_JAG1      GSE223734     rJAG1 li… Mouse embr… Mouse           5</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> NOTCH   NOTCH_CB103_IN… GSE221577     CB-103 N… RPMI-8402 … Human          46</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> NOTCH   NOTCH_LY_INHIB… GSE221577     LY411575… RPMI-8402 … Human          46</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> NOTCH   NOTCH_JAG1_2H   GSE235637     JAG1 sti… SVG-A cells Human          11</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> NOTCH   NOTCH_JAG1_4H   GSE235637     JAG1 sti… SVG-A cells Human          11</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> NOTCH   NOTCH_JAG1_24H  GSE235637     JAG1 sti… SVG-A cells Human          11</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">11</span> TGFB    TGFB_Human_D1   GSE110021     TGF-β1 t… WI-38 fibr… Human          35</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">12</span> TGFB    TGFB_Human_D20  GSE110021     TGF-β1 t… WI-38 fibr… Human          39</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">13</span> TGFB    TGFB_Mouse      GSE246932     TGF-β1 t… T Cells     Mouse           9</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">14</span> WNT     WNT3A_12H_ACTI… GSE103175     WNT3A tr… Human Embr… Human          90</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">15</span> WNT     WNT3A_24H_ACTI… GSE103175     WNT3A tr… Human Embr… Human          88</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">16</span> WNT     WNT3A_48H_ACTI… GSE103175     WNT3A tr… Human Embr… Human          90</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">17</span> WNT     WNT3A_SLOPE_AC… GSE103175     WNT3A tr… Human Embr… Human          90</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 1 more variable: Notes &lt;chr&gt;</span></span></span>
+<span><span class="fu"><a href="../reference/ListPathway.html">ListPathway</a></span><span class="op">(</span><span class="st">"Pathway"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] "HIF1A" "HIPPO" "NOTCH" "TGFB"  "WNT"</span></span>
+<span><span class="fu"><a href="../reference/ListPathway.html">ListPathway</a></span><span class="op">(</span><span class="st">"WNT"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 4 × 8</span></span></span>
 <span><span class="co">#&gt;   Pathway Sheet.Name GEO.Accession Condition Cell.Source Species No..Genes Notes</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span></span>
@@ -184,13 +178,9 @@ transcriptomic data. We use the example dataset
 </h2>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">score_12h</span>   <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ComputeCellData.html">ComputeCellData</a></span><span class="op">(</span><span class="va">matrix_12h</span>,   <span class="va">pathwaystat_12h</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
 <span><span class="va">score_24h</span>   <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ComputeCellData.html">ComputeCellData</a></span><span class="op">(</span><span class="va">matrix_24h</span>,   <span class="va">pathwaystat_24h</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
 <span><span class="va">score_48h</span>   <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ComputeCellData.html">ComputeCellData</a></span><span class="op">(</span><span class="va">matrix_48h</span>,   <span class="va">pathwaystat_48h</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="va">score_slope</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ComputeCellData.html">ComputeCellData</a></span><span class="op">(</span><span class="va">matrix_slope</span>, <span class="va">pathwaystat_slope</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span></code></pre></div>
+<span><span class="va">score_slope</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ComputeCellData.html">ComputeCellData</a></span><span class="op">(</span><span class="va">matrix_slope</span>, <span class="va">pathwaystat_slope</span><span class="op">)</span></span></code></pre></div>
 <hr>
 </div>
 <div class="section level2">
@@ -237,13 +227,6 @@ transcriptomic data. We use the example dataset
 <code class="sourceCode R"><span><span class="va">p1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/PlotPathway.html">PlotPathway</a></span><span class="op">(</span><span class="va">plot_data_12h</span>,   <span class="st">"12hr Wnt"</span>,    <span class="st">"genotype"</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"#ae282c"</span>, <span class="st">"#2066a8"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/annotate.html" class="external-link">annotate</a></span><span class="op">(</span><span class="st">"text"</span>, x <span class="op">=</span> <span class="cn">Inf</span>, y <span class="op">=</span> <span class="cn">Inf</span>, hjust <span class="op">=</span> <span class="fl">1.1</span>, vjust <span class="op">=</span> <span class="fl">1.5</span>,</span>
 <span>           label <span class="op">=</span> <span class="fu">make_label</span><span class="op">(</span><span class="va">pct_12h</span>, <span class="st">"WT"</span>, <span class="st">"Mutant"</span><span class="op">)</span>, size <span class="op">=</span> <span class="fl">3.5</span>, color <span class="op">=</span> <span class="st">"black"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Warning: Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0.</span></span>
-<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Please use `linewidth` instead.</span></span>
-<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> The deprecated feature was likely used in the <span style="color: #0000BB;">PathwayEmbed</span> package.</span></span>
-<span><span class="co">#&gt;   Please report the issue to the authors.</span></span>
-<span><span class="co">#&gt; <span style="color: #555555;">This warning is displayed once per session.</span></span></span>
-<span><span class="co">#&gt; <span style="color: #555555;">Call `lifecycle::last_lifecycle_warnings()` to see where this warning was</span></span></span>
-<span><span class="co">#&gt; <span style="color: #555555;">generated.</span></span></span>
 <span></span>
 <span><span class="va">p2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/PlotPathway.html">PlotPathway</a></span><span class="op">(</span><span class="va">plot_data_24h</span>,   <span class="st">"24hr Wnt"</span>,    <span class="st">"genotype"</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"#ae282c"</span>, <span class="st">"#2066a8"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/annotate.html" class="external-link">annotate</a></span><span class="op">(</span><span class="st">"text"</span>, x <span class="op">=</span> <span class="cn">Inf</span>, y <span class="op">=</span> <span class="cn">Inf</span>, hjust <span class="op">=</span> <span class="fl">1.1</span>, vjust <span class="op">=</span> <span class="fl">1.5</span>,</span>
@@ -363,7 +346,6 @@ transcriptomic data. We use the example dataset
 <span><span class="va">matrix_df</span>   <span class="op">&lt;-</span> <span class="fu"><a href="../reference/DataPreProcess.html">DataPreProcess</a></span><span class="op">(</span><span class="va">synthetic_test_object_100</span>, <span class="va">Wnt_df</span>,   Seurat.object <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="va">pathwaystat_df</span>   <span class="op">&lt;-</span> <span class="fu"><a href="../reference/PathwayMaxMin.html">PathwayMaxMin</a></span><span class="op">(</span><span class="va">matrix_df</span>,   <span class="va">Wnt_df</span><span class="op">)</span></span>
 <span><span class="va">score_df</span>   <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ComputeCellData.html">ComputeCellData</a></span><span class="op">(</span><span class="va">matrix_df</span>,   <span class="va">pathwaystat_df</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
 <span><span class="va">plot_data_df</span>   <span class="op">&lt;-</span> <span class="fu"><a href="../reference/PreparePlotData.html">PreparePlotData</a></span><span class="op">(</span><span class="va">synthetic_test_metadata</span>, <span class="va">score_df</span>,   group <span class="op">=</span> <span class="st">"genotype"</span><span class="op">)</span></span>
 <span><span class="va">pct_df</span>   <span class="op">&lt;-</span> <span class="fu"><a href="../reference/CalculatePercentage.html">CalculatePercentage</a></span><span class="op">(</span>to.plot <span class="op">=</span> <span class="va">plot_data_df</span>,   group_var <span class="op">=</span> <span class="st">"genotype"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/PlotPathway.html">PlotPathway</a></span><span class="op">(</span><span class="va">plot_data_df</span>,   <span class="st">"Customized Wnt"</span>,    <span class="st">"genotype"</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"#ae282c"</span>, <span class="st">"#2066a8"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
@@ -417,286 +399,6 @@ transcriptomic data. We use the example dataset
 <span>    <span class="op">)</span><span class="op">)</span></span>
 <span>  <span class="op">}</span></span>
 <span><span class="op">}</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
 <span></span>
 <span><span class="va">cohens_d_summary_rand</span> <span class="op">&lt;-</span> <span class="va">cohens_d_random</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">n_genes</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
@@ -784,166 +486,6 @@ transcriptomic data. We use the example dataset
 <span>    <span class="op">)</span><span class="op">)</span></span>
 <span>  <span class="op">}</span></span>
 <span><span class="op">}</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
 <span></span>
 <span><span class="va">cohens_d_summary_pw</span> <span class="op">&lt;-</span> <span class="va">cohens_d_pathway</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">n_genes</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
@@ -1019,21 +561,13 @@ transcriptomic data. We use the example dataset
 <span><span class="op">}</span></span>
 <span></span>
 <span><span class="va">result_raw</span>             <span class="op">&lt;-</span> <span class="fu">run_pipeline</span><span class="op">(</span><span class="va">matrix_raw</span>,     <span class="va">Wnt_12h</span>, <span class="va">synthetic_test_metadata</span>, <span class="st">"genotype"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
 <span><span class="va">result_lognorm</span>         <span class="op">&lt;-</span> <span class="fu">run_pipeline</span><span class="op">(</span><span class="va">matrix_lognorm</span>, <span class="va">Wnt_12h</span>, <span class="va">synthetic_test_metadata</span>, <span class="st">"genotype"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
 <span><span class="va">result_norm</span>            <span class="op">&lt;-</span> <span class="fu">run_pipeline</span><span class="op">(</span><span class="va">matrix_norm</span>,    <span class="va">Wnt_12h</span>, <span class="va">synthetic_test_metadata</span>, <span class="st">"genotype"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
 <span><span class="va">result_hvg</span>             <span class="op">&lt;-</span> <span class="fu">run_pipeline</span><span class="op">(</span><span class="va">matrix_hvg</span>,     <span class="va">Wnt_12h</span>, <span class="va">synthetic_test_metadata</span>, <span class="st">"genotype"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
 <span><span class="va">result_raw_noscale</span>     <span class="op">&lt;-</span> <span class="fu">run_pipeline</span><span class="op">(</span><span class="va">matrix_raw</span>,     <span class="va">Wnt_12h</span>, <span class="va">synthetic_test_metadata</span>, <span class="st">"genotype"</span>, scale.data <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
 <span><span class="va">result_lognorm_noscale</span> <span class="op">&lt;-</span> <span class="fu">run_pipeline</span><span class="op">(</span><span class="va">matrix_lognorm</span>, <span class="va">Wnt_12h</span>, <span class="va">synthetic_test_metadata</span>, <span class="st">"genotype"</span>, scale.data <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
 <span><span class="va">result_norm_noscale</span>    <span class="op">&lt;-</span> <span class="fu">run_pipeline</span><span class="op">(</span><span class="va">matrix_norm</span>,    <span class="va">Wnt_12h</span>, <span class="va">synthetic_test_metadata</span>, <span class="st">"genotype"</span>, scale.data <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
 <span><span class="va">result_hvg_noscale</span>     <span class="op">&lt;-</span> <span class="fu">run_pipeline</span><span class="op">(</span><span class="va">matrix_hvg</span>,     <span class="va">Wnt_12h</span>, <span class="va">synthetic_test_metadata</span>, <span class="st">"genotype"</span>, scale.data <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
 <span></span>
 <span><span class="va">input_labels</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Raw"</span>, <span class="st">"Log-norm"</span>, <span class="st">"Norm"</span>, <span class="st">"HVG"</span>,</span>
 <span>                   <span class="st">"Raw (noscale)"</span>, <span class="st">"Log-norm (noscale)"</span>,</span>
@@ -1131,11 +665,7 @@ transcriptomic data. We use the example dataset
 <span>           <span class="fu">make_scatter</span><span class="op">(</span><span class="va">confounder_df_norm</span>, <span class="st">"zscore_expr"</span>,  <span class="st">"Z-score mean"</span><span class="op">)</span><span class="op">)</span> <span class="op">/</span></span>
 <span>          <span class="op">(</span><span class="fu">make_scatter</span><span class="op">(</span><span class="va">confounder_df_norm</span>, <span class="st">"nCount_RNA"</span>,   <span class="st">"nCount_RNA"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>           <span class="fu">make_scatter</span><span class="op">(</span><span class="va">confounder_df_norm</span>, <span class="st">"nFeature_RNA"</span>, <span class="st">"nFeature_RNA"</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="va">p_nor</span></span>
-<span><span class="co">#&gt; `geom_smooth()` using formula = 'y ~ x'</span></span>
-<span><span class="co">#&gt; `geom_smooth()` using formula = 'y ~ x'</span></span>
-<span><span class="co">#&gt; `geom_smooth()` using formula = 'y ~ x'</span></span>
-<span><span class="co">#&gt; `geom_smooth()` using formula = 'y ~ x'</span></span></code></pre></div>
+<span><span class="va">p_nor</span></span></code></pre></div>
 <p><img src="examples_updated_files/figure-html/confounders-normalized-1.png" class="r-plt" alt="" width="2400"></p>
 </div>
 <div class="section level2">
@@ -1172,11 +702,7 @@ transcriptomic data. We use the example dataset
 <span>           <span class="fu">make_scatter</span><span class="op">(</span><span class="va">confounder_df_raw</span>, <span class="st">"zscore_expr"</span>,  <span class="st">"Z-score mean"</span><span class="op">)</span><span class="op">)</span> <span class="op">/</span></span>
 <span>          <span class="op">(</span><span class="fu">make_scatter</span><span class="op">(</span><span class="va">confounder_df_raw</span>, <span class="st">"nCount_RNA"</span>,   <span class="st">"nCount_RNA"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>           <span class="fu">make_scatter</span><span class="op">(</span><span class="va">confounder_df_raw</span>, <span class="st">"nFeature_RNA"</span>, <span class="st">"nFeature_RNA"</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="va">p_raw</span></span>
-<span><span class="co">#&gt; `geom_smooth()` using formula = 'y ~ x'</span></span>
-<span><span class="co">#&gt; `geom_smooth()` using formula = 'y ~ x'</span></span>
-<span><span class="co">#&gt; `geom_smooth()` using formula = 'y ~ x'</span></span>
-<span><span class="co">#&gt; `geom_smooth()` using formula = 'y ~ x'</span></span></code></pre></div>
+<span><span class="va">p_raw</span></span></code></pre></div>
 <p><img src="examples_updated_files/figure-html/confounders-raw-1.png" class="r-plt" alt="" width="2400"></p>
 <hr>
 </div>
@@ -1197,7 +723,7 @@ transcriptomic data. We use the example dataset
 <span>                         <span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">progeny_scores</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">wnt_features</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">matrix_24h</span><span class="op">)</span></span>
-<span><span class="va">synthetic_test_object_100</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://satijalab.org/seurat/reference/AddModuleScore.html" class="external-link">AddModuleScore</a></span><span class="op">(</span></span>
+<span><span class="va">synthetic_test_object_100</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/Seurat/man/AddModuleScore.html" class="external-link">AddModuleScore</a></span><span class="op">(</span></span>
 <span>  object   <span class="op">=</span> <span class="va">synthetic_test_object_100</span>,</span>
 <span>  features <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">wnt_features</span><span class="op">)</span>,</span>
 <span>  name     <span class="op">=</span> <span class="st">"WNT_ModuleScore"</span>,</span>
@@ -1339,10 +865,8 @@ transcriptomic data. We use the example dataset
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">score_manhattan</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ComputeCellData.html">ComputeCellData</a></span><span class="op">(</span><span class="va">matrix_24h</span>, <span class="va">pathwaystat_24h</span>,</span>
 <span>                                   distance.method <span class="op">=</span> <span class="st">"manhattan"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
 <span><span class="va">score_euclidean</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ComputeCellData.html">ComputeCellData</a></span><span class="op">(</span><span class="va">matrix_24h</span>, <span class="va">pathwaystat_24h</span>,</span>
 <span>                                   distance.method <span class="op">=</span> <span class="st">"euclidean"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
 <span></span>
 <span><span class="va">cor_dist</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/cor.html" class="external-link">cor</a></span><span class="op">(</span><span class="va">score_manhattan</span>, <span class="va">score_euclidean</span>, method <span class="op">=</span> <span class="st">"spearman"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="st">"Spearman correlation (manhattan vs euclidean):"</span>, <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="va">cor_dist</span>, <span class="fl">3</span><span class="op">)</span>, <span class="st">"\n"</span><span class="op">)</span></span>
@@ -1387,8 +911,7 @@ transcriptomic data. We use the example dataset
 <span>                           <span class="st">"genotype"</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"#ae282c"</span>, <span class="st">"#2066a8"</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">p_scatter</span> <span class="op">/</span> <span class="op">(</span><span class="va">p_man_plot</span> <span class="op">+</span> <span class="va">p_euc_plot</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://patchwork.data-imaginist.com/reference/plot_annotation.html" class="external-link">plot_annotation</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Sensitivity to Distance Method"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; `geom_smooth()` using formula = 'y ~ x'</span></span></code></pre></div>
+<span>  <span class="fu"><a href="https://patchwork.data-imaginist.com/reference/plot_annotation.html" class="external-link">plot_annotation</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Sensitivity to Distance Method"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="examples_updated_files/figure-html/sensitivity-distance-1.png" class="r-plt" alt="" width="2400"></p>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

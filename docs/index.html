@@ -58,7 +58,7 @@
 <div class="page-header"><h1 id="pathwayembed">PathwayEmbed<a class="anchor" aria-label="anchor" href="#pathwayembed"></a>
 </h1></div>
 <div class="section level2">
-<h2 id="we-are-focusing-on-1-d-embeddings-of-pathway-state">We are focusing on 1-D embeddings of pathway state.<a class="anchor" aria-label="anchor" href="#we-are-focusing-on-1-d-embeddings-of-pathway-state"></a>
+<h2 id="we-are-focusing-on-estimating-intracellular-signal-transduction-states-vis-distance-embedding">We are focusing on estimating intracellular signal transduction states vis distance embedding<a class="anchor" aria-label="anchor" href="#we-are-focusing-on-estimating-intracellular-signal-transduction-states-vis-distance-embedding"></a>
 </h2>
 </div>
 </div>
@@ -88,20 +88,34 @@
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://raredonlab.github.io/PathwayEmbed">PathwayEmbed</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Load example data included with the package</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">fake_test_matrix</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">fake_test_metadata</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"synthetic_test_object_100"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"synthetic_test_metadata"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Check what pathways are availabel in the pre-constructed table</span></span>
+<span><span class="fu"><a href="reference/ListPathway.html">ListPathway</a></span><span class="op">(</span><span class="op">)</span> <span class="co"># summary page</span></span>
+<span><span class="fu"><a href="reference/ListPathway.html">ListPathway</a></span><span class="op">(</span><span class="st">"Pathway"</span><span class="op">)</span> <span class="co"># what pathways are available</span></span>
+<span><span class="fu"><a href="reference/ListPathway.html">ListPathway</a></span><span class="op">(</span><span class="st">"WNT"</span><span class="op">)</span> <span class="co"># what coefficient tables are available</span></span>
+<span></span>
+<span><span class="co"># Load pre-constructed pathway coefficient tables</span></span>
+<span><span class="va">Wnt_12h</span>   <span class="op">&lt;-</span> <span class="fu"><a href="reference/LoadPathway.html">LoadPathway</a></span><span class="op">(</span><span class="st">"WNT3A_12H_ACTIVATION"</span>,  <span class="st">"mouse"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Input data preprocess </span></span>
+<span><span class="va">matrix_12h</span>   <span class="op">&lt;-</span> <span class="fu"><a href="reference/DataPreProcess.html">DataPreProcess</a></span><span class="op">(</span><span class="va">synthetic_test_object_100</span>, <span class="va">Wnt_12h</span>,   Seurat.object <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Determine the global reference (ON and OFF)</span></span>
+<span><span class="va">pathwaystat_12h</span>   <span class="op">&lt;-</span> <span class="fu"><a href="reference/PathwayMaxMin.html">PathwayMaxMin</a></span><span class="op">(</span><span class="va">matrix_12h</span>,   <span class="va">Wnt_12h</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Compute pathway data</span></span>
-<span><span class="va">mds_results</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/ComputeCellData.html">ComputeCellData</a></span><span class="op">(</span><span class="va">fake_test_matrix</span>, pathway <span class="op">=</span> <span class="st">"Wnt"</span>, distance.method <span class="op">=</span> <span class="st">"manhattan"</span>, batch.size <span class="op">=</span> <span class="fl">100</span><span class="op">)</span> </span>
+<span><span class="va">score_12h</span>   <span class="op">&lt;-</span> <span class="fu"><a href="reference/ComputeCellData.html">ComputeCellData</a></span><span class="op">(</span><span class="va">matrix_12h</span>,   <span class="va">pathwaystat_12h</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Prepare data for plotting</span></span>
-<span><span class="va">plot_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/PreparePlotData.html">PreparePlotData</a></span><span class="op">(</span><span class="va">fake_test_metadata</span>, <span class="va">mds_results</span>, group <span class="op">=</span> <span class="st">"genotype"</span><span class="op">)</span></span>
+<span><span class="va">plot_data_12h</span>   <span class="op">&lt;-</span> <span class="fu"><a href="reference/PreparePlotData.html">PreparePlotData</a></span><span class="op">(</span><span class="va">synthetic_test_metadata</span>, <span class="va">score_12h</span>,   group <span class="op">=</span> <span class="st">"genotype"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Plot pathway activation</span></span>
-<span><span class="fu"><a href="reference/PlotPathway.html">PlotPathway</a></span><span class="op">(</span>to.plot <span class="op">=</span> <span class="va">plot_data</span>, pathway <span class="op">=</span> <span class="st">"Wnt"</span>, group <span class="op">=</span> <span class="st">"genotype"</span>, color <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"#ae282c"</span>, <span class="st">"#2066a8"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="reference/PlotPathway.html">PlotPathway</a></span><span class="op">(</span><span class="va">plot_data_12h</span>,   <span class="st">"12hr Wnt"</span>,    <span class="st">"genotype"</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"#ae282c"</span>, <span class="st">"#2066a8"</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Calculate percentage and do comparison between two groups (optional)</span></span>
-<span><span class="fu"><a href="reference/CalculatePercentage.html">CalculatePercentage</a></span><span class="op">(</span>to.plot <span class="op">=</span> <span class="va">plot_data</span>, group_var <span class="op">=</span> <span class="st">"genotype"</span><span class="op">)</span></span></code></pre></div>
+<span> <span class="fu"><a href="reference/CalculatePercentage.html">CalculatePercentage</a></span><span class="op">(</span>to.plot <span class="op">=</span> <span class="va">plot_data_12h</span>,   group_var <span class="op">=</span> <span class="st">"genotype"</span><span class="op">)</span></span></code></pre></div>
 </div>
 </div>
 

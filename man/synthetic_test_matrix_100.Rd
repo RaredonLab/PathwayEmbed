@@ -51,7 +51,6 @@ mean(synthetic_test_matrix_100 > 0)         # ~0.35 non-zero density
 }
 \seealso{
 \code{\link{synthetic_test_matrix}},
-\code{\link{synthetic_test_metadata_100}},
 \code{\link{synthetic_test_object_100}}
 }
 \keyword{datasets}

@@ -11,7 +11,15 @@ mouse organogenesis using DNA nanoball-patterned arrays, Cell, Volume
 185, Issue 10, 2022, Pages 1777-1792.e21.
 
 ``` r
-knitr::opts_chunk$set(echo = TRUE, fig.width = 8, fig.height = 6)
+knitr::opts_chunk$set(
+  echo = TRUE,
+  collapse = TRUE,
+  warning = FALSE,
+  message = FALSE,
+  comment = "#>",
+  fig.width = 8,
+  fig.height = 6
+)
 
 # load library
 library(PathwayEmbed)
@@ -150,77 +158,50 @@ merged_spatial_metadata <- merged_spatial@meta.data
 ## Get Pathway Data for Each Pathway first
 
 ``` r
+
 # All Pathways
 ListPathway("Pathway")
-```
-
-    ## [1] "HIF1A" "HIPPO" "NOTCH" "TGFB"  "WNT"
-
-``` r
+#> [1] "HIF1A" "HIPPO" "NOTCH" "TGFB"  "WNT"
 ListPathway("HIF1A") # Pick Hypoxia_24hr
-```
-
-    ## # A tibble: 3 × 8
-    ##   Pathway Sheet.Name GEO.Accession Condition Cell.Source Species No..Genes Notes
-    ##   <chr>   <chr>      <chr>         <chr>     <chr>       <chr>       <dbl> <chr>
-    ## 1 HIF1A   Hypoxia_6… GSE227502     Hypoxia … Primary hu… Human          21 NA   
-    ## 2 HIF1A   Hypoxia_2… GSE227502     Hypoxia … Primary hu… Human          18 NA   
-    ## 3 HIF1A   Hypoxia_5… GSE227502     Hypoxia … Primary hu… Human          10 NA
-
-``` r
+#> # A tibble: 3 × 8
+#>   Pathway Sheet.Name GEO.Accession Condition Cell.Source Species No..Genes Notes
+#>   <chr>   <chr>      <chr>         <chr>     <chr>       <chr>       <dbl> <chr>
+#> 1 HIF1A   Hypoxia_6… GSE227502     Hypoxia … Primary hu… Human          21 NA   
+#> 2 HIF1A   Hypoxia_2… GSE227502     Hypoxia … Primary hu… Human          18 NA   
+#> 3 HIF1A   Hypoxia_5… GSE227502     Hypoxia … Primary hu… Human          10 NA
 ListPathway("HIPPO") # Only one: HIPPO_heat
-```
-
-    ## # A tibble: 1 × 8
-    ##   Pathway Sheet.Name GEO.Accession Condition Cell.Source Species No..Genes Notes
-    ##   <chr>   <chr>      <chr>         <chr>     <chr>       <chr>       <dbl> <chr>
-    ## 1 HIPPO   HIPPO_heat GSE133251     Heat str… B16-OVA me… Mouse          40 NA
-
-``` r
+#> # A tibble: 1 × 8
+#>   Pathway Sheet.Name GEO.Accession Condition Cell.Source Species No..Genes Notes
+#>   <chr>   <chr>      <chr>         <chr>     <chr>       <chr>       <dbl> <chr>
+#> 1 HIPPO   HIPPO_heat GSE133251     Heat str… B16-OVA me… Mouse          40 NA
 ListPathway("NOTCH") # Use NOTCH_JAG1_24H -> validated in another datasets
-```
-
-    ## # A tibble: 6 × 8
-    ##   Pathway Sheet.Name GEO.Accession Condition Cell.Source Species No..Genes Notes
-    ##   <chr>   <chr>      <chr>         <chr>     <chr>       <chr>       <dbl> <chr>
-    ## 1 NOTCH   NOTCH_JAG1 GSE223734     rJAG1 li… Mouse embr… Mouse           5 NA   
-    ## 2 NOTCH   NOTCH_CB1… GSE221577     CB-103 N… RPMI-8402 … Human          46 NA   
-    ## 3 NOTCH   NOTCH_LY_… GSE221577     LY411575… RPMI-8402 … Human          46 NA   
-    ## 4 NOTCH   NOTCH_JAG… GSE235637     JAG1 sti… SVG-A cells Human          11 NA   
-    ## 5 NOTCH   NOTCH_JAG… GSE235637     JAG1 sti… SVG-A cells Human          11 NA   
-    ## 6 NOTCH   NOTCH_JAG… GSE235637     JAG1 sti… SVG-A cells Human          11 NA
-
-``` r
+#> # A tibble: 6 × 8
+#>   Pathway Sheet.Name GEO.Accession Condition Cell.Source Species No..Genes Notes
+#>   <chr>   <chr>      <chr>         <chr>     <chr>       <chr>       <dbl> <chr>
+#> 1 NOTCH   NOTCH_JAG1 GSE223734     rJAG1 li… Mouse embr… Mouse           5 NA   
+#> 2 NOTCH   NOTCH_CB1… GSE221577     CB-103 N… RPMI-8402 … Human          46 NA   
+#> 3 NOTCH   NOTCH_LY_… GSE221577     LY411575… RPMI-8402 … Human          46 NA   
+#> 4 NOTCH   NOTCH_JAG… GSE235637     JAG1 sti… SVG-A cells Human          11 NA   
+#> 5 NOTCH   NOTCH_JAG… GSE235637     JAG1 sti… SVG-A cells Human          11 NA   
+#> 6 NOTCH   NOTCH_JAG… GSE235637     JAG1 sti… SVG-A cells Human          11 NA
 ListPathway("TGFB") # Use TGFB_Mouse since this is the only Ms dataset 
-```
-
-    ## # A tibble: 3 × 8
-    ##   Pathway Sheet.Name GEO.Accession Condition Cell.Source Species No..Genes Notes
-    ##   <chr>   <chr>      <chr>         <chr>     <chr>       <chr>       <dbl> <chr>
-    ## 1 TGFB    TGFB_Huma… GSE110021     TGF-β1 t… WI-38 fibr… Human          35 NA   
-    ## 2 TGFB    TGFB_Huma… GSE110021     TGF-β1 t… WI-38 fibr… Human          39 NA   
-    ## 3 TGFB    TGFB_Mouse GSE246932     TGF-β1 t… T Cells     Mouse           9 NA
-
-``` r
+#> # A tibble: 3 × 8
+#>   Pathway Sheet.Name GEO.Accession Condition Cell.Source Species No..Genes Notes
+#>   <chr>   <chr>      <chr>         <chr>     <chr>       <chr>       <dbl> <chr>
+#> 1 TGFB    TGFB_Huma… GSE110021     TGF-β1 t… WI-38 fibr… Human          35 NA   
+#> 2 TGFB    TGFB_Huma… GSE110021     TGF-β1 t… WI-38 fibr… Human          39 NA   
+#> 3 TGFB    TGFB_Mouse GSE246932     TGF-β1 t… T Cells     Mouse           9 NA
 ListPathway("WNT") # Use WNT3A_SLOPE_ACTIVATION
-```
+#> # A tibble: 4 × 8
+#>   Pathway Sheet.Name GEO.Accession Condition Cell.Source Species No..Genes Notes
+#>   <chr>   <chr>      <chr>         <chr>     <chr>       <chr>       <dbl> <chr>
+#> 1 WNT     WNT3A_12H… GSE103175     WNT3A tr… Human Embr… Human          90 NA   
+#> 2 WNT     WNT3A_24H… GSE103175     WNT3A tr… Human Embr… Human          88 NA   
+#> 3 WNT     WNT3A_48H… GSE103175     WNT3A tr… Human Embr… Human          90 NA   
+#> 4 WNT     WNT3A_SLO… GSE103175     WNT3A tr… Human Embr… Human          90 NA
 
-    ## # A tibble: 4 × 8
-    ##   Pathway Sheet.Name GEO.Accession Condition Cell.Source Species No..Genes Notes
-    ##   <chr>   <chr>      <chr>         <chr>     <chr>       <chr>       <dbl> <chr>
-    ## 1 WNT     WNT3A_12H… GSE103175     WNT3A tr… Human Embr… Human          90 NA   
-    ## 2 WNT     WNT3A_24H… GSE103175     WNT3A tr… Human Embr… Human          88 NA   
-    ## 3 WNT     WNT3A_48H… GSE103175     WNT3A tr… Human Embr… Human          90 NA   
-    ## 4 WNT     WNT3A_SLO… GSE103175     WNT3A tr… Human Embr… Human          90 NA
-
-``` r
 # Load Each Pathwaydatabase
 HIf1a_pathwaydata <- LoadPathway("Hypoxia_24hr", "mouse")
-```
-
-    ## 1 row(s) with NA gene symbols removed.
-
-``` r
 Hippo_pathwaydata <- LoadPathway("HIPPO_heat", "mouse")
 Notch_pathwaydata <- LoadPathway("NOTCH_JAG1_24H", "mouse")
 TGFb_pathwaydata <- LoadPathway("TGFB_Mouse", "mouse")
@@ -234,6 +215,8 @@ for Wnt, Notch, Hippo, Tgfb, and HIF-1a pathways for the merged subject
 using ‘ComputeCellData’ in PathwayEmbed
 
 ``` r
+
+
 # DataPreProcess
 matrix_HIf1a <- DataPreProcess(merged_spatial_matrix, HIf1a_pathwaydata, Seurat.object = FALSE)
 matrix_Hippo <- DataPreProcess(merged_spatial_matrix, Hippo_pathwaydata, Seurat.object = FALSE)
@@ -261,6 +244,7 @@ Wnt_score <- ComputeCellData(matrix_Wnt, pathwaystat_Wnt)
 Map Timepoints back to the data
 
 ``` r
+
 # Compute the score for each pathway
 Wnt_to.plot <- PreparePlotData(merged_spatial_metadata, Wnt_score, "timepoint", Seurat.object = FALSE)
 Notch_to.plot <- PreparePlotData(merged_spatial_metadata, Notch_score, "timepoint", Seurat.object = FALSE)
@@ -281,9 +265,8 @@ pathway_timepoint <- list(
 
 ## Preparation for groups
 
-    ## /private/var/folders/dy/dxff9z6j5cdd5sqsvz2l5ngc0000gn/T/Rtmpbu6fbj/temp_libpath14fe9549162be/PathwayEmbed/extdata/pathway_list_timepoint.rds
-
-    ## /private/var/folders/dy/dxff9z6j5cdd5sqsvz2l5ngc0000gn/T/Rtmpbu6fbj/temp_libpath14fe9549162be /Library/Frameworks/R.framework/Versions/4.4-arm64/Resources/library
+    #> /private/var/folders/dy/dxff9z6j5cdd5sqsvz2l5ngc0000gn/T/RtmpAOrgi8/temp_libpath3ff17d773dd5/PathwayEmbed/extdata/pathway_list_timepoint.rds
+    #> /private/var/folders/dy/dxff9z6j5cdd5sqsvz2l5ngc0000gn/T/RtmpAOrgi8/temp_libpath3ff17d773dd5 /Library/Frameworks/R.framework/Versions/4.4-arm64/Resources/library
 
 ``` r
 # Color set-up
@@ -348,14 +331,6 @@ p <- PlotPathway(
 #  )
 }
 ```
-
-    ## Warning: Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0.
-    ## ℹ Please use `linewidth` instead.
-    ## ℹ The deprecated feature was likely used in the PathwayEmbed package.
-    ##   Please report the issue to the authors.
-    ## This warning is displayed once per session.
-    ## Call `lifecycle::last_lifecycle_warnings()` to see where this warning was
-    ## generated.
 
 ![](spatial_pathway_updated_files/figure-html/unnamed-chunk-3-1.png)![](spatial_pathway_updated_files/figure-html/unnamed-chunk-3-2.png)![](spatial_pathway_updated_files/figure-html/unnamed-chunk-3-3.png)![](spatial_pathway_updated_files/figure-html/unnamed-chunk-3-4.png)![](spatial_pathway_updated_files/figure-html/unnamed-chunk-3-5.png)
 
@@ -493,14 +468,13 @@ moran_results <- do.call(rbind, moran_results)
 
 ``` r
 print(moran_results)
+#>   pathway   morans_I p_value
+#> 1     Wnt 0.08640729       0
+#> 2   Notch 0.21093640       0
+#> 3   Hippo 0.09334557       0
+#> 4    Tgfb 0.12592755       0
+#> 5   HIF1a 0.25478622       0
 ```
-
-    ##   pathway   morans_I p_value
-    ## 1     Wnt 0.08640729       0
-    ## 2   Notch 0.21093640       0
-    ## 3   Hippo 0.09334557       0
-    ## 4    Tgfb 0.12592755       0
-    ## 5   HIF1a 0.25478622       0
 
 ``` r
 # compute neighbor Moran's I for pathways with high spatial autocorrelation
@@ -598,13 +572,10 @@ progeny_scores <- progeny(
 ``` r
 # Extract pathways — check column names exist first
 print(colnames(progeny_scores))
-```
+#>  [1] "Androgen" "EGFR"     "Estrogen" "Hypoxia"  "JAK-STAT" "MAPK"    
+#>  [7] "NFkB"     "p53"      "PI3K"     "TGFb"     "TNFa"     "Trail"   
+#> [13] "VEGF"     "WNT"
 
-    ##  [1] "Androgen" "EGFR"     "Estrogen" "Hypoxia"  "JAK-STAT" "MAPK"    
-    ##  [7] "NFkB"     "p53"      "PI3K"     "TGFb"     "TNFa"     "Trail"   
-    ## [13] "VEGF"     "WNT"
-
-``` r
 # Extract existed pathways
 progeny_wnt     <- progeny_scores[, "WNT"]
 progeny_hypoxia <- progeny_scores[, "Hypoxia"]
@@ -665,8 +636,6 @@ p_benchmark <- ggplot(df_all, aes(x = our, y = progeny)) +
 p_benchmark
 ```
 
-    ## `geom_smooth()` using formula = 'y ~ x'
-
 ## ![](spatial_pathway_updated_files/figure-html/unnamed-chunk-14-1.png)
 
 ## Cross-pathway Spearman Correlation matrix
@@ -686,16 +655,13 @@ cor_test <- Hmisc::rcorr(as.matrix(score_df), type = "spearman")
 p_matrix <- cor_test$P
 diag(p_matrix) <- 0  # rcorr sets diagonal to NA; corrplot requires numeric diagonal
 print(round(cor_matrix, 3))
-```
+#>        HIf1a  Hippo  Notch   TGFb    Wnt
+#> HIf1a  1.000 -0.088  0.118  0.078  0.033
+#> Hippo -0.088  1.000 -0.041 -0.093 -0.036
+#> Notch  0.118 -0.041  1.000  0.099  0.041
+#> TGFb   0.078 -0.093  0.099  1.000  0.031
+#> Wnt    0.033 -0.036  0.041  0.031  1.000
 
-    ##        HIf1a  Hippo  Notch   TGFb    Wnt
-    ## HIf1a  1.000 -0.088  0.118  0.078  0.033
-    ## Hippo -0.088  1.000 -0.041 -0.093 -0.036
-    ## Notch  0.118 -0.041  1.000  0.099  0.041
-    ## TGFb   0.078 -0.093  0.099  1.000  0.031
-    ## Wnt    0.033 -0.036  0.041  0.031  1.000
-
-``` r
 # Correlation heatmap
 
 corrplot::corrplot(cor_matrix,
@@ -859,46 +825,43 @@ cor_table <- do.call(rbind, do.call(c, cor_rows))
 cor_table$p_adj_BH <- p.adjust(cor_table$p_value, method = "BH")
 cor_table$significant <- cor_table$p_adj_BH < 0.05
 print(cor_table[, c("pathway", "covariate", "spearman_r", "p_adj_BH", "significant")])
-```
+#>    pathway covariate spearman_r      p_adj_BH significant
+#> 1      Wnt    nCount     0.0433  4.415180e-45        TRUE
+#> 2      Wnt  nFeature     0.0426  1.536189e-43        TRUE
+#> 3      Wnt    pct_mt     0.0125  5.228341e-05        TRUE
+#> 4      Wnt   S_score     0.0735 1.130319e-126        TRUE
+#> 5      Wnt G2M_score     0.0871 6.075138e-177        TRUE
+#> 6      Wnt  CC_score    -0.0199  9.980877e-11        TRUE
+#> 7      Wnt    Stress     0.0684 8.929403e-110        TRUE
+#> 8     TGFb    nCount     0.2328  0.000000e+00        TRUE
+#> 9     TGFb  nFeature     0.2108  0.000000e+00        TRUE
+#> 10    TGFb    pct_mt    -0.0755 1.735223e-133        TRUE
+#> 11    TGFb   S_score     0.2074  0.000000e+00        TRUE
+#> 12    TGFb G2M_score     0.2050  0.000000e+00        TRUE
+#> 13    TGFb  CC_score     0.0002  9.384768e-01       FALSE
+#> 14    TGFb    Stress     0.0996 2.252103e-231        TRUE
+#> 15   HIf1a    nCount     0.4212  0.000000e+00        TRUE
+#> 16   HIf1a  nFeature     0.3167  0.000000e+00        TRUE
+#> 17   HIf1a    pct_mt    -0.3226  0.000000e+00        TRUE
+#> 18   HIf1a   S_score     0.3803  0.000000e+00        TRUE
+#> 19   HIf1a G2M_score     0.3572  0.000000e+00        TRUE
+#> 20   HIf1a  CC_score     0.0261  2.706127e-17        TRUE
+#> 21   HIf1a    Stress     0.2466  0.000000e+00        TRUE
+#> 22   Hippo    nCount    -0.1506  0.000000e+00        TRUE
+#> 23   Hippo  nFeature    -0.1228  0.000000e+00        TRUE
+#> 24   Hippo    pct_mt     0.1003 2.944881e-234        TRUE
+#> 25   Hippo   S_score    -0.1268  0.000000e+00        TRUE
+#> 26   Hippo G2M_score    -0.1192  0.000000e+00        TRUE
+#> 27   Hippo  CC_score     0.0047  1.274208e-01       FALSE
+#> 28   Hippo    Stress    -0.0960 8.909423e-215        TRUE
+#> 29   Notch    nCount     0.3083  0.000000e+00        TRUE
+#> 30   Notch  nFeature     0.2871  0.000000e+00        TRUE
+#> 31   Notch    pct_mt    -0.2177  0.000000e+00        TRUE
+#> 32   Notch   S_score     0.2753  0.000000e+00        TRUE
+#> 33   Notch G2M_score     0.2975  0.000000e+00        TRUE
+#> 34   Notch  CC_score    -0.0247  9.902323e-16        TRUE
+#> 35   Notch    Stress     0.1689  0.000000e+00        TRUE
 
-    ##    pathway covariate spearman_r      p_adj_BH significant
-    ## 1      Wnt    nCount     0.0433  4.415180e-45        TRUE
-    ## 2      Wnt  nFeature     0.0426  1.536189e-43        TRUE
-    ## 3      Wnt    pct_mt     0.0125  5.228341e-05        TRUE
-    ## 4      Wnt   S_score     0.0735 1.130319e-126        TRUE
-    ## 5      Wnt G2M_score     0.0871 6.075138e-177        TRUE
-    ## 6      Wnt  CC_score    -0.0199  9.980877e-11        TRUE
-    ## 7      Wnt    Stress     0.0684 8.929403e-110        TRUE
-    ## 8     TGFb    nCount     0.2328  0.000000e+00        TRUE
-    ## 9     TGFb  nFeature     0.2108  0.000000e+00        TRUE
-    ## 10    TGFb    pct_mt    -0.0755 1.735223e-133        TRUE
-    ## 11    TGFb   S_score     0.2074  0.000000e+00        TRUE
-    ## 12    TGFb G2M_score     0.2050  0.000000e+00        TRUE
-    ## 13    TGFb  CC_score     0.0002  9.384768e-01       FALSE
-    ## 14    TGFb    Stress     0.0996 2.252103e-231        TRUE
-    ## 15   HIf1a    nCount     0.4212  0.000000e+00        TRUE
-    ## 16   HIf1a  nFeature     0.3167  0.000000e+00        TRUE
-    ## 17   HIf1a    pct_mt    -0.3226  0.000000e+00        TRUE
-    ## 18   HIf1a   S_score     0.3803  0.000000e+00        TRUE
-    ## 19   HIf1a G2M_score     0.3572  0.000000e+00        TRUE
-    ## 20   HIf1a  CC_score     0.0261  2.706127e-17        TRUE
-    ## 21   HIf1a    Stress     0.2466  0.000000e+00        TRUE
-    ## 22   Hippo    nCount    -0.1506  0.000000e+00        TRUE
-    ## 23   Hippo  nFeature    -0.1228  0.000000e+00        TRUE
-    ## 24   Hippo    pct_mt     0.1003 2.944881e-234        TRUE
-    ## 25   Hippo   S_score    -0.1268  0.000000e+00        TRUE
-    ## 26   Hippo G2M_score    -0.1192  0.000000e+00        TRUE
-    ## 27   Hippo  CC_score     0.0047  1.274208e-01       FALSE
-    ## 28   Hippo    Stress    -0.0960 8.909423e-215        TRUE
-    ## 29   Notch    nCount     0.3083  0.000000e+00        TRUE
-    ## 30   Notch  nFeature     0.2871  0.000000e+00        TRUE
-    ## 31   Notch    pct_mt    -0.2177  0.000000e+00        TRUE
-    ## 32   Notch   S_score     0.2753  0.000000e+00        TRUE
-    ## 33   Notch G2M_score     0.2975  0.000000e+00        TRUE
-    ## 34   Notch  CC_score    -0.0247  9.902323e-16        TRUE
-    ## 35   Notch    Stress     0.1689  0.000000e+00        TRUE
-
-``` r
 cor_wide <- cor_table %>%
   select(pathway, covariate, spearman_r) %>%
   tidyr::pivot_wider(names_from = covariate, values_from = spearman_r) %>%
@@ -930,13 +893,5 @@ corrplot::corrplot(
   mar         = c(0, 0, 2, 0)
 )
 ```
-
-    ## Warning in text.default(pos.xlabel[, 1], pos.xlabel[, 2], newcolnames, srt =
-    ## tl.srt, : "cl.lim" is not a graphical parameter
-
-    ## Warning in text.default(pos.ylabel[, 1], pos.ylabel[, 2], newrownames, col =
-    ## tl.col, : "cl.lim" is not a graphical parameter
-
-    ## Warning in title(title, ...): "cl.lim" is not a graphical parameter
 
 ![](spatial_pathway_updated_files/figure-html/unnamed-chunk-17-1.png)

@@ -81,43 +81,13 @@ Reference: Remark et al., <em>Bone Res</em> 11, 50 (2023). <a href="https://doi.
 </h2>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://satijalab.org/seurat" class="external-link">Seurat</a></span><span class="op">)</span></span>
-<span><span class="co">#&gt; Warning: package 'Seurat' was built under R version 4.4.3</span></span>
-<span><span class="co">#&gt; Loading required package: SeuratObject</span></span>
-<span><span class="co">#&gt; Warning: package 'SeuratObject' was built under R version 4.4.3</span></span>
-<span><span class="co">#&gt; Loading required package: sp</span></span>
-<span><span class="co">#&gt; Warning: package 'sp' was built under R version 4.4.3</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Attaching package: 'SeuratObject'</span></span>
-<span><span class="co">#&gt; The following objects are masked from 'package:base':</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt;     intersect, t</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://raredonlab.github.io/PathwayEmbed">PathwayEmbed</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span>
-<span><span class="co">#&gt; Warning: package 'ggplot2' was built under R version 4.4.3</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
-<span><span class="co">#&gt; Warning: package 'dplyr' was built under R version 4.4.3</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Attaching package: 'dplyr'</span></span>
-<span><span class="co">#&gt; The following objects are masked from 'package:stats':</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt;     filter, lag</span></span>
-<span><span class="co">#&gt; The following objects are masked from 'package:base':</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt;     intersect, setdiff, setequal, union</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://patchwork.data-imaginist.com" class="external-link">patchwork</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">pheatmap</span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyr.tidyverse.org" class="external-link">tidyr</a></span><span class="op">)</span></span>
-<span><span class="co">#&gt; Warning: package 'tidyr' was built under R version 4.4.3</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://xrobin.github.io/pROC/" class="external-link">pROC</a></span><span class="op">)</span></span>
-<span><span class="co">#&gt; Registered S3 method overwritten by 'pROC':</span></span>
-<span><span class="co">#&gt;   method   from            </span></span>
-<span><span class="co">#&gt;   plot.roc spatstat.explore</span></span>
-<span><span class="co">#&gt; Type 'citation("pROC")' for a citation.</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Attaching package: 'pROC'</span></span>
-<span><span class="co">#&gt; The following objects are masked from 'package:stats':</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt;     cov, smooth, var</span></span></code></pre></div>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://xrobin.github.io/pROC/" class="external-link">pROC</a></span><span class="op">)</span></span></code></pre></div>
 <hr>
 </div>
 <div class="section level2">
@@ -147,8 +117,8 @@ Reference: Remark et al., <em>Bone Res</em> 11, 50 (2023). <a href="https://doi.
 are large. The pre-processed SSPC subset (<code>COI_2</code>) is loaded
 directly from the package in the next chunk.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">wt_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://satijalab.org/seurat/reference/Read10X.html" class="external-link">Read10X</a></span><span class="op">(</span>data.dir <span class="op">=</span> <span class="st">"path/to/WT"</span>, gene.column <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span>
-<span><span class="va">ko_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://satijalab.org/seurat/reference/Read10X.html" class="external-link">Read10X</a></span><span class="op">(</span>data.dir <span class="op">=</span> <span class="st">"path/to/KO"</span>, gene.column <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">wt_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/Seurat/man/Read10X.html" class="external-link">Read10X</a></span><span class="op">(</span>data.dir <span class="op">=</span> <span class="st">"path/to/WT"</span>, gene.column <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span>
+<span><span class="va">ko_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/Seurat/man/Read10X.html" class="external-link">Read10X</a></span><span class="op">(</span>data.dir <span class="op">=</span> <span class="st">"path/to/KO"</span>, gene.column <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">wt_seurat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://satijalab.github.io/seurat-object/reference/CreateSeuratObject.html" class="external-link">CreateSeuratObject</a></span><span class="op">(</span>counts <span class="op">=</span> <span class="va">wt_data</span>, project <span class="op">=</span> <span class="st">"WT"</span><span class="op">)</span></span>
 <span><span class="va">ko_seurat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://satijalab.github.io/seurat-object/reference/CreateSeuratObject.html" class="external-link">CreateSeuratObject</a></span><span class="op">(</span>counts <span class="op">=</span> <span class="va">ko_data</span>, project <span class="op">=</span> <span class="st">"KO"</span><span class="op">)</span></span>
@@ -159,26 +129,26 @@ directly from the package in the next chunk.</p>
 <span>                           add.cell.ids <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"WT"</span>, <span class="st">"KO"</span><span class="op">)</span>, project <span class="op">=</span> <span class="st">"WT_vs_KO"</span><span class="op">)</span></span>
 <span><span class="va">combined</span><span class="op">[[</span><span class="st">"RNA"</span><span class="op">]</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://satijalab.github.io/seurat-object/reference/SplitLayers.html" class="external-link">JoinLayers</a></span><span class="op">(</span><span class="va">combined</span><span class="op">[[</span><span class="st">"RNA"</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">combined</span><span class="op">[[</span><span class="st">"percent.mt"</span><span class="op">]</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://satijalab.org/seurat/reference/PercentageFeatureSet.html" class="external-link">PercentageFeatureSet</a></span><span class="op">(</span><span class="va">combined</span>, pattern <span class="op">=</span> <span class="st">"^mt-"</span><span class="op">)</span></span>
+<span><span class="va">combined</span><span class="op">[[</span><span class="st">"percent.mt"</span><span class="op">]</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/Seurat/man/PercentageFeatureSet.html" class="external-link">PercentageFeatureSet</a></span><span class="op">(</span><span class="va">combined</span>, pattern <span class="op">=</span> <span class="st">"^mt-"</span><span class="op">)</span></span>
 <span><span class="va">combined</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">combined</span>,</span>
 <span>                   subset <span class="op">=</span> <span class="va">nFeature_RNA</span> <span class="op">&gt;</span> <span class="fl">200</span> <span class="op">&amp;</span></span>
 <span>                            <span class="va">nFeature_RNA</span> <span class="op">&lt;</span> <span class="fl">2000</span> <span class="op">&amp;</span></span>
 <span>                            <span class="va">percent.mt</span>  <span class="op">&lt;</span> <span class="fl">10</span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">combined</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://satijalab.org/seurat/reference/NormalizeData.html" class="external-link">NormalizeData</a></span><span class="op">(</span><span class="va">combined</span>, normalization.method <span class="op">=</span> <span class="st">"LogNormalize"</span>,</span>
+<span><span class="va">combined</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/Seurat/man/NormalizeData.html" class="external-link">NormalizeData</a></span><span class="op">(</span><span class="va">combined</span>, normalization.method <span class="op">=</span> <span class="st">"LogNormalize"</span>,</span>
 <span>                          scale.factor <span class="op">=</span> <span class="fl">10000</span><span class="op">)</span></span>
-<span><span class="va">combined</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://satijalab.org/seurat/reference/FindVariableFeatures.html" class="external-link">FindVariableFeatures</a></span><span class="op">(</span><span class="va">combined</span>, selection.method <span class="op">=</span> <span class="st">"vst"</span>,</span>
+<span><span class="va">combined</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/Seurat/man/FindVariableFeatures.html" class="external-link">FindVariableFeatures</a></span><span class="op">(</span><span class="va">combined</span>, selection.method <span class="op">=</span> <span class="st">"vst"</span>,</span>
 <span>                                 nfeatures <span class="op">=</span> <span class="fl">2000</span><span class="op">)</span></span>
-<span><span class="va">combined</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://satijalab.org/seurat/reference/ScaleData.html" class="external-link">ScaleData</a></span><span class="op">(</span><span class="va">combined</span><span class="op">)</span></span>
-<span><span class="va">combined</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://satijalab.org/seurat/reference/RunPCA.html" class="external-link">RunPCA</a></span><span class="op">(</span><span class="va">combined</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://satijalab.org/seurat/reference/ElbowPlot.html" class="external-link">ElbowPlot</a></span><span class="op">(</span><span class="va">combined</span>, ndims <span class="op">=</span> <span class="fl">50</span><span class="op">)</span></span>
-<span><span class="va">combined</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://satijalab.org/seurat/reference/FindNeighbors.html" class="external-link">FindNeighbors</a></span><span class="op">(</span><span class="va">combined</span>, dims <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">20</span><span class="op">)</span></span>
-<span><span class="va">combined</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://satijalab.org/seurat/reference/FindClusters.html" class="external-link">FindClusters</a></span><span class="op">(</span><span class="va">combined</span>, resolution <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
-<span><span class="va">combined</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://satijalab.org/seurat/reference/RunUMAP.html" class="external-link">RunUMAP</a></span><span class="op">(</span><span class="va">combined</span>, dims <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">20</span><span class="op">)</span></span>
+<span><span class="va">combined</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/Seurat/man/ScaleData.html" class="external-link">ScaleData</a></span><span class="op">(</span><span class="va">combined</span><span class="op">)</span></span>
+<span><span class="va">combined</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/Seurat/man/RunPCA.html" class="external-link">RunPCA</a></span><span class="op">(</span><span class="va">combined</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/Seurat/man/ElbowPlot.html" class="external-link">ElbowPlot</a></span><span class="op">(</span><span class="va">combined</span>, ndims <span class="op">=</span> <span class="fl">50</span><span class="op">)</span></span>
+<span><span class="va">combined</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/Seurat/man/FindNeighbors.html" class="external-link">FindNeighbors</a></span><span class="op">(</span><span class="va">combined</span>, dims <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">20</span><span class="op">)</span></span>
+<span><span class="va">combined</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/Seurat/man/FindClusters.html" class="external-link">FindClusters</a></span><span class="op">(</span><span class="va">combined</span>, resolution <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
+<span><span class="va">combined</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/Seurat/man/RunUMAP.html" class="external-link">RunUMAP</a></span><span class="op">(</span><span class="va">combined</span>, dims <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">20</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu"><a href="https://satijalab.org/seurat/reference/DimPlot.html" class="external-link">DimPlot</a></span><span class="op">(</span><span class="va">combined</span>, label <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://satijalab.org/seurat/reference/FeaturePlot.html" class="external-link">FeaturePlot</a></span><span class="op">(</span><span class="va">combined</span>, <span class="st">"Cxcl12"</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://satijalab.org/seurat/reference/FeaturePlot.html" class="external-link">FeaturePlot</a></span><span class="op">(</span><span class="va">combined</span>, <span class="st">"Kitl"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/Seurat/man/DimPlot.html" class="external-link">DimPlot</a></span><span class="op">(</span><span class="va">combined</span>, label <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/Seurat/man/FeaturePlot.html" class="external-link">FeaturePlot</a></span><span class="op">(</span><span class="va">combined</span>, <span class="st">"Cxcl12"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/Seurat/man/FeaturePlot.html" class="external-link">FeaturePlot</a></span><span class="op">(</span><span class="va">combined</span>, <span class="st">"Kitl"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">COI_2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">combined</span>, subset <span class="op">=</span> <span class="va">seurat_clusters</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"23"</span>, <span class="st">"25"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <hr>
@@ -211,9 +181,7 @@ directly from the package in the next chunk.</p>
 <span><span class="va">pathwaystat_24hr</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/PathwayMaxMin.html">PathwayMaxMin</a></span><span class="op">(</span><span class="va">matrix_24hr</span>, <span class="va">pathwaydata_24hr</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">Notch_score_mus</span>  <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ComputeCellData.html">ComputeCellData</a></span><span class="op">(</span><span class="va">matrix_mus</span>,  <span class="va">pathwaystat_mus</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
 <span><span class="va">Notch_score_24hr</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ComputeCellData.html">ComputeCellData</a></span><span class="op">(</span><span class="va">matrix_24hr</span>, <span class="va">pathwaystat_24hr</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
 <span></span>
 <span><span class="va">to_plot_1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/PreparePlotData.html">PreparePlotData</a></span><span class="op">(</span><span class="va">COI_2_metadata</span>, <span class="va">Notch_score_mus</span>,  <span class="st">"condition"</span><span class="op">)</span></span>
 <span><span class="va">to_plot_2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/PreparePlotData.html">PreparePlotData</a></span><span class="op">(</span><span class="va">COI_2_metadata</span>, <span class="va">Notch_score_24hr</span>, <span class="st">"condition"</span><span class="op">)</span></span>
@@ -257,14 +225,7 @@ directly from the package in the next chunk.</p>
 <span><span class="fu"><a href="../reference/PlotPathway.html">PlotPathway</a></span><span class="op">(</span><span class="va">to_plot_1</span>, <span class="st">"Notch (mouse database)"</span>, <span class="st">"condition"</span>,</span>
 <span>            <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"#FFDAB9"</span>, <span class="st">"#A3BFD9"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/annotate.html" class="external-link">annotate</a></span><span class="op">(</span><span class="st">"text"</span>, x <span class="op">=</span> <span class="cn">Inf</span>, y <span class="op">=</span> <span class="cn">Inf</span>, hjust <span class="op">=</span> <span class="fl">1.1</span>, vjust <span class="op">=</span> <span class="fl">1.5</span>,</span>
-<span>           label <span class="op">=</span> <span class="fu">make_label</span><span class="op">(</span><span class="va">pct_1</span>, <span class="st">"WT"</span>, <span class="st">"KO"</span><span class="op">)</span>, size <span class="op">=</span> <span class="fl">3.5</span>, color <span class="op">=</span> <span class="st">"black"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Warning: Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0.</span></span>
-<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Please use `linewidth` instead.</span></span>
-<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> The deprecated feature was likely used in the <span style="color: #0000BB;">PathwayEmbed</span> package.</span></span>
-<span><span class="co">#&gt;   Please report the issue to the authors.</span></span>
-<span><span class="co">#&gt; <span style="color: #555555;">This warning is displayed once per session.</span></span></span>
-<span><span class="co">#&gt; <span style="color: #555555;">Call `lifecycle::last_lifecycle_warnings()` to see where this warning was</span></span></span>
-<span><span class="co">#&gt; <span style="color: #555555;">generated.</span></span></span></code></pre></div>
+<span>           label <span class="op">=</span> <span class="fu">make_label</span><span class="op">(</span><span class="va">pct_1</span>, <span class="st">"WT"</span>, <span class="st">"KO"</span><span class="op">)</span>, size <span class="op">=</span> <span class="fl">3.5</span>, color <span class="op">=</span> <span class="st">"black"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="Notch_Analysis_updated_files/figure-html/notch-ko-1.png" class="r-plt" alt="" width="1800"></p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
@@ -285,7 +246,7 @@ directly from the package in the next chunk.</p>
 <span><span class="va">zscore_mean_per_cell</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/colSums.html" class="external-link">colMeans</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/t.html" class="external-link">t</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/scale.html" class="external-link">scale</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/t.html" class="external-link">t</a></span><span class="op">(</span><span class="va">gene_matrix</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">Notch_features</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">matrix_24hr</span><span class="op">)</span></span>
-<span><span class="va">COI_2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://satijalab.org/seurat/reference/AddModuleScore.html" class="external-link">AddModuleScore</a></span><span class="op">(</span></span>
+<span><span class="va">COI_2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/Seurat/man/AddModuleScore.html" class="external-link">AddModuleScore</a></span><span class="op">(</span></span>
 <span>  object   <span class="op">=</span> <span class="va">COI_2</span>,</span>
 <span>  features <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">Notch_features</span><span class="op">)</span>,</span>
 <span>  name     <span class="op">=</span> <span class="st">"Notch_ModuleScore"</span>,</span>
@@ -432,16 +393,16 @@ directly from the package in the next chunk.</p>
 <h2 id="data-preprocessing-middle-age-vs--young-sspcs">Data Preprocessing — Middle-Age vs. Young SSPCs<a class="anchor" aria-label="anchor" href="#data-preprocessing-middle-age-vs--young-sspcs"></a>
 </h2>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">wt_data</span>    <span class="op">&lt;-</span> <span class="fu"><a href="https://satijalab.org/seurat/reference/Read10X.html" class="external-link">Read10X</a></span><span class="op">(</span><span class="st">"path/to/WT"</span>,    gene.column <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span>
-<span><span class="va">young_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://satijalab.org/seurat/reference/Read10X.html" class="external-link">Read10X</a></span><span class="op">(</span><span class="st">"path/to/Young"</span>, gene.column <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">wt_data</span>    <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/Seurat/man/Read10X.html" class="external-link">Read10X</a></span><span class="op">(</span><span class="st">"path/to/WT"</span>,    gene.column <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span>
+<span><span class="va">young_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/Seurat/man/Read10X.html" class="external-link">Read10X</a></span><span class="op">(</span><span class="st">"path/to/Young"</span>, gene.column <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">WT_object</span>    <span class="op">&lt;-</span> <span class="fu"><a href="https://satijalab.github.io/seurat-object/reference/CreateSeuratObject.html" class="external-link">CreateSeuratObject</a></span><span class="op">(</span>counts <span class="op">=</span> <span class="va">wt_data</span><span class="op">)</span></span>
 <span><span class="va">Young_object</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://satijalab.github.io/seurat-object/reference/CreateSeuratObject.html" class="external-link">CreateSeuratObject</a></span><span class="op">(</span>counts <span class="op">=</span> <span class="va">young_data</span><span class="op">)</span></span>
 <span><span class="va">WT_object</span><span class="op">$</span><span class="va">Age</span>    <span class="op">&lt;-</span> <span class="st">"MiddleAge"</span></span>
 <span><span class="va">Young_object</span><span class="op">$</span><span class="va">Age</span> <span class="op">&lt;-</span> <span class="st">"Young"</span></span>
 <span></span>
-<span><span class="va">WT_object</span><span class="op">[[</span><span class="st">"percent.mt"</span><span class="op">]</span><span class="op">]</span>    <span class="op">&lt;-</span> <span class="fu"><a href="https://satijalab.org/seurat/reference/PercentageFeatureSet.html" class="external-link">PercentageFeatureSet</a></span><span class="op">(</span><span class="va">WT_object</span>,    pattern <span class="op">=</span> <span class="st">"^mt-"</span><span class="op">)</span></span>
-<span><span class="va">Young_object</span><span class="op">[[</span><span class="st">"percent.mt"</span><span class="op">]</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://satijalab.org/seurat/reference/PercentageFeatureSet.html" class="external-link">PercentageFeatureSet</a></span><span class="op">(</span><span class="va">Young_object</span>, pattern <span class="op">=</span> <span class="st">"^mt-"</span><span class="op">)</span></span>
+<span><span class="va">WT_object</span><span class="op">[[</span><span class="st">"percent.mt"</span><span class="op">]</span><span class="op">]</span>    <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/Seurat/man/PercentageFeatureSet.html" class="external-link">PercentageFeatureSet</a></span><span class="op">(</span><span class="va">WT_object</span>,    pattern <span class="op">=</span> <span class="st">"^mt-"</span><span class="op">)</span></span>
+<span><span class="va">Young_object</span><span class="op">[[</span><span class="st">"percent.mt"</span><span class="op">]</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/Seurat/man/PercentageFeatureSet.html" class="external-link">PercentageFeatureSet</a></span><span class="op">(</span><span class="va">Young_object</span>, pattern <span class="op">=</span> <span class="st">"^mt-"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># NOTE: 30% threshold is intentionally permissive — skeletal stem cells retain</span></span>
 <span><span class="co"># higher baseline mitochondrial content; tighter thresholds remove genuine SSPCs.</span></span>
@@ -452,23 +413,23 @@ directly from the package in the next chunk.</p>
 <span>                                add.cell.ids <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"WT"</span>, <span class="st">"Young"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">merge_object</span><span class="op">[[</span><span class="st">"RNA"</span><span class="op">]</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://satijalab.github.io/seurat-object/reference/SplitLayers.html" class="external-link">JoinLayers</a></span><span class="op">(</span><span class="va">merge_object</span><span class="op">[[</span><span class="st">"RNA"</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">merge_object</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://satijalab.org/seurat/reference/NormalizeData.html" class="external-link">NormalizeData</a></span><span class="op">(</span><span class="va">merge_object</span><span class="op">)</span></span>
+<span><span class="va">merge_object</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/Seurat/man/NormalizeData.html" class="external-link">NormalizeData</a></span><span class="op">(</span><span class="va">merge_object</span><span class="op">)</span></span>
 <span><span class="va">merge_object</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span></span>
 <span>  <span class="va">merge_object</span>,</span>
 <span>  features <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">merge_object</span><span class="op">)</span><span class="op">[</span></span>
 <span>    <span class="fu">Matrix</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/Matrix/man/colSums-methods.html" class="external-link">rowSums</a></span><span class="op">(</span><span class="fu"><a href="https://satijalab.github.io/seurat-object/reference/AssayData.html" class="external-link">GetAssayData</a></span><span class="op">(</span><span class="va">merge_object</span>, slot <span class="op">=</span> <span class="st">"counts"</span><span class="op">)</span> <span class="op">&gt;</span> <span class="fl">0</span><span class="op">)</span> <span class="op">&gt;</span> <span class="fl">5</span><span class="op">]</span></span>
 <span><span class="op">)</span></span>
-<span><span class="va">merge_object</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://satijalab.org/seurat/reference/FindVariableFeatures.html" class="external-link">FindVariableFeatures</a></span><span class="op">(</span><span class="va">merge_object</span>, selection.method <span class="op">=</span> <span class="st">"vst"</span>,</span>
+<span><span class="va">merge_object</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/Seurat/man/FindVariableFeatures.html" class="external-link">FindVariableFeatures</a></span><span class="op">(</span><span class="va">merge_object</span>, selection.method <span class="op">=</span> <span class="st">"vst"</span>,</span>
 <span>                                      nfeatures <span class="op">=</span> <span class="fl">3000</span><span class="op">)</span></span>
-<span><span class="va">merge_object</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://satijalab.org/seurat/reference/ScaleData.html" class="external-link">ScaleData</a></span><span class="op">(</span><span class="va">merge_object</span><span class="op">)</span></span>
-<span><span class="va">merge_object</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://satijalab.org/seurat/reference/RunPCA.html" class="external-link">RunPCA</a></span><span class="op">(</span><span class="va">merge_object</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://satijalab.org/seurat/reference/ElbowPlot.html" class="external-link">ElbowPlot</a></span><span class="op">(</span><span class="va">merge_object</span><span class="op">)</span></span>
-<span><span class="va">merge_object</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://satijalab.org/seurat/reference/FindNeighbors.html" class="external-link">FindNeighbors</a></span><span class="op">(</span><span class="va">merge_object</span>, dims <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">)</span></span>
-<span><span class="va">merge_object</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://satijalab.org/seurat/reference/FindClusters.html" class="external-link">FindClusters</a></span><span class="op">(</span><span class="va">merge_object</span>, resolution <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
-<span><span class="va">merge_object</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://satijalab.org/seurat/reference/RunUMAP.html" class="external-link">RunUMAP</a></span><span class="op">(</span><span class="va">merge_object</span>, dims <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">)</span></span>
+<span><span class="va">merge_object</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/Seurat/man/ScaleData.html" class="external-link">ScaleData</a></span><span class="op">(</span><span class="va">merge_object</span><span class="op">)</span></span>
+<span><span class="va">merge_object</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/Seurat/man/RunPCA.html" class="external-link">RunPCA</a></span><span class="op">(</span><span class="va">merge_object</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/Seurat/man/ElbowPlot.html" class="external-link">ElbowPlot</a></span><span class="op">(</span><span class="va">merge_object</span><span class="op">)</span></span>
+<span><span class="va">merge_object</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/Seurat/man/FindNeighbors.html" class="external-link">FindNeighbors</a></span><span class="op">(</span><span class="va">merge_object</span>, dims <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">)</span></span>
+<span><span class="va">merge_object</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/Seurat/man/FindClusters.html" class="external-link">FindClusters</a></span><span class="op">(</span><span class="va">merge_object</span>, resolution <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
+<span><span class="va">merge_object</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/Seurat/man/RunUMAP.html" class="external-link">RunUMAP</a></span><span class="op">(</span><span class="va">merge_object</span>, dims <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu"><a href="https://satijalab.org/seurat/reference/DimPlot.html" class="external-link">DimPlot</a></span><span class="op">(</span><span class="va">merge_object</span>, reduction <span class="op">=</span> <span class="st">"umap"</span>, group.by <span class="op">=</span> <span class="st">"Age"</span>, label <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://satijalab.org/seurat/reference/FeaturePlot.html" class="external-link">FeaturePlot</a></span><span class="op">(</span><span class="va">merge_object</span>, reduction <span class="op">=</span> <span class="st">"umap"</span>, features <span class="op">=</span> <span class="st">"Cxcl12"</span>, order <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/Seurat/man/DimPlot.html" class="external-link">DimPlot</a></span><span class="op">(</span><span class="va">merge_object</span>, reduction <span class="op">=</span> <span class="st">"umap"</span>, group.by <span class="op">=</span> <span class="st">"Age"</span>, label <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/Seurat/man/FeaturePlot.html" class="external-link">FeaturePlot</a></span><span class="op">(</span><span class="va">merge_object</span>, reduction <span class="op">=</span> <span class="st">"umap"</span>, features <span class="op">=</span> <span class="st">"Cxcl12"</span>, order <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">cluster_of_interest</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">merge_object</span>, subset <span class="op">=</span> <span class="va">seurat_clusters</span> <span class="op">==</span> <span class="fl">11</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/readRDS.html" class="external-link">saveRDS</a></span><span class="op">(</span><span class="va">cluster_of_interest</span>, file <span class="op">=</span> <span class="st">"Middle_age_object.rds"</span><span class="op">)</span></span></code></pre></div>
@@ -483,7 +444,6 @@ directly from the package in the next chunk.</p>
 <span>                                     Seurat.object <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="va">pathwaystat_notch</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/PathwayMaxMin.html">PathwayMaxMin</a></span><span class="op">(</span><span class="va">matrix_notch</span>, <span class="va">pathwaydata_24hr</span><span class="op">)</span></span>
 <span><span class="va">Notch_score</span>       <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ComputeCellData.html">ComputeCellData</a></span><span class="op">(</span><span class="va">matrix_notch</span>, <span class="va">pathwaystat_notch</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span>
 <span></span>
 <span><span class="va">to_plot</span>   <span class="op">&lt;-</span> <span class="fu"><a href="../reference/PreparePlotData.html">PreparePlotData</a></span><span class="op">(</span><span class="va">cluster_of_interest</span>, <span class="va">Notch_score</span>, <span class="st">"Age"</span>,</span>
 <span>                              Seurat.object <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
@@ -507,7 +467,6 @@ directly from the package in the next chunk.</p>
 </h2>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">HIf1a_pathwaydata</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/LoadPathway.html">LoadPathway</a></span><span class="op">(</span><span class="st">"Hypoxia_24hr"</span>,          <span class="st">"mouse"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; 1 row(s) with NA gene symbols removed.</span></span>
 <span><span class="va">Hippo_pathwaydata</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/LoadPathway.html">LoadPathway</a></span><span class="op">(</span><span class="st">"HIPPO_heat"</span>,             <span class="st">"mouse"</span><span class="op">)</span></span>
 <span><span class="va">TGFb_pathwaydata</span>  <span class="op">&lt;-</span> <span class="fu"><a href="../reference/LoadPathway.html">LoadPathway</a></span><span class="op">(</span><span class="st">"TGFB_Mouse"</span>,             <span class="st">"mouse"</span><span class="op">)</span></span>
 <span><span class="va">Wnt_pathwaydata</span>   <span class="op">&lt;-</span> <span class="fu"><a href="../reference/LoadPathway.html">LoadPathway</a></span><span class="op">(</span><span class="st">"WNT3A_SLOPE_ACTIVATION"</span>, <span class="st">"mouse"</span><span class="op">)</span></span>
@@ -545,21 +504,14 @@ directly from the package in the next chunk.</p>
 <span>    filename <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"figs/"</span>, <span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">gsub</a></span><span class="op">(</span><span class="st">"[^A-Za-z0-9_]"</span>, <span class="st">"_"</span>, <span class="va">pathway_name</span><span class="op">)</span>, <span class="st">"_age.png"</span><span class="op">)</span>,</span>
 <span>    plot     <span class="op">=</span> <span class="va">p</span>, width <span class="op">=</span> <span class="fl">5</span>, height <span class="op">=</span> <span class="fl">4</span>, dpi <span class="op">=</span> <span class="fl">300</span></span>
 <span>  <span class="op">)</span></span>
-<span><span class="op">}</span></span>
-<span><span class="co">#&gt; Computing distance...</span></span></code></pre></div>
-<p><img src="Notch_Analysis_updated_files/figure-html/multi-pathway-1.png" class="r-plt" alt="" width="1800"></p>
-<pre><code><span><span class="co">#&gt; Computing distance...</span></span></code></pre>
-<p><img src="Notch_Analysis_updated_files/figure-html/multi-pathway-2.png" class="r-plt" alt="" width="1800"></p>
-<pre><code><span><span class="co">#&gt; Computing distance...</span></span></code></pre>
-<p><img src="Notch_Analysis_updated_files/figure-html/multi-pathway-3.png" class="r-plt" alt="" width="1800"></p>
-<pre><code><span><span class="co">#&gt; Computing distance...</span></span></code></pre>
-<p><img src="Notch_Analysis_updated_files/figure-html/multi-pathway-4.png" class="r-plt" alt="" width="1800"></p>
+<span><span class="op">}</span></span></code></pre></div>
+<p><img src="Notch_Analysis_updated_files/figure-html/multi-pathway-1.png" class="r-plt" alt="" width="1800"><img src="Notch_Analysis_updated_files/figure-html/multi-pathway-2.png" class="r-plt" alt="" width="1800"><img src="Notch_Analysis_updated_files/figure-html/multi-pathway-3.png" class="r-plt" alt="" width="1800"><img src="Notch_Analysis_updated_files/figure-html/multi-pathway-4.png" class="r-plt" alt="" width="1800"></p>
 <hr>
 </div>
 <div class="section level2">
 <h2 id="cross-pathway-comparison">Cross-Pathway Comparison<a class="anchor" aria-label="anchor" href="#cross-pathway-comparison"></a>
 </h2>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Add Notch to score list (computed in notch-aging chunk)</span></span>
 <span><span class="va">score_list</span><span class="op">[[</span><span class="st">"Notch"</span><span class="op">]</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="va">Notch_score</span></span>
 <span><span class="va">cohens_d_list</span><span class="op">[[</span><span class="st">"Notch"</span><span class="op">]</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">abs</a></span><span class="op">(</span><span class="va">age_stats</span><span class="op">$</span><span class="va">cohens_d</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span></span>
@@ -596,7 +548,7 @@ directly from the package in the next chunk.</p>
 <span>  main            <span class="op">=</span> <span class="st">"Spearman Correlation Between Pathways"</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <p><img src="Notch_Analysis_updated_files/figure-html/cross-pathway-1.png" class="r-plt" alt="" width="1800"></p>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="co"># PCA of pathway activity space</span></span>
 <span><span class="va">pca</span>   <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/prcomp.html" class="external-link">prcomp</a></span><span class="op">(</span><span class="va">pathway_mat</span>, scale. <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
@@ -607,7 +559,7 @@ directly from the package in the next chunk.</p>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_classic</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"PCA of pathway activity space"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="Notch_Analysis_updated_files/figure-html/cross-pathway-2.png" class="r-plt" alt="" width="1800"></p>
-<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="co"># AUROC per pathway</span></span>
 <span><span class="va">compute_auroc_safe</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">scores</span>, <span class="va">labels</span><span class="op">)</span> <span class="op">{</span></span>
@@ -646,7 +598,7 @@ directly from the package in the next chunk.</p>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"none"</span><span class="op">)</span></span>
 <span><span class="va">p_auroc_age</span></span></code></pre></div>
 <p><img src="Notch_Analysis_updated_files/figure-html/cross-pathway-3.png" class="r-plt" alt="" width="1800"></p>
-<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="co"># Cohen's d per pathway</span></span>
 <span><span class="va">cohens_d_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
@@ -678,32 +630,14 @@ directly from the package in the next chunk.</p>
 <div class="section level2">
 <h2 id="technical-confounders">Technical Confounders<a class="anchor" aria-label="anchor" href="#technical-confounders"></a>
 </h2>
-<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">cc_genes</span>  <span class="op">&lt;-</span> <span class="fu">Seurat</span><span class="fu">::</span><span class="va"><a href="https://satijalab.org/seurat/reference/cc.genes.updated.2019.html" class="external-link">cc.genes.updated.2019</a></span></span>
-<span><span class="va">cluster_of_interest</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://satijalab.org/seurat/reference/CellCycleScoring.html" class="external-link">CellCycleScoring</a></span><span class="op">(</span></span>
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">cc_genes</span>  <span class="op">&lt;-</span> <span class="fu">Seurat</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/Seurat/man/cc.genes.updated.2019.html" class="external-link">cc.genes.updated.2019</a></span></span>
+<span><span class="va">cluster_of_interest</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/Seurat/man/CellCycleScoring.html" class="external-link">CellCycleScoring</a></span><span class="op">(</span></span>
 <span>  <span class="va">cluster_of_interest</span>,</span>
 <span>  s.features   <span class="op">=</span> <span class="va">cc_genes</span><span class="op">$</span><span class="va">s.genes</span>,</span>
 <span>  g2m.features <span class="op">=</span> <span class="va">cc_genes</span><span class="op">$</span><span class="va">g2m.genes</span>,</span>
 <span>  set.ident    <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span>
-<span><span class="co">#&gt; Warning: The following features are not present in the object: MCM5, PCNA,</span></span>
-<span><span class="co">#&gt; TYMS, FEN1, MCM7, MCM4, RRM1, UNG, GINS2, MCM6, CDCA7, DTL, PRIM1, UHRF1,</span></span>
-<span><span class="co">#&gt; CENPU, HELLS, RFC2, POLR1B, NASP, RAD51AP1, GMNN, WDR76, SLBP, CCNE2, UBR7,</span></span>
-<span><span class="co">#&gt; POLD3, MSH2, ATAD2, RAD51, RRM2, CDC45, CDC6, EXO1, TIPIN, DSCC1, BLM,</span></span>
-<span><span class="co">#&gt; CASP8AP2, USP1, CLSPN, POLA1, CHAF1B, MRPL36, E2F8, not searching for symbol</span></span>
-<span><span class="co">#&gt; synonyms</span></span>
-<span><span class="co">#&gt; Warning: The following features are not present in the object: HMGB2, CDK1,</span></span>
-<span><span class="co">#&gt; NUSAP1, UBE2C, BIRC5, TPX2, TOP2A, NDC80, CKS2, NUF2, CKS1B, MKI67, TMPO,</span></span>
-<span><span class="co">#&gt; CENPF, TACC3, PIMREG, SMC4, CCNB2, CKAP2L, CKAP2, AURKB, BUB1, KIF11, ANP32E,</span></span>
-<span><span class="co">#&gt; TUBB4B, GTSE1, KIF20B, HJURP, CDCA3, JPT1, CDC20, TTK, CDC25C, KIF2C, RANGAP1,</span></span>
-<span><span class="co">#&gt; NCAPD2, DLGAP5, CDCA2, CDCA8, ECT2, KIF23, HMMR, AURKA, PSRC1, ANLN, LBR,</span></span>
-<span><span class="co">#&gt; CKAP5, CENPE, CTCF, NEK2, G2E3, GAS2L3, CBX5, CENPA, not searching for symbol</span></span>
-<span><span class="co">#&gt; synonyms</span></span>
-<span><span class="co">#&gt; Warning in AddModuleScore.Assay(object = input, features = features, kmeans.obj</span></span>
-<span><span class="co">#&gt; = kmeans.obj, : Could not find enough features in the object from the following</span></span>
-<span><span class="co">#&gt; feature lists: S.Score Attempting to match case...Could not find enough</span></span>
-<span><span class="co">#&gt; features in the object from the following feature lists: G2M.Score Attempting</span></span>
-<span><span class="co">#&gt; to match case...</span></span>
 <span></span>
 <span><span class="va">stress_genes</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>
 <span>  <span class="st">"Fos"</span>, <span class="st">"Jun"</span>, <span class="st">"Junb"</span>, <span class="st">"Atf3"</span>, <span class="st">"Egr1"</span>,</span>
@@ -711,7 +645,7 @@ directly from the package in the next chunk.</p>
 <span>  <span class="st">"Hspa1a"</span>, <span class="st">"Hspa1b"</span>, <span class="st">"Hsp90aa1"</span>,</span>
 <span>  <span class="st">"Gadd45a"</span>, <span class="st">"Gadd45b"</span>, <span class="st">"Gadd45g"</span></span>
 <span><span class="op">)</span></span>
-<span><span class="va">cluster_of_interest</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://satijalab.org/seurat/reference/AddModuleScore.html" class="external-link">AddModuleScore</a></span><span class="op">(</span></span>
+<span><span class="va">cluster_of_interest</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/Seurat/man/AddModuleScore.html" class="external-link">AddModuleScore</a></span><span class="op">(</span></span>
 <span>  <span class="va">cluster_of_interest</span>,</span>
 <span>  features <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">stress_genes</span><span class="op">)</span>,</span>
 <span>  name     <span class="op">=</span> <span class="st">"StressScore"</span>,</span>
@@ -757,7 +691,7 @@ directly from the package in the next chunk.</p>
 <span>         fontsize_number <span class="op">=</span> <span class="fl">10</span>,</span>
 <span>         main            <span class="op">=</span> <span class="st">"Pathway vs. covariate correlations (Spearman)"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="Notch_Analysis_updated_files/figure-html/confounders-1.png" class="r-plt" alt="" width="1800"></p>
-<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="co"># Scatter: each pathway vs. stress score</span></span>
 <span><span class="va">plot_df_long</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_longer.html" class="external-link">pivot_longer</a></span><span class="op">(</span></span>
@@ -782,8 +716,7 @@ directly from the package in the next chunk.</p>
 <span>            hjust <span class="op">=</span> <span class="fl">1.2</span>, vjust <span class="op">=</span> <span class="fl">1.5</span>, inherit.aes <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_classic</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Pathway scores vs. stress score (Spearman)"</span>,</span>
-<span>       x <span class="op">=</span> <span class="st">"Stress score"</span>, y <span class="op">=</span> <span class="st">"Pathway score"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; `geom_smooth()` using formula = 'y ~ x'</span></span></code></pre></div>
+<span>       x <span class="op">=</span> <span class="st">"Stress score"</span>, y <span class="op">=</span> <span class="st">"Pathway score"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="Notch_Analysis_updated_files/figure-html/confounders-2.png" class="r-plt" alt="" width="1800"></p>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
