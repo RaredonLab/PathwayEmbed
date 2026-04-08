@@ -7,21 +7,31 @@
 PlotPathway(to.plot, pathway, group, color)
 }
 \arguments{
-\item{to.plot}{A data frame with pathway activation values genereated by PreparePlotData}
+\item{to.plot}{A dataframe returned by PreparePlotData, containing at least:
+\describe{
+\item{scale}{Z-scored pathway activation values.}
+\item{group}{Grouping variable for coloring (e.g., genotype).}
+}}
 
-\item{pathway}{A character string indicating the pathway name.}
+\item{pathway}{Character string indicating the pathway name (used in plot title).}
 
-\item{group}{Column name to group and color by (e.g., genotype).}
+\item{group}{Column name in \code{to.plot} to group and color the plot by (e.g., "genotype").}
 
-\item{color}{A character vector of colors to use for fill and outline.}
+\item{color}{Character vector of colors for each group (fill and outline). Length must match number of unique groups.}
 }
 \value{
-A ggplot object.
+A ggplot2 object showing density distributions of pathway activity per group.
 }
 \description{
-A function to plot the Pathway activation status
+Plot the activation status of a pathway across cell populations.
+Creates a density plot of pathway activation (z-scored) for each group.
 }
 \examples{
+\dontrun{
 data(fake_to_plot)
-PlotPathway(to.plot = fake_to_plot,"Wnt","genotype",color = c("#ae282c", "#2066a8"))
+PlotPathway(to.plot = fake_to_plot,
+            pathway = "Wnt",
+            group = "genotype",
+            color = c("#ae282c", "#2066a8"))
+}
 }

@@ -2,83 +2,52 @@
 #'
 #' A function to obtain the hypothetical max and min activation status of selected pathway for a given scRNA seq data set
 #'
-#' @name PathwayMaxMin
-#' @import Seurat
-#' @import tidyverse
-#' @import viridis
+#' @param expr_data Pre-processed gene-by-cell matrix (z-scored, pathway-filtered)
+#' @param pathwaydata Pathway data outcome from LoadPathway()
+#'
+#' @return A data.frame with pathway.on and pathway.off values per gene
+#'
 #' @importFrom matrixStats rowMins rowMaxs
 #'
-#' @param x A Seurat Object.
-#' @param pathway A `character` string specifying the pathway name.
-#' @param scale.data A `logical` indicating whether to use scaled data (`scale.data = TRUE`) or normalized data. Default is `TRUE`.
-#' @return The hypothetical value for Pathway on and off (max and min value for features)
 #' @examples
-#' data(fake_test_object) # load the fake test data
-#' PathwayMaxMin(fake_test_object, "Wnt")
+#' \dontrun{
+#' pathwaydata <- LoadPathway("Hypoxia_6hr", "human")
+#' matrix_filtered <- DataPreProcess(expr_data, pathwaydata)
+#' PathwayMaxMin(matrix_filtered, pathwaydata)
+#' }
 #' @export
-PathwayMaxMin <- function(x, pathway, scale.data = TRUE) {
+PathwayMaxMin <- function(expr_data, pathwaydata) {
 
-  # Define pathway parameters using LoadPathway
-  pathwaydata <- LoadPathway(pathway) # load pathway data
-  names <- c(pathwaydata[[1]]) # molecule names
-  pathway.on <- as.numeric(c(pathwaydata[[2]])) # coefficients
-  names(pathway.on) <- names
-  pathway.off <- -pathway.on # define off status
+  # Load pathway coefficients
+  pathway_coef <- as.numeric(pathwaydata$Coefficient)
+  names(pathway_coef) <- pathwaydata$Gene_Symbol
 
-  # Use only genes present in Seurat object
-  valid_names <- intersect(names, rownames(x))
-  if (length(valid_names) == 0) {
-    stop("No valid pathway genes found in the Seurat object.")
-  }
-  pathway.on <- pathway.on[valid_names]
-  pathway.off <- pathway.off[valid_names]
+  # Keep only genes present in expr_data (already filtered)
+  pathway_coef <- pathway_coef[rownames(expr_data)]
 
-  # Extract expression data from the desired slot
-  x <- ScaleData(x, features = valid_names)
-  slot_use <- if (scale.data) "scale.data" else "data"
-  expr_data <- GetAssayData(x, assay = "RNA", slot = slot_use)[valid_names, , drop = FALSE]
+  # Define ON/OFF
+  pathway_on  <- pathway_coef
+  pathway_off <- -pathway_coef
 
-  # Ensure it's a data frame
-  expr_data <- as.data.frame(expr_data)
+  # Compute row-wise min / max across cells
+  gene_min <- rowMins(expr_data, na.rm = TRUE)
+  gene_max <- rowMaxs(expr_data, na.rm = TRUE)
 
-  # Max and min value for genes in the pathway
-  # Compute row-wise min and max values
-  ranges <- cbind(
-    rowMins(as.matrix(expr_data), na.rm = FALSE),
-    rowMaxs(as.matrix(expr_data), na.rm = FALSE)
+  # Assign extrema based on coefficient sign
+  pathway_on  <- ifelse(pathway_on  < 0, gene_min, gene_max)
+  pathway_off <- ifelse(pathway_off < 0, gene_min, gene_max)
+
+  # Combine results
+  pathway_stat <- data.frame(
+    pathway.on  = pathway_on,
+    pathway.off = pathway_off
   )
 
-  # Scale the ON/OFF states to the extrema of these ranges for each features
-  for (i in seq_along(pathway.on)) {
-    feature_name <- names(pathway.on[i])
-
-    if (!feature_name %in% rownames(ranges)) {
-      warning(paste("Feature", feature_name, "not found in ranges!"))
-      next  # Skip iteration if feature is missing
-    }
-    if (pathway.on[i] < 0) {
-      pathway.on[i] <- ranges[feature_name, 1]  # min for ON
-    } else {
-      pathway.on[i] <- ranges[feature_name, 2]  # max for ON
-    }
-  }
-  for (i in seq_along(pathway.off)) {  # Safer indexing
-    feature_name <- names(pathway.off[i])  # Get feature name
-
-    if (!feature_name %in% rownames(ranges)) {  # Check if feature exists in ranges
-      warning(paste("Feature", feature_name, "not found in ranges! Skipping..."))
-      next  # Skip to the next iteration if missing
-    }
-
-    # Assign min or max based on value
-    pathway.off[i] <- ifelse(pathway.off[i] < 0,
-                             ranges[feature_name, 1],  # Min for OFF
-                             ranges[feature_name, 2])  # Max for OFF
-  }
-
-
-  # Bind on and off states
-  pathway.stat <- data.frame(pathway.on,pathway.off)
-
-  return(pathway.stat)
+  return(pathway_stat)
 }
+
+# For negative coefficient genes, when pathway activation means a decrease in transcription, the pathway ON state should take the minimum gene expression value in the entire dataset, for each pathway feature.
+# For positive coefficient genes, when pathway activation means n increase in transcription, the pathway ON state should take the maximum gene expression value in the entire dataset, for each pathway feature.
+# For negative coefficient genes, when pathway activation means a decrease in transcription, the pathway OFF state should take the maximum gene expression value in the entire dataset, for each pathway feature.
+# For positive coefficient genes, when pathway activation means an increase in transcription, the pathway OFF state should take the minimum gene expression value in the entire dataset, for each pathway feature.
+# Finally, because pathway ON/OFF could embedded in the positive OR negative direction, when you pull out V1_max and V1_min, which should represent the ON and OFF states in some order, you should identify what that order is, and flips it as necessary (multiply by -1?) so that V1_max == pathway ON, and then normalize between pathway OFF/ON as 0->1

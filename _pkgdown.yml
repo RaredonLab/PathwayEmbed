@@ -1,0 +1,10 @@
+url: https://raredonlab.github.io/PathwayEmbed/
+
+home:
+  title: "PathwayEmbed"
+  description: "Quantifying and visualizing intracellular signaling pathway activation from transcriptomic data."
+
+template:
+  bootstrap: 5
+  bootswatch: flatly  # optional but adds a nice theme
+

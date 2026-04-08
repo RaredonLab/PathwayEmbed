@@ -15,6 +15,9 @@ knitr::opts_chunk$set(
 )
 ```
 
+## Overview
+This vignette shows the application of PathwayEmbed in a beta-catenin perturbed system where Ctnnb1 upstream enhancer is depleted in instestinal epithelia. Refinements of coefficients is flexible and should be case-depedent.
+References: Hua et al. A Ctnnb1 enhancer transcriptionally regulates Wnt signaling dosage to balance homeostasis and tumorigenesis of intestinal epithelia. Elife. 2024 Sep 25;13:RP98238. doi: 10.7554/eLife.98238. PMID: 39320349; PMCID: PMC11424096.
 
 ## Load Packages and Download Data from Online Source
 ```{r setup}
@@ -51,7 +54,7 @@ merged[["RNA"]] <- JoinLayers(merged[["RNA"]])
 ```
 
 ## Preprocessing 
-Get normalized and scaled data
+Get normalized and scaled data and convert them to matrix format
 ```{r}
 # Normalize and scale
 merged <- NormalizeData(
@@ -70,15 +73,22 @@ merged <- ScaleData(
   object = merged,
   features = VariableFeatures(object = merged)
 )
+
+# Get genes x cell matrix
+merged_data <- as.matrix(GetAssayData(merged, assay = "RNA", slot = "data"))
+
+# Get metadata matrix
+merged_metadata <- merged@meta.data
+
 ```
 
 ## Wnt Pathway Scoring and Visualization Using Pathway Embed
 ```{r}
 # Compute Wnt pathway score
-wnt_scores <- ComputeCellData(merged, "Wnt", distance.method = "manhattan", batch.size = 1000)
+wnt_scores <- ComputeCellData(merged_data, "Wnt", distance.method = "manhattan", batch.size = 1000)
 
 # Prepare for plotting
-plot_data <- PreparePlotData(merged, wnt_scores, group = "sample")
+plot_data <- PreparePlotData(merged_metadata, wnt_scores, group = "sample")
 
 # Plot
 PlotPathway(plot_data, pathway = "Wnt", group = "sample", c("#f4a4a4", "#6baed6"))

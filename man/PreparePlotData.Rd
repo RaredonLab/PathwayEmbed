@@ -2,25 +2,44 @@
 % Please edit documentation in R/PreparePlotData.R
 \name{PreparePlotData}
 \alias{PreparePlotData}
-\title{A function to prepare the signal transduction dataframe for plotting}
+\title{PreparePlotData}
 \usage{
-PreparePlotData(x, final_mds, group)
+PreparePlotData(x, score, group, Seurat.object = FALSE)
 }
 \arguments{
-\item{x}{A \code{Seurat} object containing single-cell RNA sequencing data.}
+\item{x}{A metadata data frame (rows = cells, columns = metadata fields)
+or a Seurat object. Must contain the column specified by \code{group}.}
 
-\item{final_mds}{A 'dataframe' output from ComputeCellData.}
+\item{score}{A named numeric vector of per-cell scores from
+\code{ComputeCellData()}. Names must be cell IDs matching rownames of \code{x}.}
 
-\item{group}{group for the comparision}
+\item{group}{A character string giving the column name in \code{x} metadata
+to use for grouping (e.g. \code{"genotype"}, \code{"Age"}).}
+
+\item{Seurat.object}{Logical; set \code{TRUE} if \code{x} is a Seurat object.
+Default \code{FALSE}.}
 }
 \value{
-data for plotting
+A data frame with one row per cell and three columns:
+\describe{
+\item{normalized}{Normalized pathway activity score in [0, 1]\ from
+\code{ComputeCellData()}.}
+\item{scale}{Z-scored pathway activity across all cells.}
+\item{\if{html}{\out{<group>}}}{The grouping variable, named after the \code{group} argument.}
+}
 }
 \description{
-A function to prepare the signal transduction dataframe for plotting
+Prepares a tidy data frame of pathway activity scores per cell for
+downstream plotting with \code{PlotPathway()} or \code{CalculatePercentage()}.
+Accepts either a plain metadata data frame or a Seurat object.
 }
 \examples{
-data(fake_test_object)
-data(fake_final_mds)
-PreparePlotData(fake_test_object, fake_final_mds, "genotype")
+\dontrun{
+# Using a plain metadata data frame
+plotdata <- PreparePlotData(metadata_df, scores, "genotype")
+
+# Using a Seurat object
+plotdata <- PreparePlotData(seurat_obj, scores, "orig.ident", Seurat.object = TRUE)
+}
+
 }

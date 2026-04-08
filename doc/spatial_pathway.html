@@ -340,6 +340,15 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 
 
 
+<div id="overview" class="section level2">
+<h2>Overview</h2>
+<p>This vignette demonstrates the application of PathwayEmbed in mouse
+embryo spatial data (E9.5 - E12.5). With curated pathway database, we
+examined and compared Wnt, Notch, TGFb, Hippo, and HIF-1a signaling
+transduction states across spatial and temporal development. Reference
+for the initial data: Chen et al. Spatiotemporal transcriptomic atlas of
+mouse organogenesis using DNA nanoball-patterned arrays, Cell, Volume
+185, Issue 10, 2022, Pages 1777-1792.e21.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a>knitr<span class="sc">::</span>opts_chunk<span class="sc">$</span><span class="fu">set</span>(<span class="at">echo =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a><span class="co"># load library</span></span>
@@ -349,6 +358,7 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 <span id="cb1-7"><a href="#cb1-7" tabindex="-1"></a><span class="fu">library</span>(viridis)</span></code></pre></div>
 <pre><code>## Loading required package: viridisLite</code></pre>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="fu">library</span>(cowplot)</span></code></pre></div>
+</div>
 <div id="spatial-data-load-and-process" class="section level2">
 <h2>Spatial data load and process</h2>
 <p>The files can be downloaded from figshare via below link:</p>
@@ -371,25 +381,31 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 <span id="cb4-9"><a href="#cb4-9" tabindex="-1"></a>  dat1, <span class="at">y =</span> <span class="fu">c</span>(dat2, dat3, dat4))</span>
 <span id="cb4-10"><a href="#cb4-10" tabindex="-1"></a></span>
 <span id="cb4-11"><a href="#cb4-11" tabindex="-1"></a><span class="co"># Set Default Assay to be &quot;RNA&quot;</span></span>
-<span id="cb4-12"><a href="#cb4-12" tabindex="-1"></a><span class="fu">DefaultAssay</span>(merged_spatial) <span class="ot">&lt;-</span> <span class="st">&quot;RNA&quot;</span></span></code></pre></div>
+<span id="cb4-12"><a href="#cb4-12" tabindex="-1"></a><span class="fu">DefaultAssay</span>(merged_spatial) <span class="ot">&lt;-</span> <span class="st">&quot;RNA&quot;</span></span>
+<span id="cb4-13"><a href="#cb4-13" tabindex="-1"></a></span>
+<span id="cb4-14"><a href="#cb4-14" tabindex="-1"></a><span class="co"># Get genes x cell matrix</span></span>
+<span id="cb4-15"><a href="#cb4-15" tabindex="-1"></a>merged_spatial_matrix <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(<span class="fu">GetAssayData</span>(merged_spatial, <span class="at">assay =</span> <span class="st">&quot;RNA&quot;</span>, <span class="at">slot =</span> <span class="st">&quot;data&quot;</span>))</span>
+<span id="cb4-16"><a href="#cb4-16" tabindex="-1"></a></span>
+<span id="cb4-17"><a href="#cb4-17" tabindex="-1"></a><span class="co"># Get metadata matrix</span></span>
+<span id="cb4-18"><a href="#cb4-18" tabindex="-1"></a>merged_spatial_metadata <span class="ot">&lt;-</span> merged_spatial<span class="sc">@</span>meta.data</span></code></pre></div>
 </div>
 <div id="compute-pathway-score" class="section level2">
 <h2>Compute pathway score</h2>
 <p>Compute score for Wnt, Notch, Hippo, Tgfb, and HIF-1a pathways for
 the merged subject using ‘ComputeCellData’ in PathwayEmbed</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="co"># Compute the score for each pathway</span></span>
-<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>Wnt_mds <span class="ot">&lt;-</span> <span class="fu">ComputeCellData</span>(merged_spatial, <span class="st">&quot;Wnt&quot;</span>, <span class="st">&quot;manhattan&quot;</span>, <span class="at">batch.size =</span> <span class="dv">1000</span>)</span>
-<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a>Notch_mds <span class="ot">&lt;-</span> <span class="fu">ComputeCellData</span>(merged_spatial, <span class="st">&quot;Notch&quot;</span>, <span class="st">&quot;manhattan&quot;</span>, <span class="at">batch.size =</span> <span class="dv">1000</span>)</span>
-<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a>Hippo_mds <span class="ot">&lt;-</span> <span class="fu">ComputeCellData</span>(merged_spatial, <span class="st">&quot;Hippo&quot;</span>, <span class="st">&quot;manhattan&quot;</span>, <span class="at">batch.size =</span> <span class="dv">1000</span>)</span>
-<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a>Tgfb_mds <span class="ot">&lt;-</span> <span class="fu">ComputeCellData</span>(merged_spatial, <span class="st">&quot;Tgfb&quot;</span>, <span class="st">&quot;manhattan&quot;</span>, <span class="at">batch.size =</span> <span class="dv">1000</span>)</span>
-<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a>HIF1a_mds <span class="ot">&lt;-</span> <span class="fu">ComputeCellData</span>(merged_spatial, <span class="st">&quot;HIF-1a&quot;</span>, <span class="st">&quot;manhattan&quot;</span>, <span class="at">batch.size =</span> <span class="dv">1000</span>)</span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>Wnt_mds <span class="ot">&lt;-</span> <span class="fu">ComputeCellData</span>(merged_spatial_matrix, <span class="st">&quot;Wnt&quot;</span>, <span class="st">&quot;manhattan&quot;</span>, <span class="at">batch.size =</span> <span class="dv">1000</span>)</span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a>Notch_mds <span class="ot">&lt;-</span> <span class="fu">ComputeCellData</span>(merged_spatial_matrix, <span class="st">&quot;Notch&quot;</span>, <span class="st">&quot;manhattan&quot;</span>, <span class="at">batch.size =</span> <span class="dv">1000</span>)</span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a>Hippo_mds <span class="ot">&lt;-</span> <span class="fu">ComputeCellData</span>(merged_spatial_matrix, <span class="st">&quot;Hippo&quot;</span>, <span class="st">&quot;manhattan&quot;</span>, <span class="at">batch.size =</span> <span class="dv">1000</span>)</span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a>Tgfb_mds <span class="ot">&lt;-</span> <span class="fu">ComputeCellData</span>(merged_spatial_matrix, <span class="st">&quot;Tgfb&quot;</span>, <span class="st">&quot;manhattan&quot;</span>, <span class="at">batch.size =</span> <span class="dv">1000</span>)</span>
+<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a>HIF1a_mds <span class="ot">&lt;-</span> <span class="fu">ComputeCellData</span>(merged_spatial_matrix, <span class="st">&quot;HIF-1a&quot;</span>, <span class="st">&quot;manhattan&quot;</span>, <span class="at">batch.size =</span> <span class="dv">1000</span>)</span>
 <span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a></span>
 <span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a><span class="co"># Process the mds</span></span>
-<span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a>Wnt_to.plot <span class="ot">&lt;-</span> <span class="fu">PreparePlotData</span>(merged_spatial, Wnt_mds, <span class="st">&quot;timepoint&quot;</span>)</span>
-<span id="cb5-10"><a href="#cb5-10" tabindex="-1"></a>Notch_to.plot <span class="ot">&lt;-</span> <span class="fu">PreparePlotData</span>(merged_spatial, Notch_mds, <span class="st">&quot;timepoint&quot;</span>)</span>
-<span id="cb5-11"><a href="#cb5-11" tabindex="-1"></a>Hippo_to.plot <span class="ot">&lt;-</span> <span class="fu">PreparePlotData</span>(merged_spatial, Hippo_mds, <span class="st">&quot;timepoint&quot;</span>)</span>
-<span id="cb5-12"><a href="#cb5-12" tabindex="-1"></a>Tgfb_to.plot <span class="ot">&lt;-</span> <span class="fu">PreparePlotData</span>(merged_spatial, Tgfb_mds, <span class="st">&quot;timepoint&quot;</span>)</span>
-<span id="cb5-13"><a href="#cb5-13" tabindex="-1"></a>HIF1a_to.plot <span class="ot">&lt;-</span> <span class="fu">PreparePlotData</span>(merged_spatial, HIF1a_mds, <span class="st">&quot;timepoint&quot;</span>)</span>
+<span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a>Wnt_to.plot <span class="ot">&lt;-</span> <span class="fu">PreparePlotData</span>(merged_spatial_metadata, Wnt_mds, <span class="st">&quot;timepoint&quot;</span>)</span>
+<span id="cb5-10"><a href="#cb5-10" tabindex="-1"></a>Notch_to.plot <span class="ot">&lt;-</span> <span class="fu">PreparePlotData</span>(merged_spatial_metadata, Notch_mds, <span class="st">&quot;timepoint&quot;</span>)</span>
+<span id="cb5-11"><a href="#cb5-11" tabindex="-1"></a>Hippo_to.plot <span class="ot">&lt;-</span> <span class="fu">PreparePlotData</span>(merged_spatial_metadata, Hippo_mds, <span class="st">&quot;timepoint&quot;</span>)</span>
+<span id="cb5-12"><a href="#cb5-12" tabindex="-1"></a>Tgfb_to.plot <span class="ot">&lt;-</span> <span class="fu">PreparePlotData</span>(merged_spatial_metadata, Tgfb_mds, <span class="st">&quot;timepoint&quot;</span>)</span>
+<span id="cb5-13"><a href="#cb5-13" tabindex="-1"></a>HIF1a_to.plot <span class="ot">&lt;-</span> <span class="fu">PreparePlotData</span>(merged_spatial_metadata, HIF1a_mds, <span class="st">&quot;timepoint&quot;</span>)</span>
 <span id="cb5-14"><a href="#cb5-14" tabindex="-1"></a></span>
 <span id="cb5-15"><a href="#cb5-15" tabindex="-1"></a><span class="co"># Combine to list</span></span>
 <span id="cb5-16"><a href="#cb5-16" tabindex="-1"></a>pathway_list <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>

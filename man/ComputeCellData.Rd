@@ -4,37 +4,36 @@
 \alias{ComputeCellData}
 \title{ComputeCellData}
 \usage{
-ComputeCellData(
-  x,
-  pathway,
-  distance.method,
-  batch.size = batch.size,
-  scale.data = TRUE
-)
+ComputeCellData(expr_data, pathway.stat, distance.method = "manhattan")
 }
 \arguments{
-\item{x}{A \code{Seurat} object containing single-cell RNA sequencing data.}
+\item{expr_data}{A z-scored gene-by-cell numeric matrix, e.g. from
+\code{DataPreProcess()}.}
 
-\item{pathway}{A \code{character} string specifying the pathway name. This should match a pathway used by \code{LoadPathway()}.}
+\item{pathway.stat}{A data frame from \code{PathwayMaxMin()} with columns
+\code{pathway.on} and \code{pathway.off}. Rownames must be gene symbols.}
 
-\item{distance.method}{A \code{character} string specifying the distance metric to use.Default is "manhattan".
-Options include: \code{"manhattan"}, \code{"euclidean"}, \code{"canberra"}, \code{"binary"}, \code{"minkowski"}}
-
-\item{batch.size}{An \code{integer} specifying the number of cells to process per batch. Default is 1000.}
-
-\item{scale.data}{A \code{logical} indicating whether to use scaled data (\code{scale.data = TRUE}) or normalized data. Default is \code{TRUE}.}
+\item{distance.method}{Character string specifying the distance metric.
+One of \code{"manhattan"} (default) or \code{"euclidean"}.}
 }
 \value{
-A data frame of MDS results with normalized values per cell, suitable for thresholding or visualization.
+A named numeric vector of length equal to the number of cells,
+with scores in [0, 1]. A score near 1 indicates the cell is close to
+the ON state; a score near 0 indicates proximity to the OFF state.
+Cells where both distances are 0 return \code{NaN} with a warning.
 }
 \description{
-A function computes cell status for a given pathway in single-cell RNA-seq data,
-based on the distance between genes in a specified pathway. The distance is computed
-for each batch of cells, and classical multidimensional scaling (MDS) is used to
-visualize the pathway expression across cells.
+Computes a per-cell pathway activation score by measuring each cell's
+distance to the pathway ON and OFF reference states from
+\code{PathwayMaxMin()}. Scores are normalized to [0, 1]\, where 1 indicates
+proximity to the ON state and 0 indicates proximity to the OFF state.
 }
 \examples{
-data(fake_test_object)
-ComputeCellData(fake_test_object, pathway = "Wnt", distance.method = "manhattan", batch.size = 2000)
+\dontrun{
+pathwaydata   <- LoadPathway("Hypoxia_6hr", "human")
+expr_filtered <- DataPreProcess(norm_matrix, pathwaydata)
+pathway_stat  <- PathwayMaxMin(expr_filtered, pathwaydata)
+scores        <- ComputeCellData(expr_filtered, pathway_stat)
+}
 
 }

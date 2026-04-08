@@ -7,6 +7,11 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
+## Overview
+This vignette demonstrates the application of PathwayEmbed in mouse embryo spatial data (E9.5 - E12.5). With curated pathway database, we examined and compared Wnt, Notch, TGFb, Hippo, and HIF-1a signaling transduction states across spatial and temporal development.
+Reference for the initial data: Chen et al. Spatiotemporal transcriptomic atlas of mouse organogenesis using DNA nanoball-patterned arrays, Cell, Volume 185, Issue 10, 2022, Pages 1777-1792.e21.
+
+
 ```{r setup}
 knitr::opts_chunk$set(echo = TRUE)
 
@@ -44,6 +49,12 @@ merged_spatial <- merge(
 
 # Set Default Assay to be "RNA"
 DefaultAssay(merged_spatial) <- "RNA"
+
+# Get genes x cell matrix
+merged_spatial_matrix <- as.matrix(GetAssayData(merged_spatial, assay = "RNA", slot = "data"))
+
+# Get metadata matrix
+merged_spatial_metadata <- merged_spatial@meta.data
 ```
 
 ## Compute pathway score
@@ -53,18 +64,18 @@ Compute score for Wnt, Notch, Hippo, Tgfb, and HIF-1a pathways for the merged su
 ```{r score compute, eval=FALSE}
 
 # Compute the score for each pathway
-Wnt_mds <- ComputeCellData(merged_spatial, "Wnt", "manhattan", batch.size = 1000)
-Notch_mds <- ComputeCellData(merged_spatial, "Notch", "manhattan", batch.size = 1000)
-Hippo_mds <- ComputeCellData(merged_spatial, "Hippo", "manhattan", batch.size = 1000)
-Tgfb_mds <- ComputeCellData(merged_spatial, "Tgfb", "manhattan", batch.size = 1000)
-HIF1a_mds <- ComputeCellData(merged_spatial, "HIF-1a", "manhattan", batch.size = 1000)
+Wnt_mds <- ComputeCellData(merged_spatial_matrix, "Wnt", "manhattan", batch.size = 1000)
+Notch_mds <- ComputeCellData(merged_spatial_matrix, "Notch", "manhattan", batch.size = 1000)
+Hippo_mds <- ComputeCellData(merged_spatial_matrix, "Hippo", "manhattan", batch.size = 1000)
+Tgfb_mds <- ComputeCellData(merged_spatial_matrix, "Tgfb", "manhattan", batch.size = 1000)
+HIF1a_mds <- ComputeCellData(merged_spatial_matrix, "HIF-1a", "manhattan", batch.size = 1000)
 
 # Process the mds
-Wnt_to.plot <- PreparePlotData(merged_spatial, Wnt_mds, "timepoint")
-Notch_to.plot <- PreparePlotData(merged_spatial, Notch_mds, "timepoint")
-Hippo_to.plot <- PreparePlotData(merged_spatial, Hippo_mds, "timepoint")
-Tgfb_to.plot <- PreparePlotData(merged_spatial, Tgfb_mds, "timepoint")
-HIF1a_to.plot <- PreparePlotData(merged_spatial, HIF1a_mds, "timepoint")
+Wnt_to.plot <- PreparePlotData(merged_spatial_metadata, Wnt_mds, "timepoint")
+Notch_to.plot <- PreparePlotData(merged_spatial_metadata, Notch_mds, "timepoint")
+Hippo_to.plot <- PreparePlotData(merged_spatial_metadata, Hippo_mds, "timepoint")
+Tgfb_to.plot <- PreparePlotData(merged_spatial_metadata, Tgfb_mds, "timepoint")
+HIF1a_to.plot <- PreparePlotData(merged_spatial_metadata, HIF1a_mds, "timepoint")
 
 # Combine to list
 pathway_list <- list(

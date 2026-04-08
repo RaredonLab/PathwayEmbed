@@ -7,19 +7,44 @@
 CalculatePercentage(to.plot, group_var)
 }
 \arguments{
-\item{to.plot}{A data frame containing at least a \code{scale} column and a grouping column.}
+\item{to.plot}{A data frame from \code{PreparePlotData()}, containing at
+least a \code{scale} column and the grouping column specified by
+\code{group_var}.}
 
-\item{group_var}{A string specifying the grouping variable (e.g., "genotype", "treatment").}
+\item{group_var}{A character string specifying the grouping column in
+\code{to.plot} (e.g. \code{"genotype"}, \code{"treatment"}).}
 }
 \value{
-A data frame with the percentage of ON/OFF cells and Cohen's d (if applicable).
+A data frame with columns:
+\describe{
+\item{group}{Group label.}
+\item{percentage_on}{Percentage of cells with \code{scale > 0}.}
+\item{percentage_off}{Percentage of cells with \code{scale < 0}.}
+\item{cohens_d}{(2-group only) Cohen's d effect size. Repeated for
+both group rows as it is a single pairwise estimate.}
+\item{p_value}{(2-group only) Wilcoxon rank-sum p-value.}
+\item{kruskal_p}{(3+ groups only) Kruskal-Wallis p-value.}
+}
+For 3+ groups, Bonferroni-corrected pairwise Wilcoxon p-values are
+attached via \code{attr(result, "pairwise_wilcox")}.
 }
 \description{
-This function calculates the percentage of cells in ON (scale > 0) and OFF (scale < 0)
-activation states within each group defined by \code{group_var}. If exactly two groups
-are provided, it also computes Cohen's d effect size between their activation values.
+Calculates the percentage of cells in ON (\code{scale > 0}) and OFF
+(\code{scale < 0}) activation states within each group defined by
+\code{group_var}.
+}
+\details{
+If exactly two groups are provided, Cohen's d effect size and a Wilcoxon
+rank-sum p-value are computed between the two groups.
+
+If more than two groups are provided, a Kruskal-Wallis p-value is computed
+across all groups, and pairwise Wilcoxon p-values (Bonferroni-corrected) are
+attached as an attribute.
 }
 \examples{
+\dontrun{
 data(fake_to_plot)
 CalculatePercentage(fake_to_plot, "genotype")
+}
+
 }

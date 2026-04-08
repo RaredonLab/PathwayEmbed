@@ -3,15 +3,25 @@ template:
     bootswatch: flatly
 
 build:
-  vignettes: false
+  vignettes: false  # we are using pkgdown articles, so disable automatic vignette building
 
 articles:
   - title: "Beta-Catenin Knockout Analysis"
     contents:
-      - beta_catenin_ko
+      - beta_catenin_ko_updated
+
   - title: "Toy Set"
     contents:
-      - examples
+      - examples_updated
+
   - title: "Spatial PathwayEmbed Demonstration"
     contents:
-      - spatial_pathway
+      - spatial_pathway_updated
+
+  - title: "Notch Pathway Analysis"
+    contents:
+      - Notch_Analysis_updated
+
+  - title: "TGFb Database Construction"
+    contents:
+      - TGFB_database_construction

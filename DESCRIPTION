@@ -2,7 +2,7 @@ Package: PathwayEmbed
 Title: Tools for Pathway-Level Embedding and Visualization in Single-Cell Data
 Version: 0.0.0.9000
 Authors@R: 
-    person("Yaqing", "Huang", email = "yaqing.huang@yale.edu", role = c("aut", "cre"))
+    person("Yaqing", "Huang", email = "hyaqing1023@gmail.com", role = c("aut", "cre"))
 Description: Provides tools for analyzing and visualizing pathway-level activity 
     in single-cell RNA-seq data. Includes functions for computing cell-wise pathway scores, 
     visualizing transduction states, calculating activation percentages, 
@@ -10,12 +10,11 @@ Description: Provides tools for analyzing and visualizing pathway-level activity
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.3.2
+RoxygenNote: 7.3.3
 Depends: 
     R (>= 3.5)
 Imports:
     readxl,
-    Seurat,
     RColorBrewer,
     ggplot2,
     cowplot,
@@ -26,10 +25,13 @@ Imports:
     effsize,
     tidyverse,
     purrr
-Suggests: 
-    knitr,
+Suggests:
+    Seurat,
+    scales,
     rmarkdown,
+    knitr,
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
 LazyData: true
 VignetteBuilder: knitr
+URL: https://raredonlab.github.io/PathwayEmbed

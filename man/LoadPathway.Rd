@@ -4,17 +4,34 @@
 \alias{LoadPathway}
 \title{LoadPathway}
 \usage{
-LoadPathway(pathway)
+LoadPathway(Sheet.name, species = "human")
 }
 \arguments{
-\item{pathway}{A \code{character} string specifying the pathway name.}
+\item{Sheet.name}{A character string specifying the sheet name
+(e.g. \code{"Hypoxia_6hr"}, \code{"HIPPO_heat"}). Use \code{ListPathway()}
+to see available sheets.}
+
+\item{species}{A character string specifying the species: either
+\code{"human"} or \code{"mouse"}. Determines which gene symbol column is
+used. Default \code{"human"}.}
 }
 \value{
-A data frame with pathway data.
+A data frame with two columns:
+\describe{
+\item{Gene_Symbol}{Gene symbols for the requested species.}
+\item{Coefficient}{Numeric pathway coefficients.}
+}
+Rows with \code{NA} gene symbols are dropped.
 }
 \description{
-This function reads pathway data from the package's built-in Excel file.
+Reads pathway gene data from the package's built-in Excel database and
+returns a two-column data frame with gene symbols and their coefficients
+for the requested species.
 }
 \examples{
-LoadPathway("Wnt")
+\dontrun{
+LoadPathway("Hypoxia_6hr", "human")
+LoadPathway("HIPPO_heat", "mouse")
+}
+
 }

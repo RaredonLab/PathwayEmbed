@@ -4,22 +4,23 @@
 \alias{PathwayMaxMin}
 \title{PathwayMaxMin}
 \usage{
-PathwayMaxMin(x, pathway, scale.data = TRUE)
+PathwayMaxMin(expr_data, pathwaydata)
 }
 \arguments{
-\item{x}{A Seurat Object.}
+\item{expr_data}{Pre-processed gene-by-cell matrix (z-scored, pathway-filtered)}
 
-\item{pathway}{A \code{character} string specifying the pathway name.}
-
-\item{scale.data}{A \code{logical} indicating whether to use scaled data (\code{scale.data = TRUE}) or normalized data. Default is \code{TRUE}.}
+\item{pathwaydata}{Pathway data outcome from LoadPathway()}
 }
 \value{
-The hypothetical value for Pathway on and off (max and min value for features)
+A data.frame with pathway.on and pathway.off values per gene
 }
 \description{
 A function to obtain the hypothetical max and min activation status of selected pathway for a given scRNA seq data set
 }
 \examples{
-data(fake_test_object) # load the fake test data
-PathwayMaxMin(fake_test_object, "Wnt")
+\dontrun{
+pathwaydata <- LoadPathway("Hypoxia_6hr", "human")
+matrix_filtered <- DataPreProcess(expr_data, pathwaydata)
+PathwayMaxMin(matrix_filtered, pathwaydata)
+}
 }
