@@ -61,7 +61,7 @@ ListPathway()
 #>  2 HIF1A   Hypoxia_24hr    GSE227502     Hypoxia … Primary hu… Human          18
 #>  3 HIF1A   Hypoxia_5Day    GSE227502     Hypoxia … Primary hu… Human          10
 #>  4 HIPPO   HIPPO_heat      GSE133251     Heat str… B16-OVA me… Mouse          40
-#>  5 NOTCH   NOTCH_JAG1      GSE223734     rJAG1 li… Mouse embr… Mouse           5
+#>  5 NOTCH   NOTCH_JAG1      GSE223735     rJAG1 li… Mouse embr… Mouse           5
 #>  6 NOTCH   NOTCH_CB103_IN… GSE221577     CB-103 N… RPMI-8402 … Human          46
 #>  7 NOTCH   NOTCH_LY_INHIB… GSE221577     LY411575… RPMI-8402 … Human          46
 #>  8 NOTCH   NOTCH_JAG1_2H   GSE235637     JAG1 sti… SVG-A cells Human          11

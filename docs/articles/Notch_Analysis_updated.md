@@ -102,7 +102,7 @@ ListPathway("NOTCH")
 #> # A tibble: 6 × 8
 #>   Pathway Sheet.Name GEO.Accession Condition Cell.Source Species No..Genes Notes
 #>   <chr>   <chr>      <chr>         <chr>     <chr>       <chr>       <dbl> <chr>
-#> 1 NOTCH   NOTCH_JAG1 GSE223734     rJAG1 li… Mouse embr… Mouse           5 NA   
+#> 1 NOTCH   NOTCH_JAG1 GSE223735     rJAG1 li… Mouse embr… Mouse           5 NA   
 #> 2 NOTCH   NOTCH_CB1… GSE221577     CB-103 N… RPMI-8402 … Human          46 NA   
 #> 3 NOTCH   NOTCH_LY_… GSE221577     LY411575… RPMI-8402 … Human          46 NA   
 #> 4 NOTCH   NOTCH_JAG… GSE235637     JAG1 sti… SVG-A cells Human          11 NA   

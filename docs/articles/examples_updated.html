@@ -20,7 +20,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">PathwayEmbed</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.0.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -127,7 +127,7 @@ transcriptomic data. We use the example dataset
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> HIF1A   Hypoxia_24hr    GSE227502     Hypoxia … Primary hu… Human          18</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> HIF1A   Hypoxia_5Day    GSE227502     Hypoxia … Primary hu… Human          10</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> HIPPO   HIPPO_heat      GSE133251     Heat str… B16-OVA me… Mouse          40</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> NOTCH   NOTCH_JAG1      GSE223734     rJAG1 li… Mouse embr… Mouse           5</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> NOTCH   NOTCH_JAG1      GSE223735     rJAG1 li… Mouse embr… Mouse           5</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> NOTCH   NOTCH_CB103_IN… GSE221577     CB-103 N… RPMI-8402 … Human          46</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> NOTCH   NOTCH_LY_INHIB… GSE221577     LY411575… RPMI-8402 … Human          46</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> NOTCH   NOTCH_JAG1_2H   GSE235637     JAG1 sti… SVG-A cells Human          11</span></span>
@@ -723,7 +723,7 @@ transcriptomic data. We use the example dataset
 <span>                         <span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">progeny_scores</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">wnt_features</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">matrix_24h</span><span class="op">)</span></span>
-<span><span class="va">synthetic_test_object_100</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/Seurat/man/AddModuleScore.html" class="external-link">AddModuleScore</a></span><span class="op">(</span></span>
+<span><span class="va">synthetic_test_object_100</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://satijalab.org/seurat/reference/AddModuleScore.html" class="external-link">AddModuleScore</a></span><span class="op">(</span></span>
 <span>  object   <span class="op">=</span> <span class="va">synthetic_test_object_100</span>,</span>
 <span>  features <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">wnt_features</span><span class="op">)</span>,</span>
 <span>  name     <span class="op">=</span> <span class="st">"WNT_ModuleScore"</span>,</span>
