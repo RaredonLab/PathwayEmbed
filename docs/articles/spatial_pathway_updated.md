@@ -178,7 +178,7 @@ ListPathway("NOTCH") # Use NOTCH_JAG1_24H -> validated in another datasets
 #> # A tibble: 6 × 8
 #>   Pathway Sheet.Name GEO.Accession Condition Cell.Source Species No..Genes Notes
 #>   <chr>   <chr>      <chr>         <chr>     <chr>       <chr>       <dbl> <chr>
-#> 1 NOTCH   NOTCH_JAG1 GSE223734     rJAG1 li… Mouse embr… Mouse           5 NA   
+#> 1 NOTCH   NOTCH_JAG1 GSE223735     rJAG1 li… Mouse embr… Mouse           5 NA   
 #> 2 NOTCH   NOTCH_CB1… GSE221577     CB-103 N… RPMI-8402 … Human          46 NA   
 #> 3 NOTCH   NOTCH_LY_… GSE221577     LY411575… RPMI-8402 … Human          46 NA   
 #> 4 NOTCH   NOTCH_JAG… GSE235637     JAG1 sti… SVG-A cells Human          11 NA   
@@ -265,8 +265,8 @@ pathway_timepoint <- list(
 
 ## Preparation for groups
 
-    #> /private/var/folders/dy/dxff9z6j5cdd5sqsvz2l5ngc0000gn/T/RtmpAOrgi8/temp_libpath3ff17d773dd5/PathwayEmbed/extdata/pathway_list_timepoint.rds
-    #> /private/var/folders/dy/dxff9z6j5cdd5sqsvz2l5ngc0000gn/T/RtmpAOrgi8/temp_libpath3ff17d773dd5 /Library/Frameworks/R.framework/Versions/4.4-arm64/Resources/library
+    #> /private/var/folders/dy/dxff9z6j5cdd5sqsvz2l5ngc0000gn/T/Rtmpmg02tW/temp_libpathdf927ed424e8/PathwayEmbed/extdata/pathway_list_timepoint.rds
+    #> /private/var/folders/dy/dxff9z6j5cdd5sqsvz2l5ngc0000gn/T/Rtmpmg02tW/temp_libpathdf927ed424e8 /Library/Frameworks/R.framework/Versions/4.4-arm64/Resources/library
 
 ``` r
 # Color set-up
